@@ -1,0 +1,118 @@
+/*
+@font-face {
+	font-family: 'MyFontFamily';
+	src: url('myfont-webfont.eot?#iefix') format('embedded-opentype'), 
+	     url('myfont-webfont.woff') format('woff'), 
+	     url('myfont-webfont.ttf')  format('truetype'),
+	     url('myfont-webfont.svg#svgFontName') format('svg');
+	}
+*/
+@font-face {
+	font-family: BitstreamMono;
+	src: url('VeraMono.ttf');
+	font-weight: 300;
+}
+
+body, input {
+	font-family: BitstreamMono, sans-serif;
+	font-size: 10pt;
+}
+
+header { width: 100%; }
+
+.hidden {
+	display: none;
+}
+
+#top {
+	margin-bottom: 15px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	padding: 1px 8px;
+	background-color: #e8e8e8;
+}
+#top a:link,
+#top a:visited,
+#top a:hover,
+#top a:active {
+	color: #1a1a1a;
+	text-decoration: none;
+}
+#top > div > div {
+	/*background: #5ae;*/
+}
+#top #nav {
+
+}
+#top nav a.active {
+	text-decoration: underline;
+}
+#top nav, #manage {
+	margin-bottom: 7px;
+}
+
+#admin_tab form,
+#statistics_tab > div { float: left; }
+
+#dishes, #eatages,
+#week, #calendar {
+	float: left;
+	position: relative;
+}
+#eatage_list, #dish_list,
+#eatage_week, #eatage_calendar {
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	padding: 8px;
+	background-color: #f8f8f8;
+}
+#eatages, #week {
+	margin-right: 50px;
+}
+th, td {
+	padding: 2px 4px;
+}
+thead tr {
+	background-color: #1a1a1a;
+	color: #fff;
+}
+tr.odd {
+	background-color: #e5e5e5;
+}
+tr.today {
+	background-color: #690;
+	color: #fff;
+}
+
+.table { 
+	display: table; 
+	table-layout: fixed; 
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+.tr 		{ display: table-row; }
+.th, .td	{ display: table-cell; }
+
+#eatage_week.table 		{ width: 250px; }
+#eatage_calendar.table 	{ width: 750px; }
+.tr > .td { width: 60px; }
+.th 	{ height: 60px; font-weight: bold; color: #fff; background-color: #1a1a1a;}
+.td 	{ height: 60px; }
+
+.tr:nth-child(even) .td.day {
+	background-color: #efefef;
+}
+.th.week, .th.day, .td.week {
+	vertical-align: middle;
+	text-align: center;
+}
+.th.week, .td.week  {
+	width: 25px;
+}
+.td.today {
+	background-color: #690 !important;
+	color: #fff;
+}
+.td.day:hover { background-color: #1a1a1a !important; color: #fff; }
