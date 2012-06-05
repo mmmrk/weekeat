@@ -1,6 +1,6 @@
 <?php
 	// FORM
-	if ($application_data['manage'] && $application_data['manage']['view'] == 'admin') {
+	if ( $application_data['controller'] == 'eatage' && $application_data['action'] == 'form' ) {
 		$form_eatage = array (
 			'error' => false
 		);
@@ -28,80 +28,86 @@
 	}
 
 	// NEW
-	if ( $application_data['manage'] && $application_data['manage']['view'] == 'new' && !empty($_POST['new_eatage']) && !empty($_POST['date']) && !empty($_POST['dish_id']) ) {
+	if ( $application_data['controller'] == 'eatage' && $application_data['action'] == 'new' ) {
 		$new_eatage = array (
-			'error' => false
+			'error' => (!empty($_POST['new_eatage']) && !empty($_POST['date']) && !empty($_POST['dish_id']))
 		);
 
-		$safe_input = $db->safe_input_string_array($_POST);
+		if (!$new_eatage['error']) {
+			$safe_input = $db->safe_input_string_array($_POST);
 
-		if ( strtolower($safe_input['dish_id']) == 'random' ||  !(int)$safe_input['dish_id'] ) {
-			if ( !(int)$safe_input['label_id'] )
-				$query = 'SELECT id FROM ready_to_eat ORDER BY rand() LIMIT 1';
-			else {
+			if ( strtolower($safe_input['dish_id']) == 'random' ||  !(int)$safe_input['dish_id'] ) {
 				$query  = 'SELECT `id` ';
 				$query .= 'FROM `ready_to_eat` ';
-				$query .= 'JOIN `dish_labels` ON `dish_labels`.`dish_id` = `ready_to_eat`.`id` ';
-				$query .= 'WHERE `dish_labels`.`label_id` = ' . $safe_input['label_id'] . ' ';
-				echo $query .= 'ORDER BY rand() LIMIT 1';
+				
+				if ( !(int)$safe_input['label_id'] ) {
+					$query .= 'JOIN `dish_labels` ON `dish_labels`.`dish_id` = `ready_to_eat`.`id` ';
+					$query .= 'WHERE `dish_labels`.`label_id` = ' . $safe_input['label_id'] . ' ';
+				}
+
+				$query .= 'ORDER BY rand() LIMIT 1';
+
+				$result = $db->query($query);
+				$entry = $result->fetch_array(MYSQLI_ASSOC);
+				$dish_id = $entry['id'];
+				$result->free();
+			}
+			else
+				$dish_id = $safe_input['dish_id'];
+
+			if ($sql_date = make_sql_date($safe_input['date'])) {
+				$query  = 'INSERT INTO `eatage` (`date`, `dish_id`) ';
+				$query .= 'VALUES (' . $sql_date . ', ' . $dish_id . ')';
+				$db->iquery($query);
+			}
+			else {
+				$new_eatage['error']['id'] = 1;
+				$new_eatage['error']['message'] = 'NEW EATAGE: Submitted date is not valid';
 			}
 
-			$result = $db->query($query);
-			$entry = $result->fetch_array(MYSQLI_ASSOC);
-			$dish_id = $entry['id'];
-			$result->free();
-		}
-		else
-			$dish_id = $safe_input['dish_id'];
+			if ($db->error) {
+				$new_eatage['error']['id'] = $db->errno;
+				$new_eatage['error']['message'] = 'NEW EATAGE: ' . $db->error;
+			}
+			else {
+				$new_eatage['date'] = $safe_input['date'];
+				$new_eatage['dish']['id'] = $dish_id;
+				$new_eatage['dish']['labels'] = array();
 
-		if ($sql_date = make_sql_date($safe_input['date'])) {
-			$query  = 'INSERT INTO `eatage` (`date`, `dish_id`) ';
-			$query .= 'VALUES (' . $sql_date . ', ' . $dish_id . ')';
-			$db->iquery($query);
+				$query  = 'SELECT `dish`.* ';
+				$query .= 'FROM `dish` ';
+				$query .= 'WHERE `dish`.`id` = ' . $dish_id;
+
+				$result = $db->query($query);
+				$safe_dish = $db->safe_output_string_array($result->fetch_array(MYSQLI_ASSOC));
+				$result->free();
+
+				foreach ($safe_dish as $key => $value)
+					$new_eatage['dish'][$key] = $value;
+
+				$query  = 'SELECT `id`, `name`, `icon` ';
+				$query .= 'FROM `label` ';
+				$query .= 'JOIN `dish_labels` ON `dish_labels`.`label_id` = `label`.`id` ';
+				$query .= 'WHERE `dish_labels`.`dish_id` = ' . $new_eatage['dish']['id'];
+
+				$result = $db->query($query);
+				while ($label = $result->fetch_array(MYSQLI_ASSOC))
+					array_push($new_eatage['dish']['labels'], $db->safe_output_string_array($label));
+
+				$new_eatage['dish']['num_labels'] = count($new_eatage['dish']['labels']);
+
+				unset($query);
+				$result->free();
+			}
 		}
 		else {
-			$new_eatage['error']['id'] = 1;
-			$new_eatage['error']['message'] = 'NEW EATAGE: Submitted date is not valid';
-		}
-
-		if ($db->error) {
-			$new_eatage['error']['id'] = $db->errno;
-			$new_eatage['error']['message'] = 'NEW EATAGE: ' . $db->error;
-		}
-		else {
-			$new_eatage['date'] = $safe_input['date'];
-			$new_eatage['dish']['id'] = $dish_id;
-			$new_eatage['dish']['labels'] = array();
-
-			$query  = 'SELECT `dish`.* ';
-			$query .= 'FROM `dish` ';
-			$query .= 'WHERE `dish`.`id` = ' . $dish_id;
-
-			$result = $db->query($query);
-			$safe_dish = $db->safe_output_string_array($result->fetch_array(MYSQLI_ASSOC));
-			$result->free();
-
-			foreach ($safe_dish as $key => $value)
-				$new_eatage['dish'][$key] = $value;
-
-			$query  = 'SELECT `id`, `name`, `icon` ';
-			$query .= 'FROM `label` ';
-			$query .= 'JOIN `dish_labels` ON `dish_labels`.`label_id` = `label`.`id` ';
-			$query .= 'WHERE `dish_labels`.`dish_id` = ' . $new_eatage['dish']['id'];
-
-			$result = $db->query($query);
-			while ($label = $result->fetch_array(MYSQLI_ASSOC))
-				array_push($new_eatage['dish']['labels'], $db->safe_output_string_array($label));
-
-			$new_eatage['dish']['num_labels'] = count($new_eatage['dish']['labels']);
-
-			unset($query);
-			$result->free();
+			$new_eatage['error']['id'] = 2;
+			$new_eatage['error']['message'] = 'NEW EATAGE: Missing required data';
 		}
 	}
 
 	// STATISTICS
-	if (isset($application_data['manage']['view']) && $application_data['manage']['view'] == 'statistics') {
+	if ($application_data['action'] == 'statistics') {
 		$eatage_statistics = array (
 			'error' => false
 		);
@@ -123,7 +129,7 @@
 	}
 
 	// CALENDAR
-	if ( $application_data ) {
+	if ( $application_data['controller'] == 'eatage' && $application_data['action'] == 'show' ) {
 		$eatage_calendar = array (
 			'error' => false
 		);
@@ -140,8 +146,8 @@
 		$result = $db->query($query);
 
 		if ( $db->error ) {
-			$eatage_list['error']['id'] 	 = $db->errno;
-			$eatage_list['error']['message'] = 'EATAGE CALENDAR: ' . $db->error;
+			$eatage_calendar['error']['id'] 	 = $db->errno;
+			$eatage_calendar['error']['message'] = 'EATAGE CALENDAR: ' . $db->error;
 		}
 		else if ( $result ) {
 			$eatage_calendar['eatages']  = array();
@@ -157,7 +163,7 @@
 	}
 
 	// LIST
-	if ( false ) {
+	if ( $application_data['controller'] == 'eatage' && $application_data['action'] == 'list' ) {
 		$eatage_list = array (
 			'error' => false
 		);
@@ -190,6 +196,4 @@
 			$result->free();
 		}
 	}
-
-	// READ
 ?>

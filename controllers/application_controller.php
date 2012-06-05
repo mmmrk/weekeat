@@ -1,30 +1,33 @@
 <?php
-	require_once('/tools_helpers/dbconfig.php');
-	require_once('/tools_helpers/dbh.php');
-	require_once('/tools_helpers/calendar.php');
-	require_once('/tools_helpers/helpers.php');
-
 	$application_data = array (
 		'error' => false,
-		'curdate' => date('Y-m-d')
+		'curdate' => date('Y-m-d'),
+		'page' => 'calendar'
 	);
 
-	if (!isset($_GET['manage']) || $_GET['manage'] != 'show')
-		$application_data['manage'] = false;
-	else
-		$application_data['manage'] = array(
-			'view' => 'statistics'
-		);
-
-	if ($application_data['manage'] && isset($_GET['view']))
+	if (isset($_GET['view']))
 		switch ($_GET['view']) {
-			case 'entry':
-			case 'new':
 			case 'admin':
 			case 'todo':
-				$application_data['manage']['view'] = $_GET['view'];
+			case 'statistics':
+				$application_data['page'] = $_GET['view'];
 			break;
 		}
+
+	switch ($application_data['page']) {
+		case 'admin':
+		case 'statistics':
+			$application_data['controller'] = 'application';
+			$application_data['action'] = $application_data['page'];
+		break;
+		case 'calendar':
+			$application_data['controller'] = 'eatage';
+			$application_data['action'] = (isset($_GET['action'])) ? $_GET['action'] : 'show';
+		break;
+		case 'todo':
+			$application_data['controller'] = 'todo';
+			$application_data['action'] = (isset($_GET['action'])) ? $_GET['action'] : 'show';
+	}
 
 	if (!isset($db)) {
 		$db = new dbh($server, $username, $password);

@@ -9,42 +9,91 @@
 */
 @font-face {
 	font-family: BitstreamMono;
-	src: url('VeraMono.ttf');
+	src: url('fonts/VeraMono.ttf');
 	font-weight: 300;
 }
 
-body, input {
+// VARIABLES
+@black: #1a1a1a;
+
+// MIXINS
+.bitstream_mono (@size: 10pt) {
 	font-family: BitstreamMono, sans-serif;
-	font-size: 10pt;
+	font-size: @size;
 }
 
-header { width: 100%; }
-
-.hidden {
-	display: none;
+.border_radius (@radius: 8px) {
+	border-radius: @radius;
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
 }
 
-#top {
+// HELP CLASSES
+.hidden { display: none; }
+
+// GENERAL STYLES
+body {
+	padding: 0;
+	margin: 0;
+}
+
+body,
+input {
+	.bitstream_mono;
+}
+
+// MENU
+#menu {
+	height: 15px;
+	position: relative;
+	top: 0;
+
 	margin-bottom: 15px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
-	padding: 1px 8px;
-	background-color: #e8e8e8;
+	padding: 8px;
+	background-color: @black;
+	box-shadow: 0 5px 8px #ccc;
+
+	a:link,
+	a:visited,
+	a:hover,
+	a:active {
+		color: #fff;
+		text-decoration: none;
+	}
+
+	header {
+		float: left;
+		margin: 0 35px;
+
+		h1 { 
+			padding: 0;
+			display: inline;
+
+			color: #fff;
+			font-weight: bold;
+			//text-shadow: 1px 1px #f8f8f8;
+			font-size: 14px;
+			font-family: verdana, sans-serif;
+		}
+	}
+
+	nav {
+		float: left;
+
+		a {
+			margin-right: 8px;
+		}
+	}
 }
-#top a:link,
-#top a:visited,
-#top a:hover,
-#top a:active {
-	color: #1a1a1a;
-	text-decoration: none;
-}
+
+
+
+// OLD SHIET, TO BE REMOVED...
+
 #top > div > div {
 	/*background: #5ae;*/
 }
-#top #nav {
 
-}
 #top nav a.active {
 	text-decoration: underline;
 }
@@ -70,20 +119,6 @@ header { width: 100%; }
 }
 #eatages, #week {
 	margin-right: 50px;
-}
-th, td {
-	padding: 2px 4px;
-}
-thead tr {
-	background-color: #1a1a1a;
-	color: #fff;
-}
-tr.odd {
-	background-color: #e5e5e5;
-}
-tr.today {
-	background-color: #690;
-	color: #fff;
 }
 
 .table { 

@@ -10,15 +10,9 @@
 		<?php
 			require_once('/tools_helpers/helpers.php');
 			require_once('controllers.php');
+
 			require_once('/views/application/header.php');
+			require_once('/views/application/content.php');
 		?>
-
-		<div id="week">
-			<?php require_once('/views/eatage/eatage_week.php'); ?>
-
-		</div>
-		<div id="calendar">
-			<?php require_once('/views/eatage/eatage_calendar.php'); ?>
-		</div>
 	</body>
 </html>

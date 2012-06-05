@@ -1,11 +1,12 @@
-<div id="top">
+<div id="menu">
 			<header>
-				<h1><a href="<?= ($application_data['manage']) ? $_SERVER['PHP_SELF'] . '?manage=hide' : $_SERVER['PHP_SELF'] . '?manage=show' ?>">Fem vattnade fålar</a></h1>
+				<h1><a href="<?= $_SERVER['PHP_SELF']; ?>">weekeat</a></h1>
 			</header>
-			<?php
-				if (isset($application_data['manage']['view']))
-					require_once('/views/application/_manage.php');
-			?>
-
+			<nav>
+				<a href="<?= $_SERVER['PHP_SELF'] . '?view=calendar'; ?>">Calendar</a>
+				<a href="<?= $_SERVER['PHP_SELF'] . '?view=statistics'; ?>">Statistics</a>
+				<a href="<?= $_SERVER['PHP_SELF'] . '?view=admin'; ?>">Admin</a>
+				<a href="<?= $_SERVER['PHP_SELF'] . '?view=todo'; ?>">Todo</a>
+			</nav>
 			<div style="clear: both"></div>
 		</div>
