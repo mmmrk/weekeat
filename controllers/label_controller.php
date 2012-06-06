@@ -1,6 +1,6 @@
 <?php
 	// FORM
-	if ($application_data['manage'] && $application_data['manage']['view'] == 'admin') {
+	if ( $application_data['controller'] == 'application' && $application_data['action'] == 'admin' ) {
 		$form_label = array(
 			'error' => false
 		);
@@ -13,29 +13,33 @@
 	}
 
 	// NEW
-	if ( $application_data['manage'] && $application_data['manage']['view'] == 'new' && !empty($_POST['new_label']) && !empty($_POST['name']) ) {
+	if ( $application_data['controller'] == 'application' && $application_data['action'] == 'new'  && $application_data['page'] == 'admin' ) {
 		$new_label = array (
 			'error' => false
 		);
 
-		$safe_input = $db->safe_input_string_array($_POST);
+		( !empty($_POST['new_label']) && !empty($_POST['name']) ) ? null : $new_label['error'][] = array('id' => '1.1', 'message' => 'Missing required field: name'); 
 
-		echo $query = 'INSERT INTO `label` (`name`, `created_at`) VALUES ("' . $safe_input['name'] . '", NOW())'; 
+		if ( !$new_label['error'] ) {
+			$safe_input = $db->safe_input_string_array($_POST);
 
-		$label_id = $db->iquery($query);
+			echo $query = 'INSERT INTO `label` (`name`, `created_at`) VALUES ("' . $safe_input['name'] . '", NOW())'; 
 
-		if ( $db->error ) {
-			$new_label['error']['id'] = $db->errno;
-			$new_label['error']['message'] = 'NEW LABEL: ' . $db->error;
-		}
-		else if ( $label_id ) {
-			$new_label['id'] = $label_id;
-			$new_label['name'] = $safe_input['name'];
+			$label_id = $db->iquery($query);
+
+			if ( $db->error ) {
+				$new_label['error']['id'] = $db->errno;
+				$new_label['error']['message'] = 'NEW LABEL: ' . $db->error;
+			}
+			else if ( $label_id ) {
+				$new_label['id'] = $label_id;
+				$new_label['name'] = $safe_input['name'];
+			}
 		}
 	}
 
 	// STATISTICS
-	if (isset($application_data['manage']['view']) && $application_data['manage']['view'] == 'statistics') {
+	if ( $application_data['controller'] == 'application' && $application_data['action'] == 'statistics' ) {
 		$label_statistics = array (
 			'error' => false
 		);

@@ -4,8 +4,7 @@
 		private $active_day	= array();
 		private $month 		= array(
 			'num_days'	=> null,
-			'first_day'	=> null,
-			'last_day'	=> null
+			'string'	=> null
 		);
 
 		private $week_matrix = array();
@@ -39,12 +38,13 @@
 				'timestamp' => $timestamp
 			);
 
-			$data['date']['string']  = date('Y-m-d', $timestamp);
-			$data['date']['weekday'] = date('l', $timestamp);
-			$data['date']['day'] 	 = date('d', $timestamp);
-			$data['date']['month']	 = date('m', $timestamp);
-			$data['date']['year']	 = date('Y', $timestamp);
-			$data['week']			 = (int)date('W', $timestamp);
+			$data['date']['string']  		= date('Y-m-d', $timestamp);
+			$data['date']['weekday'] 		= date('l', $timestamp);
+			$data['date']['weekday_short']	= date('D', $timestamp);
+			$data['date']['day'] 	 		= date('d', $timestamp);
+			$data['date']['month']	 		= date('m', $timestamp);
+			$data['date']['year']	 		= date('Y', $timestamp);
+			$data['week']			 		= (int)date('W', $timestamp);
 
 			return $data;
 		}
@@ -53,6 +53,7 @@
 			$this->today 				= $today;
 			$this->active_day 			= $today;
 			$this->month['num_days'] 	= date('t', $today);
+			$this->month['string']		= date('F', $today);
 			$this->generate();
 		}
 
@@ -103,6 +104,10 @@
 			return $this->week_matrix;
 		}
 
+		function get_month () {
+			return $this->month;
+		}
+
 		function first_day () {
 			return $this->week_matrix[0]['days'][0];
 		}
@@ -111,8 +116,8 @@
 			return $this->week_matrix[count($this->week_matrix)-1]['days'][6];
 		}
 
-		function today_date () {
-			return date('Y-m-d', $this->active_day);
+		function today_date ($pattern = 'Y-m-d') {
+			return date($pattern, $this->active_day);
 		}
 
 		function week_first_day () {

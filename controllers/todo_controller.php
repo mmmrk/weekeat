@@ -1,6 +1,6 @@
 <?php
 	// FORM
-	if ($application_data['manage'] && $application_data['manage']['view'] == 'admin') {
+	if ( $application_data['controller'] == 'todo' ) {
 		$form_todo = array(
 			'error' => false
 		);
@@ -32,40 +32,42 @@
 	}
 
 	// NEW
-	if ( $application_data['manage'] && $application_data['manage']['view'] == 'new' && !empty($_POST['new_todo']) ) {
+	if ( $application_data['controller'] == 'todo' && $application_data['action'] == 'new' ) {
 		$new_todo = array (
 			'error' => false
 		);
 
-		(!empty($_POST['item'])) ? null : $new_todo['error'][] = array('id' => '1.1', 'message' => 'Missing required field: item');
-		(!empty($_POST['priority_id'])) ? null : $new_todo['error'][] = array('id' => '1.2', 'message' => 'Missing required field: priority');
-		(!empty($_POST['status_id'])) ? null : $new_todo['error'][] = array('id' => '1.3', 'message' => 'Missing required field: status');
+		( !empty($_POST['item'])		) ? null : $new_todo['error'][] = array('id' => '1.1', 'message' => 'Missing required field: item');
+		( !empty($_POST['priority_id'])	) ? null : $new_todo['error'][] = array('id' => '1.2', 'message' => 'Missing required field: priority');
+		( !empty($_POST['status_id'])	) ? null : $new_todo['error'][] = array('id' => '1.3', 'message' => 'Missing required field: status');
 
-		$safe_input = $db->safe_input_string_array($_POST);
+		if ( !$new_todo['error'] ) {
+			$safe_input = $db->safe_input_string_array($_POST);
 
-		$query = 'INSERT INTO `todo` (`item`, `priority_id`, `status_id`, `created_at`) VALUES ("' . $safe_input['item'] . '", ' . $safe_input['priority_id'] . ', '  . $safe_input['status_id'] . ', NOW())';
-		$todo_id = $db->iquery($query);
+			$query = 'INSERT INTO `todo` (`item`, `priority_id`, `status_id`, `created_at`) VALUES ("' . $safe_input['item'] . '", ' . $safe_input['priority_id'] . ', '  . $safe_input['status_id'] . ', NOW())';
+			$todo_id = $db->iquery($query);
 
-		if ( $db->error ) {
-			$new_todo['error']['id'] = $db->errno;
-			$new_todo['error']['message'] = 'NEW TODO: ' . $db->error;
-		}
-		else if ( $todo_id ) {
-			$query  = 'SELECT `todo`.*, `priority`.`name` AS `priority`, `status`.`state` AS `status` ';
-			$query .= 'FROM `todo` ';
-			$query .= 'JOIN `priority` ON `priority`.`id` = `todo`.`priority_id` ';
-			$query .= 'JOIN `status` ON `status`.`id` = `todo`.`status_id` ';
-			$query .= 'WHERE `todo`.`id` = ' . $todo_id;
+			if ( $db->error ) {
+				$new_todo['error']['id'] = $db->errno;
+				$new_todo['error']['message'] = 'NEW TODO: ' . $db->error;
+			}
+			else if ( $todo_id ) {
+				$query  = 'SELECT `todo`.*, `priority`.`name` AS `priority`, `status`.`state` AS `status` ';
+				$query .= 'FROM `todo` ';
+				$query .= 'JOIN `priority` ON `priority`.`id` = `todo`.`priority_id` ';
+				$query .= 'JOIN `status` ON `status`.`id` = `todo`.`status_id` ';
+				$query .= 'WHERE `todo`.`id` = ' . $todo_id;
 
-			$result = $db->query($query);
-			$safe_todo = $db->safe_output_string_array($result->fetch_array(MYSQLI_ASSOC));
-			foreach ($safe_todo as $key => $value)
-				$new_todo[$key] = $value;
+				$result = $db->query($query);
+				$safe_todo = $db->safe_output_string_array($result->fetch_array(MYSQLI_ASSOC));
+				foreach ($safe_todo as $key => $value)
+					$new_todo[$key] = $value;
+			}
 		}
 	}
 
 	// LIST
-	if ($application_data['manage'] && $application_data['manage']['view'] == 'todo') {
+	if ( $application_data['controller'] == 'todo' && $application_data['action'] == 'list' ) {
 		$todo_list = array (
 			'error' => false
 		);

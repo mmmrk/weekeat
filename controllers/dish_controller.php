@@ -1,6 +1,6 @@
 <?php
 	// FORM
-	if ($application_data['manage'] && $application_data['manage']['view'] == 'admin') {
+	if ( $application_data['controller'] == 'dish' || $application_data['page'] == 'calendar' ) {
 		$form_dish = array(
 			'error' => false
 		);
@@ -22,66 +22,69 @@
 	}
 
 	// NEW
-	if ( $application_data['manage'] && $application_data['manage']['view'] == 'new' && 
-		!empty($_POST['new_dish']) && !empty($_POST['name']) && !empty($_POST['label[]']) && 
-		( !empty($_POST['url']) || !empty($_POST['recipe']) ) ) {
-
+	if ( $application_data['controller'] == 'dish' || $application_data['action'] == 'new' ) {
 		$new_dish = array (
 			'error' => false
 		);
 
-		$safe_input = $db->safe_input_string_array($_POST);
+		( !empty($_POST['name'])							) ? null : $new_todo['error'][] = array('id' => '1.1', 'message' => 'Missing required field: name');
+		( !empty($_POST['label[]'])							) ? null : $new_todo['error'][] = array('id' => '1.2', 'message' => 'Missing required field: label');
+		( !empty($_POST['url']) || !empty($_POST['recipe'])	) ? null : $new_todo['error'][] = array('id' => '1.3', 'message' => 'Missing required field: recipe or url');
 
-		$db->autocommit(false);
-		$transaction_errors = false;
+		if ( !$new_dish['error'] ) {
+			$safe_input = $db->safe_input_string_array($_POST);
+
+			$db->autocommit(false);
+			$transaction_errors = false;
+			
+			$dish_query	  = 'INSERT INTO `dish` (`name`, `url`, `recipe`, `created_at`) ';
+			$dish_query  .= 'VALUES ("' . $safe_input['name'] . '", "' . $safe_input['url'] . '", "' . $safe_input['recipe'] . '", NOW())';
+
+			$label_query  = 'INSERT INTO `dish_labels` (`dish_id`, `label_id`, `created_at`) ';
+			$label_query .= 'VALUES ';
+
+			foreach ($safe_input['label[]'] as $key => $value)
+				$label_query .= '(' . $dish_id . ', ' . $value . ', NOW()), ';
 		
-		$dish_query	  = 'INSERT INTO `dish` (`name`, `url`, `recipe`, `created_at`) ';
-		$dish_query  .= 'VALUES ("' . $safe_input['name'] . '", "' . $safe_input['url'] . '", "' . $safe_input['recipe'] . '", NOW())';
+			//some cleaning up on the query
+			$label_query  = (substr($label_query, -1) == ',') ? substr($label_query, 0, -1) : $label_query;
 
-		$label_query  = 'INSERT INTO `dish_labels` (`dish_id`, `label_id`, `created_at`) ';
-		$label_query .= 'VALUES ';
+			(		$dish_id = $db->iquery($dish_query)			) ? null : $transaction_errors = true;
+			(			$db->iquery($label_query)				) ? null : $transaction_errors = true;
+			($db->affected_rows == count($safe_input['label[]'])) ? null : $transaction_errors = true;
 
-		foreach ($safe_input['label[]'] as $key => $value)
-			$label_query .= '(' . $dish_id . ', ' . $value . ', NOW()), ';
-	
-		//some cleaning up on the query
-		$label_query  = (substr($label_query, -1) == ',') ? substr($label_query, 0, -1) : $label_query;
+			($transaction_errors) ? $db->rollback() : $db->commit();
 
-		($dish_id = $db->iquery($dish_query)) ? null : $transaction_errors = true;
-		($db->iquery($label_query)) ? null : $transaction_errors = true;
-		($db->affected_rows == count($safe_input['label[]'])) ? null : $transaction_errors = true;
+			if ( $db->error ) {
+				$new_dish['error']['id'] = $db->errno;
+				$new_dish['error']['message'] = 'NEW DISH: ' . $db->error;
+			}
+			else if ( $dish_id ) {
+				$new_dish['id'] = $dish_id;
+				$new_dish['labels'] = array();
 
-		($transaction_errors) ? $db->rollback() : $db->commit();
+				foreach ($safe_input as $key => $value)
+					$new_dish[$key] = $value;
 
-		if ( $db->error ) {
-			$new_dish['error']['id'] = $db->errno;
-			$new_dish['error']['message'] = 'NEW DISH: ' . $db->error;
-		}
-		else if ( $dish_id ) {
-			$new_dish['id'] = $dish_id;
-			$new_dish['labels'] = array();
+				$query  = 'SELECT `id`, `name`, `icon` ';
+				$query .= 'FROM `label` ';
+				$query .= 'JOIN `dish_labels` ON `dish_labels`.`label_id` = `label`.`id` ';
+				$query .= 'WHERE `dish_labels`.`dish_id` = ' . $dish_id;
 
-			foreach ($safe_input as $key => $value)
-				$new_dish[$key] = $value;
+				$result = $db->query($query);
+				while ($label = $result->fetch_array(MYSQLI_ASSOC))
+					array_push($new_dish['labels'], $db->safe_output_string_array($label));
 
-			$query  = 'SELECT `id`, `name`, `icon` ';
-			$query .= 'FROM `label` ';
-			$query .= 'JOIN `dish_labels` ON `dish_labels`.`label_id` = `label`.`id` ';
-			$query .= 'WHERE `dish_labels`.`dish_id` = ' . $dish_id;
+				$new_dish['num_labels'] = count($new_dish['labels']);
 
-			$result = $db->query($query);
-			while ($label = $result->fetch_array(MYSQLI_ASSOC))
-				array_push($new_dish['labels'], $db->safe_output_string_array($label));
-
-			$new_dish['num_labels'] = count($new_dish['labels']);
-
-			unset($query);
-			$result->free();
+				unset($query);
+				$result->free();
+			}
 		}
 	}
 
 	// STATISTICS
-	if (isset($application_data['manage']['view']) && $application_data['manage']['view'] == 'statistics') {
+	if ( $application_data['controller'] == 'application' || $application_data['page'] == 'statistics' ) {
 		$dish_statistics = array (
 			'error' => false
 		);
@@ -121,7 +124,7 @@
 	}
 
 	// LIST
-	if ( $application_data ) {
+	if ( $application_data['controller'] == 'dish' && $application_data['action'] == 'list' ) {
 		$dish_list = array (
 			'error' => false
 		);

@@ -30,8 +30,11 @@
 	// NEW
 	if ( $application_data['controller'] == 'eatage' && $application_data['action'] == 'new' ) {
 		$new_eatage = array (
-			'error' => (!empty($_POST['new_eatage']) && !empty($_POST['date']) && !empty($_POST['dish_id']))
+			'error' => false
 		);
+
+		( !empty($_POST['date'])	) ? null : $new_todo['error'][] = array('id' => '1.1', 'message' => 'Missing required field: date');
+		( !empty($_POST['dish_id'])	) ? null : $new_todo['error'][] = array('id' => '1.2', 'message' => 'Missing required field: dish');
 
 		if (!$new_eatage['error']) {
 			$safe_input = $db->safe_input_string_array($_POST);
@@ -61,7 +64,7 @@
 				$db->iquery($query);
 			}
 			else {
-				$new_eatage['error']['id'] = 1;
+				$new_eatage['error']['id'] = 2;
 				$new_eatage['error']['message'] = 'NEW EATAGE: Submitted date is not valid';
 			}
 
@@ -100,10 +103,6 @@
 				$result->free();
 			}
 		}
-		else {
-			$new_eatage['error']['id'] = 2;
-			$new_eatage['error']['message'] = 'NEW EATAGE: Missing required data';
-		}
 	}
 
 	// STATISTICS
@@ -129,17 +128,22 @@
 	}
 
 	// CALENDAR
-	if ( $application_data['controller'] == 'eatage' && $application_data['action'] == 'show' ) {
+	if ( $application_data['controller'] == 'eatage' && $application_data['action'] == 'calendar' ) {
 		$eatage_calendar = array (
 			'error' => false
 		);
-		$calendar = new Calendar(time());
+
+		$date = (isset($_GET['date']) && is_date($_GET['date'])) ? strtotime($_GET['date']) : time(); 
+
+		$calendar = new Calendar($date);
 		$first_day = $calendar->first_day();
 		$last_day  = $calendar->last_day();
 
-		$query 	= 'SELECT `eatage`.`date` AS `date`, `dish`.`id` AS `dish_id`, `dish`.`name` AS `dish` ';
+		$query 	= 'SELECT `eatage`.`date` AS `date`, `dish`.`id` AS `dish_id`, `dish`.`name` AS `dish`, `dish`.`url`, `dish`.`recipe`, `eatage`.`shopping_list`, `label`.`id` AS `label_id`, `label`.`name` AS `label` ';
 		$query .= 'FROM `eatage` ';
 		$query .= 'JOIN `dish` ON `dish`.`id` = `eatage`.`dish_id` ';
+		$query .= 'JOIN `dish_labels` ON `dish_labels`.`dish_id` = `dish`.`id` '; 
+		$query .= 'LEFT JOIN `label` ON `label`.`id` = `dish_labels`.`label_id` ';
 		$query .= 'WHERE `eatage`.`date` BETWEEN "' . $first_day['date']['string'] . '" AND "' . $last_day['date']['string'] . '" ';
 		$query .= 'ORDER BY `date` ASC';
 
@@ -157,7 +161,18 @@
 				$safe_eatage = $db->safe_output_string_array($eatage);
 				$safe_eatage['today'] = ($calendar->today_date() == $safe_eatage['date']);
 				
-				$eatage_calendar['eatages'][$safe_eatage['date']] = $safe_eatage;
+				if ( array_key_exists($safe_eatage['date'], $eatage_calendar['eatages']) )
+					$eatage_calendar['eatages'][$safe_eatage['date']]['labels'][$safe_eatage['label_id']] = $safe_eatage['label'];
+				else {
+					$eatage_calendar['eatages'][$safe_eatage['date']] = array (
+						'dish_id' 		=> $safe_eatage['dish_id'],
+						'dish'			=> $safe_eatage['dish'],
+						'url'			=> $safe_eatage['url'],
+						'recipe'		=> $safe_eatage['recipe'],
+						'shopping_list'	=> $safe_eatage['shopping_list'],
+						'labels'		=> array ( $safe_eatage['label_id'] => $safe_eatage['label'] )
+					);
+				}
 			}
 		}
 	}

@@ -18,15 +18,15 @@
 		case 'admin':
 		case 'statistics':
 			$application_data['controller'] = 'application';
-			$application_data['action'] = $application_data['page'];
+			$application_data['action'] = (isset($_GET['action'])) ? $_GET['action'] : $application_data['page'];
 		break;
 		case 'calendar':
 			$application_data['controller'] = 'eatage';
-			$application_data['action'] = (isset($_GET['action'])) ? $_GET['action'] : 'show';
+			$application_data['action'] = (isset($_GET['action'])) ? $_GET['action'] : 'calendar';
 		break;
 		case 'todo':
 			$application_data['controller'] = 'todo';
-			$application_data['action'] = (isset($_GET['action'])) ? $_GET['action'] : 'show';
+			$application_data['action'] = (isset($_GET['action'])) ? $_GET['action'] : 'list';
 	}
 
 	if (!isset($db)) {

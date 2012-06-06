@@ -8,5 +8,4 @@
 				<a href="<?= $_SERVER['PHP_SELF'] . '?view=admin'; ?>">Admin</a>
 				<a href="<?= $_SERVER['PHP_SELF'] . '?view=todo'; ?>">Todo</a>
 			</nav>
-			<div style="clear: both"></div>
 		</div>
