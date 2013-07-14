@@ -5,11 +5,11 @@
 			'error' => false
 		);
 
-		$dish_result = $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat`'); 
+		$dish_result  = $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat`'); 
 		$label_result = $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat_labels`');
 
 		if ($db->error) {
-			$new_eatage['error']['id'] = $db->errno;
+			$new_eatage['error']['id'] 		= $db->errno;
 			$new_eatage['error']['message'] = 'EATAGE FORM: ' . $db->error;
 		}
 		else if ($dish_result && $label_result) {
@@ -42,16 +42,14 @@
 			if ( strtolower($safe_input['dish_id']) == 'random' ||  !(int)$safe_input['dish_id'] ) {
 				$query  = 'SELECT `id` ';
 				$query .= 'FROM `ready_to_eat` ';
-				
 				if ( !(int)$safe_input['label_id'] ) {
 					$query .= 'JOIN `dish_labels` ON `dish_labels`.`dish_id` = `ready_to_eat`.`id` ';
 					$query .= 'WHERE `dish_labels`.`label_id` = ' . $safe_input['label_id'] . ' ';
 				}
-
 				$query .= 'ORDER BY rand() LIMIT 1';
 
-				$result = $db->query($query);
-				$entry = $result->fetch_array(MYSQLI_ASSOC);
+				$result  = $db->query($query);
+				$entry   = $result->fetch_array(MYSQLI_ASSOC);
 				$dish_id = $entry['id'];
 				$result->free();
 			}
@@ -64,24 +62,24 @@
 				$db->iquery($query);
 			}
 			else {
-				$new_eatage['error']['id'] = 2;
+				$new_eatage['error']['id'] 		= 2;
 				$new_eatage['error']['message'] = 'NEW EATAGE: Submitted date is not valid';
 			}
 
 			if ($db->error) {
-				$new_eatage['error']['id'] = $db->errno;
+				$new_eatage['error']['id'] 		= $db->errno;
 				$new_eatage['error']['message'] = 'NEW EATAGE: ' . $db->error;
 			}
 			else {
-				$new_eatage['date'] = $safe_input['date'];
-				$new_eatage['dish']['id'] = $dish_id;
+				$new_eatage['date'] 		  = $safe_input['date'];
+				$new_eatage['dish']['id'] 	  = $dish_id;
 				$new_eatage['dish']['labels'] = array();
 
 				$query  = 'SELECT `dish`.* ';
 				$query .= 'FROM `dish` ';
 				$query .= 'WHERE `dish`.`id` = ' . $dish_id;
 
-				$result = $db->query($query);
+				$result    = $db->query($query);
 				$safe_dish = $db->safe_output_string_array($result->fetch_array(MYSQLI_ASSOC));
 				$result->free();
 
@@ -106,16 +104,16 @@
 	}
 
 	// STATISTICS
-	if ($application_data['action'] == 'statistics') {
+	if ( $application_data['action'] == 'statistics' ) {
 		$eatage_statistics = array (
 			'error' => false
 		);
 
-		$query = 'SELECT COUNT(*) AS `num_eatages` FROM `eatage`';
+		$query  = 'SELECT COUNT(*) AS `num_eatages` FROM `eatage`';
 		$result = $db->query($query);
 
 		if ( $db->error ) {
-			$eatage_statistics['error']['id'] = $db->errno;
+			$eatage_statistics['error']['id'] 	   = $db->errno;
 			$eatage_statistics['error']['message'] = 'EATAGE STATISTICS: ' . $db->error;
 		}
 		else if ( $result ) {
@@ -135,7 +133,7 @@
 
 		$date = (isset($_GET['date']) && is_date($_GET['date'])) ? strtotime($_GET['date']) : time(); 
 
-		$calendar = new Calendar($date);
+		$calendar  = new Calendar($date);
 		$first_day = $calendar->first_day();
 		$last_day  = $calendar->last_day();
 
@@ -191,7 +189,7 @@
 		$result = $db->query($query);
 
 		if ( $db->error ) {
-			$eatage_list['error']['id'] = $db->errno;
+			$eatage_list['error']['id'] 	 = $db->errno;
 			$eatage_list['error']['message'] = 'LIST EATAGES: ' . $db->error;
 		}
 		else if ( $result ) {

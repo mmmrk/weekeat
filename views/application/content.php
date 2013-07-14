@@ -4,6 +4,7 @@
 					echo $application_data['page'];
 				//else if (file_exists('/views/' . $application_data['controller'] . '/' . $application_data['action'] . '.php'))
 					require('/views/' . $application_data['controller'] . '/' . $application_data['action'] . '.php');
+				//else echo '/views/' . $application_data['controller'] . '/' . $application_data['action'] . '.php';
 				/*else {
 					echo '<p>error: ' . $application_data['controller'] . '/' . $application_data['action'] . '</p>';
 					echo '<p>/views/' . $application_data['controller'] . '/' . $application_data['action'] . '.php</p>';

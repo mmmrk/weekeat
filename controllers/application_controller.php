@@ -41,7 +41,7 @@
 	$result = $db->query($query);
 
 	if ($db->error) {
-		$application_data['error']['id'] = $db->errno;
+		$application_data['error']['id']	  = $db->errno;
 		$application_data['error']['message'] = $db->error;
 	}
 
