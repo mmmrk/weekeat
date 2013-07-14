@@ -1,18 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 	<head>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width">
 		<meta name="author" content="lillkillen" />
+
 		<title>weekeat</title>
-		<link rel="stylesheet" type="text/css" charset="utf-8" media="screen" title="style" href="stylesheet.css" />
+		<link rel="stylesheet" type="text/css" title="styles" href="css/styles.css" />
 	</head>
 	<body>
 		<?php
 			require_once('/tools_helpers/helpers.php');
 			require_once('controllers.php');
-
-			require_once('/views/application/header.php');
-			require_once('/views/application/content.php');
 		?>
+		<div id="app_container">
+			<?php
+				require_once('/views/app/header.php');
+				require_once('/views/app/body.php');
+			?>
+		</div
 	</body>
 </html>

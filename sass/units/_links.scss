@@ -1,0 +1,16 @@
+.button {
+	display: inline-block;
+	padding: 0.5em 1em;
+	background: #666;
+	color: white;
+	text-align: center;
+	border-radius: 0.125em;
+	border: 1px solid rgba(black, .2);
+	border-bottom-color: rgba(black, .4);
+	text-decoration: none;
+	text-shadow: 0 -1px 1px rgba(black, 0.8), 0 1px 1px rgba(white, 0.2);
+
+	.icon {
+		font-style: normal;
+	}
+}

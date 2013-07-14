@@ -39,11 +39,11 @@ CREATE TABLE IF NOT EXISTS `available_dishes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category_eatage`
+-- Table structure for table `category_meal`
 --
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `category_eatage` AS select `food`.`category`.`id` AS `id`,`food`.`category`.`name` AS `category`,count(`food`.`eatage`.`dish_id`) AS `times_eaten` from ((`category` left join `dish` on((`food`.`dish`.`category_id` = `food`.`category`.`id`))) left join `eatage` on((`food`.`eatage`.`dish_id` = `food`.`dish`.`id`))) group by `food`.`category`.`id`,`food`.`category`.`name` order by count(`food`.`eatage`.`dish_id`) desc;
--- in use (#1356 - View 'food.category_eatage' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them)
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `category_meal` AS select `food`.`category`.`id` AS `id`,`food`.`category`.`name` AS `category`,count(`food`.`meal`.`dish_id`) AS `times_eaten` from ((`category` left join `dish` on((`food`.`dish`.`category_id` = `food`.`category`.`id`))) left join `meal` on((`food`.`meal`.`dish_id` = `food`.`dish`.`id`))) group by `food`.`category`.`id`,`food`.`category`.`name` order by count(`food`.`meal`.`dish_id`) desc;
+-- in use (#1356 - View 'food.category_meal' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them)
 
 -- --------------------------------------------------------
 
@@ -90,10 +90,10 @@ INSERT INTO `dish` (`id`, `name`, `url`, `recipe`, `category_id`, `created_at`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eatage`
+-- Table structure for table `meal`
 --
 
-CREATE TABLE IF NOT EXISTS `eatage` (
+CREATE TABLE IF NOT EXISTS `meal` (
   `date` date NOT NULL,
   `dish_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`date`),
@@ -101,10 +101,10 @@ CREATE TABLE IF NOT EXISTS `eatage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 --
--- Dumping data for table `eatage`
+-- Dumping data for table `meal`
 --
 
-INSERT INTO `eatage` (`date`, `dish_id`) VALUES
+INSERT INTO `meal` (`date`, `dish_id`) VALUES
 ('2012-05-18', 3),
 ('2012-05-13', 4),
 ('2012-05-14', 4),
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `uneaten_dishes` (
 --
 DROP TABLE IF EXISTS `available_dishes`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `available_dishes` AS select `dish`.`id` AS `id`,`dish`.`name` AS `name`,`dish`.`url` AS `url`,`dish`.`recipe` AS `recipe`,`dish`.`category_id` AS `category_id`,`dish`.`created_at` AS `created_at`,`dish`.`updated_at` AS `updated_at` from `dish` where (not(`dish`.`id` in (select `eatage`.`dish_id` from `eatage` where (`eatage`.`date` < (curdate() - interval 10 day)))));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `available_dishes` AS select `dish`.`id` AS `id`,`dish`.`name` AS `name`,`dish`.`url` AS `url`,`dish`.`recipe` AS `recipe`,`dish`.`category_id` AS `category_id`,`dish`.`created_at` AS `created_at`,`dish`.`updated_at` AS `updated_at` from `dish` where (not(`dish`.`id` in (select `meal`.`dish_id` from `meal` where (`meal`.`date` < (curdate() - interval 10 day)))));
 
 -- --------------------------------------------------------
 
@@ -191,7 +191,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `uneaten_dishes`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `uneaten_dishes` AS select `dish`.`id` AS `id`,`dish`.`name` AS `name`,`dish`.`url` AS `url`,`dish`.`recipe` AS `recipe`,`dish`.`category_id` AS `category_id`,`dish`.`created_at` AS `created_at`,`dish`.`updated_at` AS `updated_at` from `dish` where (not(`dish`.`id` in (select `eatage`.`dish_id` from `eatage`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `uneaten_dishes` AS select `dish`.`id` AS `id`,`dish`.`name` AS `name`,`dish`.`url` AS `url`,`dish`.`recipe` AS `recipe`,`dish`.`category_id` AS `category_id`,`dish`.`created_at` AS `created_at`,`dish`.`updated_at` AS `updated_at` from `dish` where (not(`dish`.`id` in (select `meal`.`dish_id` from `meal`)));
 
 --
 -- Constraints for dumped tables
@@ -204,10 +204,10 @@ ALTER TABLE `dish`
   ADD CONSTRAINT `dish_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `label` (`id`);
 
 --
--- Constraints for table `eatage`
+-- Constraints for table `meal`
 --
-ALTER TABLE `eatage`
-  ADD CONSTRAINT `eatage_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dish` (`id`);
+ALTER TABLE `meal`
+  ADD CONSTRAINT `meal_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dish` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -11,7 +11,7 @@
 								<tr>
 									<th>Dish</th>
 									<th>Added at</th>
-									<th>Label Count</th>
+									<th>Tag Count</th>
 									<th>Times Eaten</th>
 								</tr>
 							</thead>
@@ -20,7 +20,7 @@
 	<tr class="<?= $dish['row_class']; ?>">
 									<td><?= $dish['name']; ?></td>
 									<td><?= $dish['created_at']; ?></td>
-									<td><?= $dish['num_labels']; ?></td>
+									<td><?= $dish['num_tags']; ?></td>
 									<td><?= $dish['times_eaten']; ?></td>
 								</tr>
 							<?php } ?>

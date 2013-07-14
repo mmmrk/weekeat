@@ -6,18 +6,18 @@
 						<th>URL:</th>
 						<td><?= $dish['url']; ?></td>
 					</tr>
-					<?php if ($dish['num_labels'] > 0) { ?>
-<th rowspan="<?= $dish['num_labels']; ?>">Labels:</th>
-						<td><?= $dish['labels'][0]['name']; ?></td>
+					<?php if ($dish['num_tags'] > 0) { ?>
+<th rowspan="<?= $dish['num_tags']; ?>">Tags:</th>
+						<td><?= $dish['tags'][0]['name']; ?></td>
 					</tr>
 					<?php
-							for ($i=1; $i<$dish['num_labels']; $i++)
-								echo '<tr><td>' . $dish['labels'][$i]['name'] . "</td></tr>\n\t\t\t\t";
+							for ($i=1; $i<$dish['num_tags']; $i++)
+								echo '<tr><td>' . $dish['tags'][$i]['name'] . "</td></tr>\n\t\t\t\t";
 						}
 						else {
 					?>
 <tr>
-						<th>Labels:</th>
+						<th>Tags:</th>
 						<td></td>
 					</tr>
 					<?php } ?>

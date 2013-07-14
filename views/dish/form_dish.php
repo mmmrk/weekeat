@@ -14,8 +14,8 @@
 						<label for="url">URL</label>
 						<input type="text" name="url" id="url" />
 						<br />
-						<label for="label[]">Label</label>
-						<?php require_once('/views/application/_labels.php'); ?>
+						<label for="tag[]">Tag</label>
+						<?php require_once('/views/application/_tags.php'); ?>
 						<br />
 						<label for="recipe">Recipe</label>
 						<br />

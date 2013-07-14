@@ -1,6 +1,6 @@
 <?php
 	// FORM
-	if ( $application_data['controller'] == 'todo' ) {
+	if ( $app_data['controller'] == 'todo' ) {
 		$form_todo = array(
 			'error' => false
 		);
@@ -12,8 +12,8 @@
 		$status_result	= $db->query($status_query);
 
 		if ($db->error) {
-			$form_label['error']['id'] = $db->errno;
-			$form_label['error']['message'] = 'FORM TODO: ' . $db->error;
+			$form_tag['error']['id'] = $db->errno;
+			$form_tag['error']['message'] = 'FORM TODO: ' . $db->error;
 		}
 		else if ($prio_result && $status_result) {
 			$form_todo['priorities'] = array();
@@ -32,7 +32,7 @@
 	}
 
 	// NEW
-	if ( $application_data['controller'] == 'todo' && $application_data['action'] == 'new' ) {
+	if ( $app_data['controller'] == 'todo' && $app_data['action'] == 'new' ) {
 		$new_todo = array (
 			'error' => false
 		);
@@ -67,7 +67,7 @@
 	}
 
 	// LIST
-	if ( $application_data['controller'] == 'todo' && $application_data['action'] == 'list' ) {
+	if ( $app_data['controller'] == 'todo' && $app_data['action'] == 'list' ) {
 		$todo_list = array (
 			'error' => false
 		);

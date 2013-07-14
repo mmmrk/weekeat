@@ -1,0 +1,44 @@
+#app_header {
+	background: #2f2f2f;
+	color: #fff;
+	padding: 0 2em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	line-height: 1;
+
+	a {
+		color: #fff;
+		text-decoration: none;
+	}
+}
+
+#app_logo {
+	font-weight: bold;
+	font-size: 1.125em;
+	letter-spacing: 1px;
+	display: inline-block;
+
+	margin: 0;
+}
+
+#app_menu {
+	display: inline-block;
+	margin-left: 2em;
+
+	ul {
+		margin: 0;
+
+	}
+
+	li {
+		display: inline-block;
+		margin-right: 0.5em;
+	}
+
+	a {
+		display: block;
+		padding: 0.5em;
+	}
+}

@@ -1,0 +1,128 @@
+#week_calendar {
+	float: left;
+	width: columns(7,8);
+	height: 100%;
+	position: relative;
+
+	> ul {
+		margin: 0;
+		height: 100%;
+		padding-left: 0;
+	}
+
+	li {
+		list-style: none inside none;
+	}
+
+	.meal_shopping_list li {
+		list-style-type: disc;
+	}
+}
+
+.week_calendar_item {
+	float: left;
+	width: (100% / 7);
+	text-align: center;
+	height: 100%;
+	overflow: auto;
+	box-sizing: border-box;
+	position: relative;
+
+	& ~ .week_calendar_item {
+		border-left: 1px solid $border_gray;
+	}
+
+	&.current {
+		background: white;
+
+		h3 {
+			color: $text_dark;
+			font-weight: bold;
+
+			&:before {
+				content: ' ';
+				display: block;
+				position: absolute;
+				bottom: -1px;
+				left: 0;
+				right: 0;
+				height: 3px;
+				background-color: $brand_green;
+			}
+		}
+	}
+
+	h3, .meal_shopping_list {
+		text-align: left;
+	}
+
+	h3 {
+		font-size: 1.125em;
+		text-transform: capitalize;
+		font-weight: normal;
+		padding: 1em 0.625em 0.625em;
+		border-bottom: 1px solid $border_gray;
+		line-height: 1;
+		position: relative;
+		margin-top: 0.6em;
+	}
+
+	.date {
+		float: right;
+		font-weight: normal;
+		font-size: 0.667em;
+		margin-top: 0.3em;
+	}
+
+	.meal {
+		display: block;
+		text-transform: capitalize;
+		position: relative;
+		padding-bottom: 1.2em;
+		overflow: hidden;
+
+		&:after {
+			content: ' ';
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: -40%;
+			right: -40%;
+			height: 1em;
+			@include radial-gradient(ellipse at 50% 0%, rgba(black, 0.05) 0%, rgba(black, 0.0) 50%);
+			background-color: transparent;
+		}
+	}
+
+	h4 {
+		color: $text_dark;
+		font-size: 1.375em;
+		margin-top: 0;
+	}
+}
+
+.meal_list {
+	padding: 0 0.625em;
+
+	ul {
+		padding-left: 0;
+	}
+
+	.no_meals_item {
+		display: none;
+		color: $text_dark;
+		position: absolute;
+		top: 50%;
+		width: 100%;
+		left: 0;
+		margin-top: -3.25em;
+
+		&:last-child {
+			display: block;
+		}
+	}
+
+	.meal_item ~ .meal_item {
+		margin-top: 3em;
+	}
+}

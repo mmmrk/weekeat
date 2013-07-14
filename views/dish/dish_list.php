@@ -7,23 +7,23 @@
 				<thead>
 					<tr>
 						<th>Dish</th>
-						<th>Labels</th>
+						<th>Tags</th>
 						<th>Add Date</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php
 						foreach ($dish_list['dishes'] as $dish) {
-							$labelcount = count($dish['labels']);
+							$tagcount = count($dish['tags']);
 					?>
 <tr class="<?= $dish['row_class']; ?>">
-						<td rowspan="<?= $labelcount; ?>"><?= $dish['name']; ?></td>
-						<td><?= $dish['labels'][0]; ?></td>
-						<td rowspan="<?= $labelcount; ?>"><?= $dish['created_at']; ?></td>
+						<td rowspan="<?= $tagcount; ?>"><?= $dish['name']; ?></td>
+						<td><?= $dish['tags'][0]; ?></td>
+						<td rowspan="<?= $tagcount; ?>"><?= $dish['created_at']; ?></td>
 					</tr>
 					<?php
-						for($i=1; $i<$labelcount; $i++)
-							echo '<tr class="' . $dish['row_class'] . '"><td>' . $dish['labels'][$i] . "</td></tr>\n\t\t\t\t\t";
+						for($i=1; $i<$tagcount; $i++)
+							echo '<tr class="' . $dish['row_class'] . '"><td>' . $dish['tags'][$i] . "</td></tr>\n\t\t\t\t\t";
 						}
  					?>
 

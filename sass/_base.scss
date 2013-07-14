@@ -1,0 +1,15 @@
+html {
+	background: $bg_gray;
+	height: 100%;
+	color: $text_gray;
+}
+
+
+body, #app_container, #app_body {
+	height: 100%;
+}
+
+#app_container {
+	box-sizing: border-box;
+	padding-top: 2em;
+}

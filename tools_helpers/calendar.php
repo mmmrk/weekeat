@@ -42,6 +42,7 @@
 			$data['date']['weekday'] 		= date('l', $timestamp);
 			$data['date']['weekday_short']	= date('D', $timestamp);
 			$data['date']['day'] 	 		= date('d', $timestamp);
+			$data['date']['day_short'] 	 	= date('j', $timestamp);
 			$data['date']['month']	 		= date('m', $timestamp);
 			$data['date']['year']	 		= date('Y', $timestamp);
 			$data['week']			 		= (int)date('W', $timestamp);

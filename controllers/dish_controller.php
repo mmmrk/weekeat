@@ -1,20 +1,20 @@
 <?php
 	// FORM
-	if ( $application_data['controller'] == 'dish' || $application_data['page'] == 'calendar' ) {
+	if ( $app_data['controller'] == 'dish' || $app_data['page'] == 'calendar' ) {
 		$form_dish = array(
 			'error' => false
 		);
 
-		$result = $db->query('SELECT * FROM label');
+		$result = $db->query('SELECT * FROM tag');
 		
 		if ($db->error) {
 			$form_dish['error']['id'] = $db->errno;
 			$form_dish['error']['message'] = 'FORM DISH: ' . $db->error;
 		}
 		else {
-			$form_dish['labels'] = array();
-			while ($label = $result->fetch_array(MYSQLI_ASSOC))
-				array_push($form_dish['labels'], $db->safe_output_string_array($label));
+			$form_dish['tags'] = array();
+			while ($tag = $result->fetch_array(MYSQLI_ASSOC))
+				array_push($form_dish['tags'], $db->safe_output_string_array($tag));
 			
 			unset($query);
 			$result->free();
@@ -22,13 +22,13 @@
 	}
 
 	// NEW
-	if ( $application_data['controller'] == 'dish' || $application_data['action'] == 'new' ) {
+	if ( $app_data['controller'] == 'dish' || $app_data['action'] == 'new' ) {
 		$new_dish = array (
 			'error' => false
 		);
 
 		( !empty($_POST['name'])							) ? null : $new_todo['error'][] = array('id' => '1.1', 'message' => 'Missing required field: name');
-		( !empty($_POST['label[]'])							) ? null : $new_todo['error'][] = array('id' => '1.2', 'message' => 'Missing required field: label');
+		( !empty($_POST['tag[]'])							) ? null : $new_todo['error'][] = array('id' => '1.2', 'message' => 'Missing required field: tag');
 		( !empty($_POST['url']) || !empty($_POST['recipe'])	) ? null : $new_todo['error'][] = array('id' => '1.3', 'message' => 'Missing required field: recipe or url');
 
 		if ( !$new_dish['error'] ) {
@@ -40,18 +40,18 @@
 			$dish_query	  = 'INSERT INTO `dish` (`name`, `url`, `recipe`, `created_at`) ';
 			$dish_query  .= 'VALUES ("' . $safe_input['name'] . '", "' . $safe_input['url'] . '", "' . $safe_input['recipe'] . '", NOW())';
 
-			$label_query  = 'INSERT INTO `dish_labels` (`dish_id`, `label_id`, `created_at`) ';
-			$label_query .= 'VALUES ';
+			$tag_query  = 'INSERT INTO `dish_tags` (`dish_id`, `tag_id`, `created_at`) ';
+			$tag_query .= 'VALUES ';
 
-			foreach ($safe_input['label[]'] as $key => $value)
-				$label_query .= '(' . $dish_id . ', ' . $value . ', NOW()), ';
+			foreach ($safe_input['tag[]'] as $key => $value)
+				$tag_query .= '(' . $dish_id . ', ' . $value . ', NOW()), ';
 		
 			//some cleaning up on the query
-			$label_query  = (substr($label_query, -1) == ',') ? substr($label_query, 0, -1) : $label_query;
+			$tag_query  = (substr($tag_query, -1) == ',') ? substr($tag_query, 0, -1) : $tag_query;
 
 			(		$dish_id = $db->iquery($dish_query)			) ? null : $transaction_errors = true;
-			(			$db->iquery($label_query)				) ? null : $transaction_errors = true;
-			($db->affected_rows == count($safe_input['label[]'])) ? null : $transaction_errors = true;
+			(			$db->iquery($tag_query)				) ? null : $transaction_errors = true;
+			($db->affected_rows == count($safe_input['tag[]'])) ? null : $transaction_errors = true;
 
 			($transaction_errors) ? $db->rollback() : $db->commit();
 
@@ -61,21 +61,21 @@
 			}
 			else if ( $dish_id ) {
 				$new_dish['id'] = $dish_id;
-				$new_dish['labels'] = array();
+				$new_dish['tags'] = array();
 
 				foreach ($safe_input as $key => $value)
 					$new_dish[$key] = $value;
 
 				$query  = 'SELECT `id`, `name`, `icon` ';
-				$query .= 'FROM `label` ';
-				$query .= 'JOIN `dish_labels` ON `dish_labels`.`label_id` = `label`.`id` ';
-				$query .= 'WHERE `dish_labels`.`dish_id` = ' . $dish_id;
+				$query .= 'FROM `tag` ';
+				$query .= 'JOIN `dish_tags` ON `dish_tags`.`tag_id` = `tag`.`id` ';
+				$query .= 'WHERE `dish_tags`.`dish_id` = ' . $dish_id;
 
 				$result = $db->query($query);
-				while ($label = $result->fetch_array(MYSQLI_ASSOC))
-					array_push($new_dish['labels'], $db->safe_output_string_array($label));
+				while ($tag = $result->fetch_array(MYSQLI_ASSOC))
+					array_push($new_dish['tags'], $db->safe_output_string_array($tag));
 
-				$new_dish['num_labels'] = count($new_dish['labels']);
+				$new_dish['num_tags'] = count($new_dish['tags']);
 
 				unset($query);
 				$result->free();
@@ -84,21 +84,21 @@
 	}
 
 	// STATISTICS
-	if ( $application_data['controller'] == 'application' || $application_data['page'] == 'statistics' ) {
+	if ( $app_data['controller'] == 'application' || $app_data['page'] == 'statistics' ) {
 		$dish_statistics = array (
 			'error' => false
 		);
 
-		$query 	= 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`url`, `dish`.`created_at`, `lc`.`num_labels` as `num_labels`, COUNT(`eatage`.`dish_id`) AS `times_eaten` ';
+		$query 	= 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`url`, `dish`.`created_at`, `lc`.`num_tags` as `num_tags`, COUNT(`meal`.`dish_id`) AS `times_eaten` ';
 		$query .= 'FROM `dish` ';
 		$query .= 'LEFT JOIN ( ';
-		$query .= 'SELECT `d1`.`id` AS `dish_id`, COUNT(`dl`.`label_id`) as `num_labels` ';
+		$query .= 'SELECT `d1`.`id` AS `dish_id`, COUNT(`dl`.`tag_id`) as `num_tags` ';
 		$query .= 'FROM `dish` AS `d1` ';
-		$query .= 'LEFT JOIN `dish_labels` AS `dl` ON `dl`.`dish_id` = `d1`.`id` ';
+		$query .= 'LEFT JOIN `dish_tags` AS `dl` ON `dl`.`dish_id` = `d1`.`id` ';
 		$query .= 'GROUP BY `d1`.`id` ';
 		$query .= ') AS `lc` ON `lc`.`dish_id` = `dish`.`id` ';
-		$query .= 'LEFT JOIN `eatage` ON `eatage`.`dish_id` = `dish`.`id` ';
-		$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `dish`.`created_at`, `lc`.`num_labels` ';
+		$query .= 'LEFT JOIN `meal` ON `meal`.`dish_id` = `dish`.`id` ';
+		$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `dish`.`created_at`, `lc`.`num_tags` ';
 		$query .= 'ORDER BY `times_eaten` DESC';
 
 		$result = $db->query($query);
@@ -124,24 +124,24 @@
 	}
 
 	// LIST
-	if ( $application_data['controller'] == 'dish' && $application_data['action'] == 'list' ) {
+	if ( $app_data['controller'] == 'dish' && $app_data['action'] == 'list' ) {
 		$dish_list = array (
 			'error' => false
 		);
 
-		$query 	= 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`url`, `label`.`name` as `label`, `dish`.`created_at`, COUNT(`eatage`.`dish_id`) AS `times_eaten` ';
+		$query 	= 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name` as `tag`, `dish`.`created_at`, COUNT(`meal`.`dish_id`) AS `times_eaten` ';
 		$query .= 'FROM `dish` ';
-		$query .= 'LEFT JOIN `eatage` ON `eatage`.`dish_id` = `dish`.`id` ';
-		$query .= 'LEFT JOIN `dish_labels` ON `dish_labels`.`dish_id` = `dish`.`id` ';
-		$query .= 'LEFT JOIN `label` ON `label`.`id` = `dish_labels`.`label_id` ';
-		$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `label`.`name`, `dish`.`created_at` ';
+		$query .= 'LEFT JOIN `meal` ON `meal`.`dish_id` = `dish`.`id` ';
+		$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` ';
+		$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
+		$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name`, `dish`.`created_at` ';
 		$query .= 'ORDER BY `dish`.`id` ASC';
 		
 		$result = $db->query($query);
 
 		if ($db->error) {
-			$new_eatage['error']['id'] = $db->errno;
-			$new_eatage['error']['message'] = 'LIST DISHES: ' . $db->error;
+			$new_meal['error']['id'] = $db->errno;
+			$new_meal['error']['message'] = 'LIST DISHES: ' . $db->error;
 		}
 		else if ( $result ) {
 			$counter = 0;
@@ -154,15 +154,15 @@
 					array_push($used_ids, $safe_entry['id']);
 
 					$safe_entry['row_class'] = ($counter++ % 2 == 0) ? 'even' : 'odd';
-					$safe_entry['labels'][] = $safe_entry['label'];
+					$safe_entry['tags'][] = $safe_entry['tag'];
 
-					unset($safe_entry['label']);
+					unset($safe_entry['tag']);
 
 					$dish_list['dishes'][$safe_entry['id']] = $safe_entry;
 
 				}
 				else
-					array_push($dish_list['dishes'][$safe_entry['id']]['labels'], $safe_entry['label']);
+					array_push($dish_list['dishes'][$safe_entry['id']]['tags'], $safe_entry['tag']);
 			}
 
 			$result->free();

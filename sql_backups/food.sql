@@ -76,10 +76,10 @@ INSERT INTO `dish` (`id`, `name`, `url`, `recipe`, `category_id`, `created_at`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eatage`
+-- Table structure for table `meal`
 --
 
-CREATE TABLE IF NOT EXISTS `eatage` (
+CREATE TABLE IF NOT EXISTS `meal` (
   `date` date NOT NULL,
   `dish_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`date`),
@@ -87,10 +87,10 @@ CREATE TABLE IF NOT EXISTS `eatage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 --
--- Dumping data for table `eatage`
+-- Dumping data for table `meal`
 --
 
-INSERT INTO `eatage` (`date`, `dish_id`) VALUES
+INSERT INTO `meal` (`date`, `dish_id`) VALUES
 ('2012-05-14', 4);
 
 -- --------------------------------------------------------
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `uneaten` (
 --
 DROP TABLE IF EXISTS `uneaten`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `uneaten` AS select `dish`.`id` AS `id`,`dish`.`name` AS `name`,`dish`.`url` AS `url`,`dish`.`recipe` AS `recipe`,`dish`.`category_id` AS `category_id`,`dish`.`created_at` AS `created_at`,`dish`.`updated_at` AS `updated_at` from `dish` where (not(`dish`.`id` in (select `eatage`.`dish_id` from `eatage`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `uneaten` AS select `dish`.`id` AS `id`,`dish`.`name` AS `name`,`dish`.`url` AS `url`,`dish`.`recipe` AS `recipe`,`dish`.`category_id` AS `category_id`,`dish`.`created_at` AS `created_at`,`dish`.`updated_at` AS `updated_at` from `dish` where (not(`dish`.`id` in (select `meal`.`dish_id` from `meal`)));
 
 --
 -- Constraints for dumped tables
@@ -127,10 +127,10 @@ ALTER TABLE `dish`
   ADD CONSTRAINT `dish_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
 --
--- Constraints for table `eatage`
+-- Constraints for table `meal`
 --
-ALTER TABLE `eatage`
-  ADD CONSTRAINT `eatage_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dish` (`id`);
+ALTER TABLE `meal`
+  ADD CONSTRAINT `meal_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dish` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
