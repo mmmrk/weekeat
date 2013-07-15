@@ -14,7 +14,7 @@
 		}
 
 		static function first_day_of_week ($timestamp) {
-			return mktime(0, 0, 0, date('n', $timestamp), date('j', $timestamp) - date('N', $timestamp)+1);
+			return mktime(0, 0, 0, date('n', $timestamp), date('j', $timestamp) - date('N', $timestamp)+1, date('Y', $timestamp));
 		}
 
 		static function last_day_of_week ($timestamp) {
