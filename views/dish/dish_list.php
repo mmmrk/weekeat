@@ -7,6 +7,7 @@
 				<thead>
 					<tr>
 						<th>Dish</th>
+						<th>Description</th>
 						<th>Tags</th>
 						<th>Add Date</th>
 					</tr>
@@ -17,9 +18,17 @@
 							$tagcount = count($dish['tags']);
 					?>
 <tr class="<?= $dish['row_class']; ?>">
-						<td rowspan="<?= $tagcount; ?>"><?= $dish['name']; ?></td>
-						<td><?= $dish['tags'][0]; ?></td>
-						<td rowspan="<?= $tagcount; ?>"><?= $dish['created_at']; ?></td>
+						<td><?= $dish['name']; ?></td>
+						<td><?= $dish['description']; ?></td>
+						<td>
+							<?php
+								for ($i=0; $i++; $i<$tagcount) {
+									echo $dish['tags'][$i];
+									if ($i<$tagcount) echo ', ';
+								}
+							?>
+						</td>
+						<td><?= $dish['created_at']; ?></td>
 					</tr>
 					<?php
 						for($i=1; $i<$tagcount; $i++)

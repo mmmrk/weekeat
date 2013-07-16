@@ -63,17 +63,17 @@
 			}
 			else {
 				$new_meal['error']['id'] 		= 2;
-				$new_meal['error']['message'] = 'NEW EATAGE: Submitted date is not valid';
+				$new_meal['error']['message'] = 'NEW MEAL: Submitted date is not valid';
 			}
 
 			if ($db->error) {
 				$new_meal['error']['id'] 		= $db->errno;
-				$new_meal['error']['message'] = 'NEW EATAGE: ' . $db->error;
+				$new_meal['error']['message'] = 'NEW MEAL: ' . $db->error;
 			}
 			else {
-				$new_meal['date'] 		  = $safe_input['date'];
-				$new_meal['dish']['id'] 	  = $dish_id;
-				$new_meal['dish']['tags'] = array();
+				$new_meal['date'] 			= $safe_input['date'];
+				$new_meal['dish']['id']		= $dish_id;
+				$new_meal['dish']['tags']	= array();
 
 				$query  = 'SELECT `dish`.* ';
 				$query .= 'FROM `dish` ';
@@ -114,7 +114,7 @@
 
 		if ( $db->error ) {
 			$meal_statistics['error']['id'] 	   = $db->errno;
-			$meal_statistics['error']['message'] = 'EATAGE STATISTICS: ' . $db->error;
+			$meal_statistics['error']['message'] = 'MEAL STATISTICS: ' . $db->error;
 		}
 		else if ( $result ) {
 			$safe_stats = $db->safe_output_string_array($result->fetch_array(MYSQLI_ASSOC));
@@ -149,7 +149,7 @@
 
 		if ( $db->error ) {
 			$meal_calendar['error']['id'] 	 = $db->errno;
-			$meal_calendar['error']['message'] = 'EATAGE CALENDAR: ' . $db->error;
+			$meal_calendar['error']['message'] = 'MEAL CALENDAR: ' . $db->error;
 		}
 		else if ( $result ) {
 			$meal_calendar['meals']  = array();
@@ -190,7 +190,7 @@
 
 		if ( $db->error ) {
 			$meal_list['error']['id'] 	 = $db->errno;
-			$meal_list['error']['message'] = 'LIST EATAGES: ' . $db->error;
+			$meal_list['error']['message'] = 'LIST MEALS: ' . $db->error;
 		}
 		else if ( $result ) {
 			$meal_list['meals'] = array();

@@ -140,8 +140,8 @@
 		$result = $db->query($query);
 
 		if ($db->error) {
-			$new_meal['error']['id'] = $db->errno;
-			$new_meal['error']['message'] = 'LIST DISHES: ' . $db->error;
+			$dish_list['error']['id'] = $db->errno;
+			$dish_list['error']['message'] = 'LIST DISHES: ' . $db->error;
 		}
 		else if ( $result ) {
 			$counter = 0;
@@ -163,6 +163,41 @@
 				}
 				else
 					array_push($dish_list['dishes'][$safe_entry['id']]['tags'], $safe_entry['tag']);
+			}
+
+			$result->free();
+		}
+	}
+
+	//LIST LATEST DISHES
+	if ( $app_data['controller'] == 'meal' && $app_data['action'] == 'calendar' ) {
+		
+		$dish_list_latest = array (
+			'error' => false
+		);
+
+		$query  = 'SELECT `id`, `name`, `description`, `url`, `created_at` ';
+		$query .= 'FROM `dish` ';
+		$query .= 'ORDER BY `created_at` DESC ';
+		$query .= 'LIMIT 10';
+
+		$result = $db->query($query);
+
+		if ($db->error) {
+			$dish_list_latest['error']['id'] = $db->errno;
+			$dish_list_latest['error']['message'] = 'LATEST DISHES: ' . $db->error;
+		}
+		else if ( $result ) {
+			while ($entry = $result->fetch_array(MYSQLI_ASSOC)) {
+				$safe_entry = $db->safe_output_string_array($entry);
+				
+				$dish_list_latest['dishes'][$safe_entry['id']] = array(
+					'id' 			=> $safe_entry['id'],
+					'name' 			=> $safe_entry['name'],
+					'description' 	=> $safe_entry['description'],
+					'url' 			=> $safe_entry['url'],
+					'created_at' 	=> datetime_to_date($safe_entry['created_at'])
+				);
 			}
 
 			$result->free();

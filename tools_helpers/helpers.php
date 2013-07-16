@@ -35,4 +35,10 @@
 
 		return $date;
 	}
+
+	function datetime_to_date ($datetime_string) {
+		$date = strstr($datetime_string, ' ', true);
+
+		return (is_date($date)) ? $date : false; 
+	}
 ?>

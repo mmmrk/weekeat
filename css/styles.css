@@ -640,36 +640,37 @@ body, #app_container, #app_body {
 /* line 1, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav {
   width: 12.82051%;
+  height: 200px;
   float: right;
 }
-/* line 8, ../sass/chunks/_calendar_nav.scss */
+/* line 9, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav header {
   padding: 2px;
 }
-/* line 9, ../sass/chunks/_calendar_nav.scss */
+/* line 10, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav h3 {
   text-align: center;
 }
-/* line 14, ../sass/chunks/_calendar_nav.scss */
+/* line 15, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav a:hover,
 #calendar_nav a:active {
   color: #fff;
   text-decoration: none;
 }
-/* line 18, ../sass/chunks/_calendar_nav.scss */
+/* line 19, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav a {
   color: inherit;
   text-decoration: none;
 }
-/* line 20, ../sass/chunks/_calendar_nav.scss */
+/* line 21, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav .day.booked {
   font-weight: bold !important;
 }
-/* line 21, ../sass/chunks/_calendar_nav.scss */
+/* line 22, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav .day {
   text-align: center;
 }
-/* line 22, ../sass/chunks/_calendar_nav.scss */
+/* line 23, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav .table {
   width: 100%;
 }
@@ -807,4 +808,28 @@ body, #app_container, #app_body {
 /* line 125, ../sass/chunks/_week_calendar.scss */
 .meal_list .meal_item ~ .meal_item {
   margin-top: 3em;
+}
+
+/* line 1, ../sass/chunks/_latest_dishes.scss */
+#latest_dishes {
+  width: 12.82051%;
+  float: right;
+}
+/* line 5, ../sass/chunks/_latest_dishes.scss */
+#latest_dishes li {
+  list-style: none inside none;
+  border-bottom: 1px solid #e2e2e2;
+}
+/* line 10, ../sass/chunks/_latest_dishes.scss */
+#latest_dishes li h4 {
+  margin: 3px 0;
+}
+/* line 14, ../sass/chunks/_latest_dishes.scss */
+#latest_dishes li time {
+  font-size: 0.75em;
+}
+/* line 19, ../sass/chunks/_latest_dishes.scss */
+#latest_dishes li p {
+  font-style: italic;
+  margin: 2px 0;
 }
