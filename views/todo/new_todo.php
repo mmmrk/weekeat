@@ -7,7 +7,7 @@
 <h4>New todo added</h4>
 			<table>
 				<tbody>
-					<?php require_once('/views/todo/_todo.php'); ?>
+					<?php /*changed root*/ require_once('views/todo/_todo.php'); ?>
 				</tbody>
 			</table>
 <?php } ?>

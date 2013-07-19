@@ -14,13 +14,13 @@
 	</head>
 	<body>
 		<?php
-			require_once('/tools_helpers/helpers.php');
 			require_once('controllers.php');
+			/*changed root*/ require_once('tools_helpers/helpers.php');
 		?>
 		<div id="app_container">
 			<?php
-				require_once('/views/app/header.php');
-				require_once('/views/app/body.php');
+				/*changed root*/ require_once('views/app/header.php');
+				/*changed root*/ require_once('views/app/body.php');
 			?>
 		</div
 	</body>

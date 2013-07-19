@@ -5,7 +5,7 @@
 				//else if (file_exists('/views/' . $app_data['controller'] . '/' . $app_data['action'] . '.php'))
 					
 					//echo $app_data['controller'] . "/" . $app_data['page'];
-					require('/views/' . $app_data['controller'] . '/' . $app_data['action'] . '.php');
+					/*changed root*/ require('views/' . $app_data['controller'] . '/' . $app_data['action'] . '.php');
 				//else echo '/views/' . $app_data['controller'] . '/' . $app_data['action'] . '.php';
 				/*else {
 					echo '<p>error: ' . $app_data['controller'] . '/' . $app_data['action'] . '</p>';

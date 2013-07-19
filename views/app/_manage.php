@@ -8,6 +8,6 @@
 					&nbsp;
 					<a <?= ($app_data['manage']['view'] == 'todo') ? ' class="active"' : ''; ?> href="<?= $_SERVER['PHP_SELF'] . '?manage=show&view=todo'; ?>">Todo</a>
 				</nav>
-				<?php require_once('/views/app/tab_' . $app_data['manage']['view'] . '.php'); ?>
+				<?php /*changed root*/ require_once('views/app/tab_' . $app_data['manage']['view'] . '.php'); ?>
 		
 			</div>
