@@ -655,7 +655,7 @@ body, #app_container, #app_body {
 /* line 15, ../sass/units/_forms.scss */
 .form_footer {
   text-align: right;
-  margin: 1.5em 0 0;
+  margin: 1.5em 0;
 }
 
 /* line 22, ../sass/units/_forms.scss */
@@ -872,6 +872,76 @@ textarea:focus {
   margin: 2px 0;
 }
 
+/* line 1, ../sass/chunks/_tab_container.scss */
+.tabbed_container {
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  padding-top: 3.6875em;
+  position: relative;
+}
+
+/* line 9, ../sass/chunks/_tab_container.scss */
+.tabbed_container_header {
+  font-size: 1.125em;
+  padding: 1.6em 0.625em 0.625em;
+  line-height: 1;
+  border-bottom: 1px solid #e2e2e2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+/* line 19, ../sass/chunks/_tab_container.scss */
+.tabbed_container_header h1 {
+  margin: 0;
+  font-size: 1em;
+  display: inline-block;
+}
+
+/* line 26, ../sass/chunks/_tab_container.scss */
+.tab_container {
+  display: inline-block;
+  font-size: 0.88em;
+  margin-left: 2em;
+}
+/* line 31, ../sass/chunks/_tab_container.scss */
+.tab_container ol, .tab_container ul {
+  margin: 0;
+  padding: 0;
+}
+/* line 36, ../sass/chunks/_tab_container.scss */
+.tab_container li {
+  display: inline-block;
+  margin-right: 1em;
+}
+/* line 41, ../sass/chunks/_tab_container.scss */
+.tab_container a {
+  text-decoration: none;
+}
+
+/* line 47, ../sass/chunks/_tab_container.scss */
+.tab_content {
+  display: none;
+  padding: 0 0.625em 0.625em;
+}
+/* line 51, ../sass/chunks/_tab_container.scss */
+.tab_content.active {
+  display: block;
+}
+/* line 55, ../sass/chunks/_tab_container.scss */
+.tab_content .content_part {
+  display: none;
+}
+/* line 58, ../sass/chunks/_tab_container.scss */
+.tab_content .content_part.active_part {
+  display: block;
+}
+/* line 63, ../sass/chunks/_tab_container.scss */
+.tab_content .active_part ~ .no_part_chosen {
+  display: none;
+}
+
 /* line 1, ../sass/views/_add_meal.scss */
 #add_meal_day_overview {
   background-color: #fff;
@@ -884,60 +954,7 @@ textarea:focus {
 }
 
 /* line 11, ../sass/views/_add_meal.scss */
-#add_meal_input_header {
-  font-size: 1.125em;
-  padding: 1.6em 0.625em 0.625em;
-  line-height: 1;
-  border-bottom: 1px solid #e2e2e2;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-/* line 21, ../sass/views/_add_meal.scss */
-#add_meal_input_header h1 {
-  margin: 0;
-  font-size: 1em;
-  display: inline-block;
-}
-
-/* line 28, ../sass/views/_add_meal.scss */
-#add_meal_input_navigation {
-  display: inline-block;
-  font-size: 0.88em;
-  margin-left: 2em;
-}
-/* line 33, ../sass/views/_add_meal.scss */
-#add_meal_input_navigation ol {
-  margin: 0;
-  padding: 0;
-}
-/* line 38, ../sass/views/_add_meal.scss */
-#add_meal_input_navigation li {
-  display: inline-block;
-  margin-right: 1em;
-}
-/* line 43, ../sass/views/_add_meal.scss */
-#add_meal_input_navigation a {
-  text-decoration: none;
-}
-
-/* line 49, ../sass/views/_add_meal.scss */
 #add_meal_input {
   float: left;
   width: 87.5%;
-  height: 100%;
-  overflow: auto;
-  box-sizing: border-box;
-  padding-top: 3.6875em;
-  position: relative;
-}
-/* line 58, ../sass/views/_add_meal.scss */
-#add_meal_input .add_meal_step {
-  display: none;
-  padding: 0 0.625em 0.625em;
-}
-/* line 62, ../sass/views/_add_meal.scss */
-#add_meal_input .add_meal_step:target {
-  display: block;
 }
