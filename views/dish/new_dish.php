@@ -7,7 +7,7 @@
 <h4>New dish added</h4>
 			<table>
 				<tbody>
-					<?php /*changed root*/ require_once('views/dish/_dish.php'); ?>
+					<?php require_once('views/dish/_dish.php'); ?>
 				</tbody>
 			</table>
 <?php } ?>

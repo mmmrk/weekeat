@@ -13,10 +13,10 @@
 						<input type="text" name="item" id="item" />
 						<br />
 						<label for="priority">Priority</label>
-						<?php  /*changed root*/ require('views/todo/_priorities.php'); ?>
+						<?php  require('views/todo/_priorities.php'); ?>
 						<br />
 						<label for="status">Status</label>
-						<?php  /*changed root*/ require('views/todo/_statuses.php'); ?>
+						<?php  require('views/todo/_statuses.php'); ?>
 						<br />
 						<input type="submit" value="Submit" />
 					</form>

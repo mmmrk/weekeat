@@ -11,7 +11,7 @@
 						<th>Date:</th>
 						<td><?= $new_meal['date']; ?></td>
 					</tr>
-					<?php /*changed root*/ require('views/dish/_dish.php'); ?>
+					<?php require('views/dish/_dish.php'); ?>
 				</tbody>
 			</table>
 <?php } ?>

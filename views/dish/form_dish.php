@@ -33,7 +33,7 @@
 
 						<div class="input_group">
 							<label for="label_id">Tag</label>
-							<?php /*changed root*/ require('views/tag/_ready_tags.php'); ?>
+							<?php require('views/tag/_ready_tags.php'); ?>
 						</div>	
 
 						<div class="form_footer">

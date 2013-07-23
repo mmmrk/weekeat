@@ -637,6 +637,44 @@ body, #app_container, #app_body {
   background-color: #e3e3e3;
 }
 
+/* line 1, ../sass/units/_forms.scss */
+.input_group {
+  margin-bottom: 0.5em;
+}
+/* line 3, ../sass/units/_forms.scss */
+.input_group label {
+  display: block;
+  margin-bottom: 0.3em;
+}
+/* line 8, ../sass/units/_forms.scss */
+.input_group input, .input_group select, .input_group textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* line 15, ../sass/units/_forms.scss */
+.form_footer {
+  text-align: right;
+  margin: 1.5em 0 0;
+}
+
+/* line 22, ../sass/units/_forms.scss */
+input[type="text"],
+input[type="date"],
+textarea {
+  background-color: #fff;
+  border: 1px solid #c9c9c9;
+  border-bottom-color: #bcbcbc;
+  box-shadow: -1px 2px 3px rgba(0, 0, 0, 0.05) inset;
+  padding: 0.2em 0.5em;
+}
+/* line 29, ../sass/units/_forms.scss */
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus {
+  outline: 1px solid #7fb513;
+}
+
 /* line 1, ../sass/chunks/_calendar_nav.scss */
 #calendar_nav {
   width: 12.82051%;
@@ -851,41 +889,55 @@ body, #app_container, #app_body {
   padding: 1.6em 0.625em 0.625em;
   line-height: 1;
   border-bottom: 1px solid #e2e2e2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
-/* line 17, ../sass/views/_add_meal.scss */
+/* line 21, ../sass/views/_add_meal.scss */
 #add_meal_input_header h1 {
   margin: 0;
   font-size: 1em;
   display: inline-block;
 }
 
-/* line 24, ../sass/views/_add_meal.scss */
+/* line 28, ../sass/views/_add_meal.scss */
 #add_meal_input_navigation {
   display: inline-block;
   font-size: 0.88em;
   margin-left: 2em;
 }
-/* line 29, ../sass/views/_add_meal.scss */
+/* line 33, ../sass/views/_add_meal.scss */
 #add_meal_input_navigation ol {
   margin: 0;
   padding: 0;
 }
-/* line 34, ../sass/views/_add_meal.scss */
+/* line 38, ../sass/views/_add_meal.scss */
 #add_meal_input_navigation li {
   display: inline-block;
   margin-right: 1em;
 }
+/* line 43, ../sass/views/_add_meal.scss */
+#add_meal_input_navigation a {
+  text-decoration: none;
+}
 
-/* line 40, ../sass/views/_add_meal.scss */
+/* line 49, ../sass/views/_add_meal.scss */
 #add_meal_input {
   float: left;
   width: 87.5%;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  padding-top: 3.6875em;
+  position: relative;
 }
-/* line 44, ../sass/views/_add_meal.scss */
+/* line 58, ../sass/views/_add_meal.scss */
 #add_meal_input .add_meal_step {
   display: none;
+  padding: 0 0.625em 0.625em;
 }
-/* line 47, ../sass/views/_add_meal.scss */
+/* line 62, ../sass/views/_add_meal.scss */
 #add_meal_input .add_meal_step:target {
   display: block;
 }

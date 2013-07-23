@@ -13,6 +13,10 @@
 	padding: 1.6em 0.625em 0.625em;
 	line-height: 1;
 	border-bottom: 1px solid $border_gray;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
 
 	h1 {
 		margin: 0;
@@ -35,14 +39,25 @@
 		display: inline-block; 
 		margin-right: 1em;
 	}
+
+	a {
+		text-decoration: none;
+
+	}
 }
 
 #add_meal_input {
 	float: left;
 	width: ((100% / 8) * 7);
+	height: 100%;
+	overflow: auto;
+	box-sizing: border-box;
+	padding-top: 3.6875em;
+	position: relative;
 
 	.add_meal_step {
 		display: none;
+		padding: 0 0.625em 0.625em;
 
 		&:target {
 			display: block;

@@ -1,0 +1,32 @@
+.input_group {
+	margin-bottom: 0.5em;
+	label {
+		display: block;
+		margin-bottom: 0.3em;
+	}
+
+	input, select, textarea {
+		box-sizing: border-box;
+		width: 100%;
+
+	}
+}
+
+.form_footer {
+	text-align: right;
+	margin: 1.5em 0;
+}
+
+input[type="text"],
+input[type="date"],
+textarea {
+	background-color: #fff;
+	border: 1px solid darken($border_gray, 10%);
+	border-bottom-color: darken($border_gray, 15%);
+	box-shadow: -1px 2px 3px rgba(black, .05) inset;
+	padding: 0.2em 0.5em;
+
+	&:focus {
+		outline: 1px solid $brand_green;
+	}
+}
