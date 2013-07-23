@@ -81,7 +81,7 @@ button,
 input,
 select,
 textarea {
-  font-family: 'calibri', tahoma, sans-serif;
+  font-family: "calibri", tahoma, sans-serif;
 }
 
 /*
@@ -213,7 +213,7 @@ kbd,
 pre,
 samp {
   font-family: monospace, serif;
-  _font-family: 'courier new', monospace;
+  _font-family: "courier new", monospace;
   font-size: 1em;
 }
 
@@ -364,7 +364,7 @@ form {
  */
 /* line 361, ../sass/_normalize.scss */
 fieldset {
-  border: 1px solid #c0c0c0;
+  border: 1px solid silver;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
@@ -624,7 +624,7 @@ body, #app_container, #app_body {
 }
 /* line 10, ../sass/units/_tables.scss */
 .table .td.today {
-  background-color: #690   !important;
+  background-color: #669900 !important;
   color: #fff;
 }
 /* line 11, ../sass/units/_tables.scss */
@@ -832,4 +832,60 @@ body, #app_container, #app_body {
 #latest_dishes li p {
   font-style: italic;
   margin: 2px 0;
+}
+
+/* line 1, ../sass/views/_add_meal.scss */
+#add_meal_day_overview {
+  background-color: #fff;
+  border-right: 1px solid #e2e2e2;
+  width: 12.5%;
+}
+/* line 6, ../sass/views/_add_meal.scss */
+#add_meal_day_overview .button {
+  display: none;
+}
+
+/* line 11, ../sass/views/_add_meal.scss */
+#add_meal_input_header {
+  font-size: 1.125em;
+  padding: 1.6em 0.625em 0.625em;
+  line-height: 1;
+  border-bottom: 1px solid #e2e2e2;
+}
+/* line 17, ../sass/views/_add_meal.scss */
+#add_meal_input_header h1 {
+  margin: 0;
+  font-size: 1em;
+  display: inline-block;
+}
+
+/* line 24, ../sass/views/_add_meal.scss */
+#add_meal_input_navigation {
+  display: inline-block;
+  font-size: 0.88em;
+  margin-left: 2em;
+}
+/* line 29, ../sass/views/_add_meal.scss */
+#add_meal_input_navigation ol {
+  margin: 0;
+  padding: 0;
+}
+/* line 34, ../sass/views/_add_meal.scss */
+#add_meal_input_navigation li {
+  display: inline-block;
+  margin-right: 1em;
+}
+
+/* line 40, ../sass/views/_add_meal.scss */
+#add_meal_input {
+  float: left;
+  width: 87.5%;
+}
+/* line 44, ../sass/views/_add_meal.scss */
+#add_meal_input .add_meal_step {
+  display: none;
+}
+/* line 47, ../sass/views/_add_meal.scss */
+#add_meal_input .add_meal_step:target {
+  display: block;
 }

@@ -1,0 +1,51 @@
+#add_meal_day_overview {
+	background-color: #fff;
+	border-right: 1px solid $border_gray;
+	width: (100% / 8);
+
+	.button {
+		display: none;
+	}
+}
+
+#add_meal_input_header {
+	font-size: 1.125em;
+	padding: 1.6em 0.625em 0.625em;
+	line-height: 1;
+	border-bottom: 1px solid $border_gray;
+
+	h1 {
+		margin: 0;
+		font-size: 1em;
+		display: inline-block;
+	}
+}
+
+#add_meal_input_navigation {
+	display: inline-block;
+	font-size: 0.88em;
+	margin-left: 2em;
+	
+	ol {
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		display: inline-block; 
+		margin-right: 1em;
+	}
+}
+
+#add_meal_input {
+	float: left;
+	width: ((100% / 8) * 7);
+
+	.add_meal_step {
+		display: none;
+
+		&:target {
+			display: block;
+		}
+	}
+}

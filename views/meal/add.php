@@ -23,9 +23,9 @@
 		<h1>Add meal</h1>
 		<nav id="add_meal_input_navigation">
 			<ol>
-				<li><a href="#add_meal_step_1">Select method</a></li>
-				<li><a href="#add_meal_step_2">Select dish</a></li>
-				<li><a href="#add_meal_step_3">Add meal details</a></li>
+				<li><a href="#add_meal_step_1">1. Select method</a></li>
+				<li><a href="#add_meal_step_2">2. Select dish</a></li>
+				<li><a href="#add_meal_step_3">3. Add meal details</a></li>
 			</ol>
 		</nav>
 	</div>
