@@ -1,5 +1,5 @@
 <?php
-	class Calendar {
+	class CalendarView {
 		private $today 		= array();
 		private $active_day	= array();
 		private $month 		= array(

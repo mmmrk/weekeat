@@ -14,8 +14,9 @@
 	</head>
 	<body>
 		<?php
+			require_once('lib.php');
+			require_once('app.php');
 			require_once('controllers.php');
-			require_once('tools_helpers/helpers.php');
 		?>
 		<div id="app_container">
 			<?php
