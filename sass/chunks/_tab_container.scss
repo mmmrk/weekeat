@@ -1,4 +1,4 @@
-.tabbed_container {
+.tab_container {
 	height: 100%;
 	overflow: auto;
 	box-sizing: border-box;
@@ -6,7 +6,7 @@
 	position: relative;
 }
 
-.tabbed_container_header {
+.tab_container_header {
 	font-size: 1.125em;
 	padding: 1.6em 0.625em 0.625em;
 	line-height: 1;
@@ -23,7 +23,7 @@
 	}
 }
 
-.tab_container {
+.tab_list {
 	display: inline-block;
 	font-size: 0.88em;
 	margin-left: 2em;

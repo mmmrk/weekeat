@@ -1,6 +1,6 @@
 var tabbed_container = {
 	set_vars: function () {
-		this.$container = $('.tabbed_container');
+		this.$container = $('.tab_container');
 		this.$tabs = this.$container.find('.tab');
 		this.$tab_content = this.$container.find('.tab_content');
 	},

@@ -18,10 +18,10 @@
 	</div>
 <?php } ?>
 
-<div id="add_meal_input" class="tabbed_container">
-	<div class="tabbed_container_header">
+<div id="add_meal_input" class="tab_container">
+	<div class="tab_container_header">
 		<h1>Add meal</h1>
-		<nav class="tab_container">
+		<nav class="tab_list">
 			<ol>
 				<li class="tab active"><a href="#add_meal_step_1">1. Select method</a></li>
 				<li class="tab"><a href="#add_meal_step_2">2. Select dish</a></li>
@@ -30,7 +30,7 @@
 		</nav>
 	</div>
 	
-	<div class="tabbed_container_body">
+	<div class="tab_container_body">
 		<div id="add_meal_step_1" class="tab_content active">
 			<h2>1. Select method</h2>
 

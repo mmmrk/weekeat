@@ -873,7 +873,7 @@ textarea:focus {
 }
 
 /* line 1, ../sass/chunks/_tab_container.scss */
-.tabbed_container {
+.tab_container {
   height: 100%;
   overflow: auto;
   box-sizing: border-box;
@@ -882,7 +882,7 @@ textarea:focus {
 }
 
 /* line 9, ../sass/chunks/_tab_container.scss */
-.tabbed_container_header {
+.tab_container_header {
   font-size: 1.125em;
   padding: 1.6em 0.625em 0.625em;
   line-height: 1;
@@ -893,30 +893,30 @@ textarea:focus {
   right: 0;
 }
 /* line 19, ../sass/chunks/_tab_container.scss */
-.tabbed_container_header h1 {
+.tab_container_header h1 {
   margin: 0;
   font-size: 1em;
   display: inline-block;
 }
 
 /* line 26, ../sass/chunks/_tab_container.scss */
-.tab_container {
+.tab_list {
   display: inline-block;
   font-size: 0.88em;
   margin-left: 2em;
 }
 /* line 31, ../sass/chunks/_tab_container.scss */
-.tab_container ol, .tab_container ul {
+.tab_list ol, .tab_list ul {
   margin: 0;
   padding: 0;
 }
 /* line 36, ../sass/chunks/_tab_container.scss */
-.tab_container li {
+.tab_list li {
   display: inline-block;
   margin-right: 1em;
 }
 /* line 41, ../sass/chunks/_tab_container.scss */
-.tab_container a {
+.tab_list a {
   text-decoration: none;
 }
 
