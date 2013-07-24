@@ -6,6 +6,6 @@
 		$calendar = $meal_calendar['calendar'];
 
 		require('_week.php');
-		require('_month.php');
-		require('_latest_dishes.php');
-} ?>
+		require('_sidebar.php');
+	}
+?>

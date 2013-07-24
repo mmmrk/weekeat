@@ -81,7 +81,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "calibri", tahoma, sans-serif;
+  font-family: 'calibri', tahoma, sans-serif;
 }
 
 /*
@@ -213,7 +213,7 @@ kbd,
 pre,
 samp {
   font-family: monospace, serif;
-  _font-family: "courier new", monospace;
+  _font-family: 'courier new', monospace;
   font-size: 1em;
 }
 
@@ -364,7 +364,7 @@ form {
  */
 /* line 361, ../sass/_normalize.scss */
 fieldset {
-  border: 1px solid silver;
+  border: 1px solid #c0c0c0;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
@@ -624,7 +624,7 @@ body, #app_container, #app_body {
 }
 /* line 10, ../sass/units/_tables.scss */
 .table .td.today {
-  background-color: #669900 !important;
+  background-color: #690   !important;
   color: #fff;
 }
 /* line 11, ../sass/units/_tables.scss */
@@ -675,42 +675,65 @@ textarea:focus {
   outline: 1px solid #7fb513;
 }
 
-/* line 1, ../sass/chunks/_calendar_nav.scss */
-#calendar_nav {
+/* line 1, ../sass/chunks/_sidebar.scss */
+#sidebar {
   width: 12.82051%;
-  height: 200px;
   float: right;
 }
-/* line 9, ../sass/chunks/_calendar_nav.scss */
+
+/* line 6, ../sass/chunks/_sidebar.scss */
+#calendar_nav {
+  height: 200px;
+}
+/* line 13, ../sass/chunks/_sidebar.scss */
 #calendar_nav header {
   padding: 2px;
 }
-/* line 10, ../sass/chunks/_calendar_nav.scss */
+/* line 14, ../sass/chunks/_sidebar.scss */
 #calendar_nav h3 {
   text-align: center;
 }
-/* line 15, ../sass/chunks/_calendar_nav.scss */
+/* line 19, ../sass/chunks/_sidebar.scss */
 #calendar_nav a:hover,
 #calendar_nav a:active {
   color: #fff;
   text-decoration: none;
 }
-/* line 19, ../sass/chunks/_calendar_nav.scss */
+/* line 23, ../sass/chunks/_sidebar.scss */
 #calendar_nav a {
   color: inherit;
   text-decoration: none;
 }
-/* line 21, ../sass/chunks/_calendar_nav.scss */
+/* line 25, ../sass/chunks/_sidebar.scss */
 #calendar_nav .day.booked {
   font-weight: bold !important;
 }
-/* line 22, ../sass/chunks/_calendar_nav.scss */
+/* line 26, ../sass/chunks/_sidebar.scss */
 #calendar_nav .day {
   text-align: center;
 }
-/* line 23, ../sass/chunks/_calendar_nav.scss */
+/* line 27, ../sass/chunks/_sidebar.scss */
 #calendar_nav .table {
   width: 100%;
+}
+
+/* line 32, ../sass/chunks/_sidebar.scss */
+#latest_dishes li {
+  list-style: none inside none;
+  border-bottom: 1px solid #e2e2e2;
+}
+/* line 37, ../sass/chunks/_sidebar.scss */
+#latest_dishes li h4 {
+  margin: 3px 0;
+}
+/* line 41, ../sass/chunks/_sidebar.scss */
+#latest_dishes li time {
+  font-size: 0.75em;
+}
+/* line 46, ../sass/chunks/_sidebar.scss */
+#latest_dishes li p {
+  font-style: italic;
+  margin: 2px 0;
 }
 
 /* line 1, ../sass/chunks/_week_calendar.scss */
@@ -846,30 +869,6 @@ textarea:focus {
 /* line 125, ../sass/chunks/_week_calendar.scss */
 .meal_list .meal_item ~ .meal_item {
   margin-top: 3em;
-}
-
-/* line 1, ../sass/chunks/_latest_dishes.scss */
-#latest_dishes {
-  width: 12.82051%;
-  float: right;
-}
-/* line 5, ../sass/chunks/_latest_dishes.scss */
-#latest_dishes li {
-  list-style: none inside none;
-  border-bottom: 1px solid #e2e2e2;
-}
-/* line 10, ../sass/chunks/_latest_dishes.scss */
-#latest_dishes li h4 {
-  margin: 3px 0;
-}
-/* line 14, ../sass/chunks/_latest_dishes.scss */
-#latest_dishes li time {
-  font-size: 0.75em;
-}
-/* line 19, ../sass/chunks/_latest_dishes.scss */
-#latest_dishes li p {
-  font-style: italic;
-  margin: 2px 0;
 }
 
 /* line 1, ../sass/chunks/_tab_container.scss */
