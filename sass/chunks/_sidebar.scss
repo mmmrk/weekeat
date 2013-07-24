@@ -1,7 +1,11 @@
-#calendar_nav {
+#sidebar {
 	width: space(1, 8);
-	height: 200px;
 	float: right;
+}
+
+#calendar_nav {
+	//width: space(1, 8);
+	height: 200px;
 
 
 	//width: 100%/8;
@@ -22,4 +26,27 @@
 	.day	{ text-align: center; }
 	.table	{ width: 100%; }
 	
+}
+
+#latest_dishes {
+	li { 
+		list-style: none inside none;
+
+		border-bottom: 1px solid $border_gray;
+	
+		h4 { 
+			margin: 3px 0;
+		}
+
+		time { 
+			//float: right;
+			font-size: 0.75em;
+		}
+
+		p {
+			font-style: italic;
+			margin: 2px 0;
+		}
+	}
+
 }
