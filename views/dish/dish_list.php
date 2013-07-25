@@ -7,7 +7,6 @@
 				<thead>
 					<tr>
 						<th>Dish</th>
-						<th>Description</th>
 						<th>Tags</th>
 						<th>Add Date</th>
 					</tr>
@@ -19,7 +18,6 @@
 					?>
 <tr class="<?= $dish['row_class']; ?>">
 						<td><?= $dish['name']; ?></td>
-						<td><?= $dish['description']; ?></td>
 						<td>
 							<?php
 								for ($i=0; $i++; $i<$tagcount) {
@@ -30,12 +28,6 @@
 						</td>
 						<td><?= $dish['created_at']; ?></td>
 					</tr>
-					<?php
-						for($i=1; $i<$tagcount; $i++)
-							echo '<tr class="' . $dish['row_class'] . '"><td>' . $dish['tags'][$i] . "</td></tr>\n\t\t\t\t\t";
-						}
- 					?>
-
  				</tbody>
 			</table>
 <?php } ?>
