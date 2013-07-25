@@ -13,4 +13,12 @@
 	.icon {
 		font-style: normal;
 	}
+
+	&.confirm {
+		background-color: $brand_green;
+	}
+
+	&.discrete {
+		background-color: white;
+	}
 }

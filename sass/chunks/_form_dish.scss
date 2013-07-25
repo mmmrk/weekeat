@@ -1,0 +1,7 @@
+.form_col {
+	@include span-columns(6);
+
+	& + .form_col {
+		margin-right: 0;
+	}
+}

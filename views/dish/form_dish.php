@@ -11,33 +11,37 @@
 						<h2><?php echo($form_dish_heading); ?></h2>
 						<input type="hidden" name="new_meal" id="new_meal" value="1" />
 
-						<div class="input_group required">
-							<label for="new_dish_name">Dish name</label>
-							<input type="text" name="name" id="new_dish_name">
-						</div>
-						
-						<div class="input_group required">
-							<label for="new_dish_description">Description</label>
-							<textarea type="date" name="description" id="new_dish_description"cols="75" rows="3"></textarea>
-						</div>	
-						
-						<div class="input_group">
-							<label for="new_dish_recipe">Recipe</label>
-							<textarea type="date" name="description" id="new_dish_recipe" cols="75" rows="10"></textarea>
-						</div>	
+						<div class="form_col">
+							<div class="input_group required">
+								<label for="new_dish_name">Dish name</label>
+								<input type="text" name="name" id="new_dish_name">
+							</div>
 
-						<div class="input_group">
-							<label for="new_dish_url">URL</label>
-							<input type="text" name="name" id="new_dish_url">
+							<div class="input_group required">
+								<label for="new_dish_description">Description</label>
+								<textarea type="date" name="description" id="new_dish_description"cols="75" rows="3"></textarea>
+							</div>
+
+							<div class="input_group">
+								<label for="new_dish_recipe">Recipe</label>
+								<textarea type="date" name="description" id="new_dish_recipe" cols="75" rows="10"></textarea>
+							</div>
 						</div>
 
-						<div class="input_group">
-							<label for="label_id">Tag</label>
-							<?php require('views/tag/_ready_tags.php'); ?>
-						</div>	
+						<div class="form_col">
+							<div class="input_group">
+								<label for="new_dish_url">URL</label>
+								<input type="text" name="name" id="new_dish_url">
+							</div>
+
+							<div class="input_group">
+								<label for="label_id">Tag</label>
+								<?php require('views/tag/_ready_tags.php'); ?>
+							</div>
+						</div>
 
 						<div class="form_footer">
-							<input type="submit" value="Submit" />
+							<input type="submit" value="Add dish" class="button confirm"/>
 						</div>
 					</form>
 				<?php #} ?>
