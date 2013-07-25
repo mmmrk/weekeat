@@ -1,7 +1,8 @@
 <?php
-	if (isset($dish_list) && $dish_list['error'])
-		echo '<p class="error">' . $dish_list['error']['id'] . '. ' . $dish_list['error']['message'] . '</p>';
-	else if (isset($dish_list) && !$dish_list['error']) {
+	var_dump($app->view_data);
+	if (isset($app->view_data['list_view']) && $app->view_data['list_view']['error'])
+		echo '<p class="error">' . $app->view_data['list_view']['error']['id'] . '. ' . $app->view_data['list_view']['error']['message'] . '</p>';
+	else if (isset($app->view_data['list_view']) && !$app->view_data['list_view']['error']) {
 ?>
 <table id="dish_list">
 				<thead>
@@ -13,7 +14,7 @@
 				</thead>
 				<tbody>
 					<?php
-						foreach ($dish_list['dishes'] as $dish) {
+						foreach ($app->view_data['list_view']['dishes'] as $dish) {
 							$tagcount = count($dish['tags']);
 					?>
 					<tr class="<?= $dish['row_class']; ?>">

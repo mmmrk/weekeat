@@ -7,7 +7,7 @@
 						*/
 						$form_dish_heading = (isset($form_dish_heading)) ? $form_dish_heading : 'New dish';
 					?>
-					<form id="new_dish" action="<?= $_SERVER['PHP_SELF'] . '?manage=show&view=new'; ?>" method="post">
+					<form id="new_dish" action="<?= $_SERVER['PHP_SELF'] . '?section=dish&view=create'; ?>" method="post">
 						<h2><?php echo($form_dish_heading); ?></h2>
 						<input type="hidden" name="new_meal" id="new_meal" value="1" />
 
