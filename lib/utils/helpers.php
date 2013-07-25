@@ -41,13 +41,4 @@
 
 		return (is_date($date)) ? $date : false; 
 	}
-
-	function get_request_method() {
-		return $_SERVER['REQUEST_METHOD'];
-	}
-
-	// may not be needed
-	function get_request_path() {
-		return !is_null(@$_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-	}
 ?>

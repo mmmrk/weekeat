@@ -2,6 +2,8 @@
 	class TagController {
 
 		public static function add () {
+			$db = Boot::$db;
+
 			$form_tag = array(
 				'error' => false
 			);
@@ -16,6 +18,8 @@
 		}
 
 		public static function create () {
+			$db = Boot::$db;
+
 			$new_tag = array (
 				'error' => false
 			);
@@ -42,7 +46,9 @@
 			return $new_tag;
 		}
 
-		public static function get_statistics () {
+		public static function statistics () {
+			$db = Boot::$db;
+			
 			$tag_statistics = array (
 				'error' => false
 			);

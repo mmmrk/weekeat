@@ -2,6 +2,8 @@
 	class MealController {
 
 		public static function add () {
+			$db = Boot::$db;
+			
 			$form_meal = array (
 				'error' => false
 			);
@@ -31,6 +33,8 @@
 		}
 
 		public static function create () {
+			$db = Boot::$db;
+
 			$new_meal = array (
 				'error' => false
 			);
@@ -107,7 +111,9 @@
 			return $new_meal;
 		}
 
-		public static function get_statistics () {
+		public static function statistics () {
+			$db = Boot::$db;
+
 			$meal_statistics = array (
 				'error' => false
 			);
@@ -131,13 +137,15 @@
 		}
 
 		public static function calendar_week () {
+			$db = Boot::$db;
+
 			$meal_calendar = array (
 				'error' => false
 			);
 
 			$date = (isset($_GET['date']) && is_date($_GET['date'])) ? strtotime($_GET['date']) : time(); 
 
-			$calendar  = new Calendar($date);
+			$calendar  = new CalendarView($date);
 			$first_day = $calendar->first_day();
 			$last_day  = $calendar->last_day();
 
@@ -181,7 +189,9 @@
 			return $meal_calendar;
 		}
 
-		public static function get_list () {
+		public static function list_view () {
+			$db = Boot::$db;
+
 			$meal_list = array (
 				'error' => false
 			);
