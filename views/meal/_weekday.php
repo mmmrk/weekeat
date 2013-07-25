@@ -1,6 +1,6 @@
 <h3><?= $day['date']['weekday']; ?> <time datetime="<?= $day['date']['string']; ?>" class="date"><?= $day['date']['day_short']; ?></time></h3>
 	<ul class="meal_list">
-	<?php 
+	<?php
 		//FOREACH MEAL ITEM ON THIS DAY
 		if ($meal) { ?>
 		<li class="meal_item">
@@ -17,10 +17,10 @@
 				<?= "<li>SHOPPING LIST</li>"//$meal['shopping_list']; ?>
 			</ul>
 	<?php }
-	  else { ?>
+		else { ?>
 		<li class="no_meals_item">
 			<p>No meals today</p>
-			<p><a class="button" href="?view=meal&amp;action=add&amp;date=<?php echo $day['date']['string']; ?>"><i class="icon">+</i> Add a meal</a></p>
+			<p><a class="button action" href="?view=meal&amp;action=add&amp;date=<?php echo $day['date']['string']; ?>"><i class="icon">+</i> Add a meal</a></p>
 		</li>
 	<?php } ?>
 	</ul>

@@ -29,7 +29,7 @@
 			</ol>
 		</nav>
 	</div>
-	
+
 	<div class="tab_container_body">
 		<div id="add_meal_step_1" class="tab_content active">
 			<h2>1. Select method</h2>
@@ -37,13 +37,13 @@
 			<a href="#add_meal_step_2" class="content_part_toggle tab_nav_link" data-part="2.1">Add from list</a>
 			<a href="#add_meal_step_2" class="content_part_toggle tab_nav_link" data-part="2.2">Add from form</a>
 		</div>
-		
+
 		<div id="add_meal_step_2" class="tab_content">
 			<div class="content_part content_part_1">
 				<h2>2. Add from list</h2>
-		
+
 				<?php
-					require('views/dish/dish_list.php'); 
+					require('views/dish/dish_list.php');
 				?>
 			</div>
 
@@ -60,7 +60,7 @@
 				</p>
 			</div>
 		</div>
-		
+
 		<div id="add_meal_step_3" class="tab_content">
 			<h2>3. Meal details</h2>
 

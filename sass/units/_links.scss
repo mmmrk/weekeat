@@ -1,24 +1,56 @@
 .button {
 	display: inline-block;
-	padding: 0.5em 1em;
-	background: #666;
+	position: relative;
+	padding: 0.3em 0.5em 0.4em;
+	background-color: #bababa;
 	color: white;
 	text-align: center;
-	border-radius: 0.125em;
-	border: 1px solid rgba(black, .2);
-	border-bottom-color: rgba(black, .4);
 	text-decoration: none;
-	text-shadow: 0 -1px 1px rgba(black, 0.8), 0 1px 1px rgba(white, 0.2);
+	border-radius: 2px;
+	border: 1px solid rgba(black, .15);
+	box-shadow: 0 1px 3px rgba(black, 0.2);
+
+	&:before {
+		content: ' ';
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		@include radial-gradient(ellipse at 50% 0, rgba(white, 0.15) 0%, rgba(white, 0) 100%);
+		background-color: transparent;
+	}
+
+	&:after {
+		content: ' ';
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-top: 1px solid rgba(white, .17);
+		border-radius: 1px;
+	}
+
+	&:hover:after {
+		background-color: rgba(white, .1);
+	}
 
 	.icon {
 		font-style: normal;
 	}
 
 	&.confirm {
-		background-color: $brand_green;
+		background-color: $green;
 	}
 
-	&.discrete {
-		background-color: white;
+	&.cancel {
+		background-color: $red;
+	}
+
+	&.action {
+		background-color: $blue;
 	}
 }

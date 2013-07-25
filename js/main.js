@@ -1,4 +1,4 @@
-var tabbed_container = {
+var tab_container = {
 	set_vars: function () {
 		this.$container = $('.tab_container');
 		this.$tabs = this.$container.find('.tab');
@@ -11,7 +11,7 @@ var tabbed_container = {
 
 		previous.removeClass('active');
 		next.addClass('active');
-		
+
 	},
 	part_toggle: function (toggler) {
 		var query = toggler.data('part').toString().split('.'),
@@ -48,5 +48,5 @@ var tabbed_container = {
 };
 
 $(function () {
-	tabbed_container.init();
+	tab_container.init();
 });
