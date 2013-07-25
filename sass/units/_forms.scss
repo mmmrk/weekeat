@@ -1,14 +1,19 @@
 .input_group {
 	margin-bottom: 0.5em;
+
 	label {
 		display: block;
 		margin-bottom: 0.3em;
 	}
 
+	&.required label:after {
+		content: ' *';
+		vertical-align: top;
+	}
+
 	input, select, textarea {
 		box-sizing: border-box;
 		width: 100%;
-
 	}
 }
 

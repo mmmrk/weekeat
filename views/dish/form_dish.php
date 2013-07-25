@@ -41,7 +41,7 @@
 						</div>
 
 						<div class="form_footer">
-							<input type="submit" value="Add dish" class="button confirm"/>
+							<button type="button" class="button confirm">Use dish</button>
 						</div>
 					</form>
 				<?php #} ?>
