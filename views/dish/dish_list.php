@@ -16,7 +16,7 @@
 						foreach ($dish_list['dishes'] as $dish) {
 							$tagcount = count($dish['tags']);
 					?>
-<tr class="<?= $dish['row_class']; ?>">
+					<tr class="<?= $dish['row_class']; ?>">
 						<td><?= $dish['name']; ?></td>
 						<td>
 							<?php
@@ -28,6 +28,7 @@
 						</td>
 						<td><?= $dish['created_at']; ?></td>
 					</tr>
+					<?php } ?>
  				</tbody>
 			</table>
 <?php } ?>
