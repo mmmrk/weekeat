@@ -2,6 +2,8 @@
 	class DishController {
 
 		public static function add () {
+			$db = Boot::$db;
+
 			$form_dish = array(
 				'error' => false
 			);
@@ -25,6 +27,8 @@
 		}
 
 		public static function create () {
+			$db = Boot::$db;
+
 			$new_dish = array (
 				'error' => false
 			);
@@ -87,7 +91,9 @@
 			return $new_dish;
 		}
 
-		public static function get_statistics () {
+		public static function statistics () {
+			$db = Boot::$db;
+
 			$dish_statistics = array (
 				'error' => false
 			);
@@ -128,7 +134,9 @@
 			return $dish_statistics;
 		}
 
-		public static function get_list () {
+		public static function list_view () {
+			$db = Boot::$db;
+
 			$dish_list = array (
 				'error' => false
 			);
@@ -176,6 +184,8 @@
 		}
 
 		public static function get_latest () {
+			$db = Boot::$db;
+
 			$dish_list_latest = array (
 				'error' => false
 			);
@@ -212,6 +222,8 @@
 
 		// NEEDS REBUILDING - CODE + DB
 		public static function dish_of_the_day () {
+			$db = Boot::$db;
+			
 			$dish_of_the_day = array(
 				'error' => false
 			);

@@ -5,8 +5,8 @@
 							$ready_dishes = $form_meal['ready_dishes'];
 							$ready_tags = $form_meal['ready_tags'];
 					?>
-					<form id="form_meal" action="<?= $_SERVER['PHP_SELF'] . '?manage=show&view=new'; ?>" method="post">
-						<span>New Eatage</span>
+					<form id="form_meal" action="<?= $_SERVER['PHP_SELF'] . '?section=meal&page=create'; ?>" method="post">
+						<span>New Meal</span>
 						<br />
 						<input type="hidden" name="new_meal" id="new_meal" value="1" />
 						<label for="date">Date</label>

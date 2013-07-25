@@ -17,14 +17,14 @@
 			require_once('lib.php');
 			require_once('app.php');
 			require_once('controllers.php');
-		?>
-		<div id="app_container">
-			<?php
-				require_once('views/app/header.php');
-				require_once('views/app/body.php');
-			?>
-		</div>
 
+			$app = new Boot();
+
+			require_once('app/routes.php');
+
+			require_once('views/app/application.php');
+		?>
+		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 		<script src="js/main.js"></script>

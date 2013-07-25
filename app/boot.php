@@ -1,10 +1,21 @@
 <?php
 	class Boot extends Application {
-		public $db, $request_method, $params;
+		public static $db;
+
+		public $params, $route;
+		public $error, $current_date, $display_date, $todays_dishes, $site_params, $view_data;
 
 		public function __construct () {
-			$this->request_method = get_request_method();
-			$this->db_init(DbConfig::$server, DbConfig::$database, DbConfig::$username, DbConfig::$password);
+			$this->error = false;
+			$this->current_date = date('Y-m-d');
+			
+			$this->set_params();
+
+			$this->set_route($this->params['GET']);
+			$this->collect_site_params($this->params);
+			//$this->set_display_date_from_collection($this->site_params['GET']);
+			
+			self::db_init(DbConfig::$server, DbConfig::$database, DbConfig::$username, DbConfig::$password);
 		}
 
 		public function set_params () {
@@ -12,13 +23,93 @@
 				'GET' => $_GET,
 				'POST' => $_POST
 			);
+
+/*			if (!isset($this->params['GET']['section']))
+				$this->params['GET']['section'] = AppConfig::$default_section;
+
+			if (!isset($this->params['GET']['page']))
+				$this->params['GET']['page'] = false;
+
+			if (!isset($this->params['GET']['action']))
+				$this->params['GET']['action'] = false;
+*/
 		}
 
-		public function db_init ($server, $database, $username, $password) {
-			if (!isset($this->db)) {
-				$this->db = new dbh($server, $username, $password);
-				$this->db->use_db($database);
+		public static function db_init ($server, $database, $username, $password) {
+			if (!isset(self::$db)) {
+				self::$db = new dbh($server, $username, $password);
+				self::$db->use_db($database);
 			}
+		}
+
+		public function call_controller ($controller, $function, $args) {
+			if (!$this->page_exists($controller, $function))
+				return false;
+
+			$safe_controller = ucfirst($controller) . 'Controller';
+
+			if (!is_callable($safe_controller, $function))
+				return false;
+
+			$safe_args = (!is_array($args)) ? array($args) : $args;
+
+			return call_user_func_array(array($safe_controller, $function), $safe_args);
+		}
+
+		private function collect_site_params ($params) {
+			$this->site_params = array ();
+
+			foreach ($params as $param_collection => $collection) {
+				if (empty($collection))
+					$this->site_params[$param_collection] = array();
+				else {
+					if (!array_key_exists($param_collection, $this->site_params))
+						$this->site_params[$param_collection] = array();
+
+					foreach ($collection as $param_key => $param_value)
+						if ($param_key != 'section' && $param_key != 'page' && $param_key != 'action')
+							$this->site_params[$param_collection][$param_key] = $param_value;
+				}
+			}
+		}
+
+		private function set_route ($params) {
+			$this->route = array(
+				'section' => $this->get_current_section($params),
+				'page' => $this->get_current_page($params)
+			);
+		}
+		
+		private function section_exists ($section) {
+			return array_key_exists($section, AppConfig::$sitemap);
+		}
+
+		private function page_exists ($section, $page) {
+			return ($this->section_exists($section) && in_array($page, AppConfig::$sitemap[$section]));
+		}
+
+		public function get_current_section ($url_params) {
+			if (!isset($url_params['section']))
+				return AppConfig::$default_section;
+
+			return ($this->section_exists($url_params['section'])) ? $url_params['section'] : AppConfig::$default_section;
+		}
+
+		public function get_current_page ($url_params) {
+			if (!isset($url_params['page']))
+				return AppConfig::$default_page[$this->get_current_section($url_params)];
+
+			return (isset($url_params['action']) || $this->page_exists($url_params['section'], $url_params['page'])) ? $url_params['page'] : AppConfig::$default_page[$this->get_current_section($url_params)];
+		}
+
+		public function set_display_date($date) {
+			$this->display_date = (is_date($date)) ? $date : $this->current_date;
+		}
+
+		private function set_display_date_from_collection ($collection) {
+			$date = (array_key_exists($collection, 'date')) ? $collection['date'] : $this->current_date;
+
+			$this->set_display_date($date);
 		}
 	}
 

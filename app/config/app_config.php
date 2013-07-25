@@ -2,34 +2,38 @@
 	final class AppConfig {
 		
 		public static $sitemap = array (
-			'meals' => array (
+			'meal' => array (
 				'calendar_week',
 				'calendar_month',
 				'add',
 				'create',
 				'show',
-				'list'
+				'list_view'
 			),
-			'admin' => array (
-				'form'
+			'dish' => array (
+				'list_view',
+				'add',
+				'create',
+				'show',
 			),
-			'statistics' => array (
-				'show'
+			'app' => array (
+				'admin',
+				'statistics'
 			),
 			'todo' => array (
 				'form',
 				'create',
-				'list'
+				'list_view'
 			)
 		);
 
-		public static $default_section = 'meals';
+		public static $default_section = 'meal';
 
-		public static $default_action = array (
-			'meals' 		=> 'calendar_week',
-			'admin' 		=> 'form',
-			'statistics' 	=> 'show',
-			'todo' 			=> 'list'
+		public static $default_page = array (
+			'meal' 			=> 'calendar_week',
+			'dish'			=> 'list_view',
+			'app' 			=> 'admin',
+			'todo' 			=> 'list_view'
 		);
 	}
 ?>

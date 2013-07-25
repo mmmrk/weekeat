@@ -5,7 +5,7 @@
 							$priorities = $form_todo['priorities'];
 							$statuses	= $form_todo['statuses'];
 					?>
-					<form id="form_todo" action="<?= $_SERVER['PHP_SELF'] . '?manage=show&view=new'; ?>" method="post">
+					<form id="form_todo" action="<?= $_SERVER['PHP_SELF'] . '?section=todo&page=create'; ?>" method="post">
 						<span>New Todo</span>
 						<br />
 						<input type="hidden" name="new_todo" id="new_todo" value="1" />

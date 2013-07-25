@@ -2,6 +2,8 @@
 	class TodoController {
 
 		public static function form () {
+			$db = Boot::$db;
+
 			$form_todo = array(
 				'error' => false
 			);
@@ -35,6 +37,8 @@
 		}
 
 		public static function create () {
+			$db = Boot::$db;
+
 			$new_todo = array (
 				'error' => false
 			);
@@ -70,7 +74,9 @@
 			return $new_todo;
 		}
 
-		public static function get_list () {
+		public static function list_view () {
+			$db = Boot::$db;
+			
 			$todo_list = array (
 				'error' => false
 			);

@@ -1,7 +1,7 @@
 <?php
-	if (isset($todo_list) && $todo_list['error'])
-		echo '<p class="error">' . $todo_list['error']['id'] . '. ' . $todo_list['error']['message'] . '</p>';
-	else if (isset($todo_list) && !$todo_list['error']) {
+	if (isset($app->view_data['list_view']) && $app->view_data['list_view']['error'])
+		echo '<p class="error">' . $app->view_data['list_view']['error']['id'] . '. ' . $app->view_data['list_view']['error']['message'] . '</p>';
+	else if (isset($app->view_data['list_view']) && !$app->view_data['list_view']['error']) {
 ?>
 <table id="todo_list">
 				<thead>
@@ -15,7 +15,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($todo_list['todos'] as $todo) { ?>
+					<?php foreach ($app->view_data['list_view']['todos'] as $todo) { ?>
 <tr class="<?= $todo['row_class']; ?>">
 						<td><?= $todo['id']; ?></td>
 						<td><?= $todo['item']; ?></td>
