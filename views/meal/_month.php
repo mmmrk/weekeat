@@ -24,7 +24,7 @@
 						$today_content = (array_key_exists($day['date']['string'], $meals)) ? $meals[$day['date']['string']] : '';
 				?>	
 					<div class="td day<?= !empty($today_content) ? ' booked' : ''; ?><?= ($day['date']['string'] == $app_data['curdate']) ? ' today' : ''; ?>">
-						<?= '<a href="' . $_SERVER['PHP_SELF'] . '?view=calendar&date=' . $day['date']['string'] .'">' . $day['date']['day'] . '</a>'; ?>
+						<?= '<a href="' . $_SERVER['PHP_SELF'] . '?section=meal&date=' . $day['date']['string'] .'">' . $day['date']['day'] . '</a>'; ?>
 					</div>
 				<?php } ?>
 			</div>
