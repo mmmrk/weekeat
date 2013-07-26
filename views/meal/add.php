@@ -1,4 +1,4 @@
-<?php if (isset($_GET['date'])) { ?>
+<?php if (isset($app->site_params['GET']['date'], $app->display_date)) { ?>
 	<div id="add_meal_day_overview" class="week_calendar_item">
 		<?php
 			# move variables to controller
@@ -37,7 +37,7 @@
 				<h2>1. Select method</h2>
 
 				<p>
-					<a href="#add_meal_step_2" class="content_part_toggle tab_nav_link" data-part="2.1">
+					<a href="<?= (false) ? $app->get_current_url(true, true, false) . '&action=from_dish&date=' . $app->display_date : ''; ?>#add_meal_step_2" class="content_part_toggle tab_nav_link" data-part="2.1">
 						<label for="add_meal_method_false">Add from list</label>
 						<input name="add_meal_method_new" id="add_meal_method_false" type="radio" value="false">
 					</a>

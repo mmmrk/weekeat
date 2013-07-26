@@ -13,7 +13,7 @@
 
 			$this->set_route($this->params['GET']);
 			$this->collect_site_params($this->params);
-			//$this->set_display_date_from_collection($this->site_params['GET']);
+			$this->set_display_date_from_collection($this->site_params['GET']);
 			
 			self::db_init(DbConfig::$server, DbConfig::$database, DbConfig::$username, DbConfig::$password);
 		}
@@ -23,16 +23,6 @@
 				'GET' => $_GET,
 				'POST' => $_POST
 			);
-
-/*			if (!isset($this->params['GET']['section']))
-				$this->params['GET']['section'] = AppConfig::$default_section;
-
-			if (!isset($this->params['GET']['page']))
-				$this->params['GET']['page'] = false;
-
-			if (!isset($this->params['GET']['action']))
-				$this->params['GET']['action'] = false;
-*/
 		}
 
 		public static function db_init ($server, $database, $username, $password) {
@@ -42,10 +32,7 @@
 			}
 		}
 
-		public function call_controller ($controller, $function, $args) {
-			if (!$this->page_exists($controller, $function))
-				return false;
-
+		public function call_controller ($controller, $function, $args=false) {
 			$safe_controller = ucfirst($controller) . 'Controller';
 
 			if (!is_callable($safe_controller, $function))
@@ -54,6 +41,13 @@
 			$safe_args = (!is_array($args)) ? array($args) : $args;
 
 			return call_user_func_array(array($safe_controller, $function), $safe_args);
+		}
+
+		public function call_controller_with_page ($controller, $page, $args=false) {
+			if (!$this->page_exists($controller, $page))
+				return false;
+
+			return $this->call_controller($controller, $page, $args);
 		}
 
 		private function collect_site_params ($params) {
@@ -76,7 +70,8 @@
 		private function set_route ($params) {
 			$this->route = array(
 				'section' => $this->get_current_section($params),
-				'page' => $this->get_current_page($params)
+				'page' => $this->get_current_page($params),
+				'action' => $this->get_current_action($params)
 			);
 		}
 		
@@ -85,7 +80,11 @@
 		}
 
 		private function page_exists ($section, $page) {
-			return ($this->section_exists($section) && in_array($page, AppConfig::$sitemap[$section]));
+			return ($this->section_exists($section) && array_key_exists($page, AppConfig::$sitemap[$section]));
+		}
+
+		private function action_exists($section, $page, $action) {
+			return ($this->page_exists($section, $page) && in_array($action, AppConfig::$sitemap[$section][$page]));
 		}
 
 		public function get_current_section ($url_params) {
@@ -99,7 +98,33 @@
 			if (!isset($url_params['page']))
 				return AppConfig::$default_page[$this->get_current_section($url_params)];
 
-			return (isset($url_params['action']) || $this->page_exists($url_params['section'], $url_params['page'])) ? $url_params['page'] : AppConfig::$default_page[$this->get_current_section($url_params)];
+			return (isset($url_params['page']) || $this->page_exists($url_params['section'], $url_params['page'])) ? $url_params['page'] : AppConfig::$default_page[$this->get_current_section($url_params)];
+		}
+
+		public function get_current_action ($url_params) {
+			if (!isset($url_params['action']))
+				return false;
+
+			return (isset($url_params['action']) && $this->action_exists($url_params['section'], $url_params['page'], $url_params['action'])) ? $url_params['action'] : false;
+		}
+
+		public function get_current_url ($with_section=false, $with_page=false, $with_action=false, $with_site_GET_params=false) {
+			$url = $_SERVER['PHP_SELF'];
+
+			$url .= ($with_section) ? '?section=' . $this->route['section'] : '';
+			$url .= ($with_section && $with_page) ? '&page=' . $this->route['page'] : '';
+			$url .= ($with_section && $with_page && $with_action) ? '&action=' . $this->route['action'] : '';
+
+			if ($with_site_GET_params)
+				foreach ($this->site_params['GET'] as $key => $value)
+					$url .= '&' . $key . '=' . $value;
+
+
+			return $url;
+		}
+
+		public function get_current_full_url () {
+			return $this->get_current_url(true, true, true, true);
 		}
 
 		public function set_display_date($date) {
@@ -107,7 +132,7 @@
 		}
 
 		private function set_display_date_from_collection ($collection) {
-			$date = (array_key_exists($collection, 'date')) ? $collection['date'] : $this->current_date;
+			$date = (array_key_exists('date', $collection)) ? $collection['date'] : $this->current_date;
 
 			$this->set_display_date($date);
 		}

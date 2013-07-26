@@ -4,17 +4,17 @@
 		public static function add () {
 			$db = Boot::$db;
 
-			$form_tag = array(
+			$tag_form = array(
 				'error' => false
 			);
 
 			if ($db->error) {
-				$form_tag['error']['id'] = $db->errno;
-				$form_tag['error']['message'] = 'FORM LABEL: ' . $db->error;
+				$tag_form['error']['id'] = $db->errno;
+				$tag_form['error']['message'] = 'FORM LABEL: ' . $db->error;
 			}
 			else {}
 
-			return $form_tag;
+			return array('tag_form' => $tag_form);
 		}
 
 		public static function create () {
@@ -43,7 +43,7 @@
 				}
 			}
 
-			return $new_tag;
+			return array('new_tag' => $new_tag);
 		}
 
 		public static function statistics () {
@@ -79,7 +79,7 @@
 				$result->free();
 			}
 
-			return $tag_statistics;
+			return array('tag_statistics' => $tag_statistics);
 		}
 
 	}

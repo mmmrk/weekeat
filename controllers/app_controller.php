@@ -4,13 +4,13 @@
 		public static function statistics () {
 
 			$statistics = array(
-				'dish' => DishController::statistics(),
-				'meal' => MealController::statistics(),
-				'tag'  => TagController::statistics(),
-				'todo' => TodoController::statistics()
+				DishController::statistics(),
+				MealController::statistics(),
+				TagController::statistics()
+				//TodoController::statistics()
 			);
 
-			return $statistics;
+			return array('statistics', $statistics);
 		}
 	}
 

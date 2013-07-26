@@ -4,7 +4,7 @@
 		public static function add () {
 			$db = Boot::$db;
 			
-			$form_meal = array (
+			$meal_form = array (
 				'error' => false
 			);
 
@@ -16,20 +16,20 @@
 				$new_meal['error']['message'] 	= 'EATAGE FORM: ' . $db->error;
 			}
 			else if ($dish_result && $tag_result) {
-				$form_meal['ready_dishes']	= array();
-				$form_meal['ready_tags'] 	= array();
+				$meal_form['ready_dishes']	= array();
+				$meal_form['ready_tags'] 	= array();
 
 				while ($ready_dish = $dish_result->fetch_array(MYSQLI_ASSOC))
-					array_push($form_meal['ready_dishes'], $db->safe_output_string_array($ready_dish));
+					array_push($meal_form['ready_dishes'], $db->safe_output_string_array($ready_dish));
 
 				while ($ready_tag = $tag_result->fetch_array(MYSQLI_ASSOC))
-					array_push($form_meal['ready_tags'], $db->safe_output_string_array($ready_tag));
+					array_push($meal_form['ready_tags'], $db->safe_output_string_array($ready_tag));
 
 				$dish_result->free();
 				$tag_result->free();
 			}
 
-			return $form_meal;
+			return array('meal_form' => $meal_form);
 		}
 
 		public static function create () {
@@ -108,7 +108,7 @@
 				}
 			}
 
-			return $new_meal;
+			return array('new_meal' => $new_meal);
 		}
 
 		public static function statistics () {
@@ -133,7 +133,7 @@
 				$result->free();
 			}
 
-			return $meal_statistics;
+			return array('meal_statistics' => $meal_statistics);
 		}
 
 		public static function calendar_week () {
@@ -186,7 +186,7 @@
 				}
 			}
 
-			return $meal_calendar;
+			return array('calendar_week' => $meal_calendar);
 		}
 
 		public static function list_view () {
@@ -224,13 +224,13 @@
 				$result->free();
 			}
 		
-			return $meal_list;
+			return array('meal_list' => $meal_list);
 		}
 	}
 
 	// FORM
 	if ( $app_data['controller'] == 'meal' && $app_data['action'] == 'form' ) {
-		$form_meal = array (
+		$meal_form = array (
 			'error' => false
 		);
 
@@ -242,14 +242,14 @@
 			$new_meal['error']['message'] = 'EATAGE FORM: ' . $db->error;
 		}
 		else if ($dish_result && $tag_result) {
-			$form_meal['ready_dishes'] = array();
-			$form_meal['ready_tags'] = array();
+			$meal_form['ready_dishes'] = array();
+			$meal_form['ready_tags'] = array();
 
 			while ($ready_dish = $dish_result->fetch_array(MYSQLI_ASSOC))
-				array_push($form_meal['ready_dishes'], $db->safe_output_string_array($ready_dish));
+				array_push($meal_form['ready_dishes'], $db->safe_output_string_array($ready_dish));
 
 			while ($ready_tag = $tag_result->fetch_array(MYSQLI_ASSOC))
-				array_push($form_meal['ready_tags'], $db->safe_output_string_array($ready_tag));
+				array_push($meal_form['ready_tags'], $db->safe_output_string_array($ready_tag));
 
 			$dish_result->free();
 			$tag_result->free();

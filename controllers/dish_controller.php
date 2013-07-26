@@ -4,26 +4,26 @@
 		public static function add () {
 			$db = Boot::$db;
 
-			$form_dish = array(
+			$dish_form = array(
 				'error' => false
 			);
 
 			$result = $db->query('SELECT * FROM tag');
 			
 			if ($db->error) {
-				$form_dish['error']['id'] = $db->errno;
-				$form_dish['error']['message'] = 'FORM DISH: ' . $db->error;
+				$dish_form['error']['id'] = $db->errno;
+				$dish_form['error']['message'] = 'FORM DISH: ' . $db->error;
 			}
 			else {
-				$form_dish['tags'] = array();
+				$dish_form['tags'] = array();
 				while ($tag = $result->fetch_array(MYSQLI_ASSOC))
-					array_push($form_dish['tags'], $db->safe_output_string_array($tag));
+					array_push($dish_form['tags'], $db->safe_output_string_array($tag));
 				
 				unset($query);
 				$result->free();
 			}
 
-			return $form_dish;
+			return array('dish_form' => $dish_form);
 		}
 
 		public static function create () {
@@ -88,7 +88,7 @@
 				}
 			}
 
-			return $new_dish;
+			return array('new_dish' => $new_dish);
 		}
 
 		public static function statistics () {
@@ -131,7 +131,7 @@
 				$result->free();
 			}
 
-			return $dish_statistics;
+			return array('dish_statistics' => $dish_statistics);
 		}
 
 		public static function list_view () {
@@ -141,17 +141,28 @@
 				'error' => false
 			);
 
-			$query 	= 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name` as `tag`, `dish`.`created_at`, COUNT(`meal`.`dish_id`) AS `times_eaten` ';
+			$query  = 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name` as `tag`, CAST(`dish`.`created_at` AS DATE) AS `created_at`, ';
+			$query .= '`ml`.`last_meal_date` as `last_meal_date`, `dotd`.`last_dotd_date` as `last_dotd_date`, COUNT(`meal`.`dish_id`) AS `times_eaten`';
 			$query .= 'FROM `dish` ';
+			$query .= 'LEFT JOIN ( ';
+				$query .= 'SELECT `meal`.`dish_id`, MAX(`meal`.`date`) AS `last_meal_date` ';
+				$query .= 'FROM `meal` ';
+				$query .= 'GROUP BY `meal`.`dish_id` ';
+			$query .= ') AS `ml` ON `ml`.`dish_id` = `dish`.`id` ';
+			$query .= 'LEFT JOIN ( ';
+				$query .= 'SELECT `dod`.`dish_id`, MAX(`dod`.`date`) AS `last_dotd_date`  ';
+				$query .= 'FROM `dish_of_the_day` as `dod` ';
+				$query .= 'GROUP BY `dod`.`dish_id` ';
+			$query .= ') AS `dotd` ON `dotd`.`dish_id` = `dish`.`id` ';
 			$query .= 'LEFT JOIN `meal` ON `meal`.`dish_id` = `dish`.`id` ';
 			$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` ';
 			$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
-			$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name`, `dish`.`created_at` ';
-			$query .= 'ORDER BY `dish`.`id` ASC';
-			
+			$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name`, `dish`.`created_at`, `ml`.`last_meal_date`, `dotd`.`last_dotd_date` ';
+			$query .= 'ORDER BY `name` ASC';
+		
 			$result = $db->query($query);
 
-			if ($db->error) {
+			if ( $db->error ) {
 				$dish_list['error']['id'] = $db->errno;
 				$dish_list['error']['message'] = 'LIST DISHES: ' . $db->error;
 			}
@@ -180,7 +191,7 @@
 				$result->free();
 			}
 
-			return $dish_list;
+			return array('dish_list' => $dish_list);
 		}
 
 		public static function get_latest () {
@@ -197,7 +208,7 @@
 
 			$result = $db->query($query);
 
-			if ($db->error) {
+			if ( $db->error ) {
 				$dish_list_latest['error']['id'] = $db->errno;
 				$dish_list_latest['error']['message'] = 'LATEST DISHES: ' . $db->error;
 			}
@@ -217,7 +228,7 @@
 				$result->free();
 			}
 
-			return $dish_list_latest;
+			return array('dish_list_latest' => $dish_list_latest);
 		}
 
 		// NEEDS REBUILDING - CODE + DB
@@ -248,34 +259,36 @@
 				$result->free();
 			}
 
-			return $dish_of_the_day;
+			return array('dish_of_the_day' => $dish_of_the_day);
 		}
 	}
 
 	// FORM
 	if ( $app_data['controller'] == 'dish' || $app_data['page'] == 'calendar' ) {
-		$form_dish = array(
+
+		$dish_form = array(
 			'error' => false
 		);
 
 		$result = $db->query('SELECT * FROM tag');
 		
 		if ($db->error) {
-			$form_dish['error']['id'] = $db->errno;
-			$form_dish['error']['message'] = 'FORM DISH: ' . $db->error;
+			$dish_form['error']['id'] = $db->errno;
+			$dish_form['error']['message'] = 'FORM DISH: ' . $db->error;
 		}
 		else {
-			$form_dish['tags'] = array();
+			$dish_form['tags'] = array();
 			while ($tag = $result->fetch_array(MYSQLI_ASSOC))
-				array_push($form_dish['tags'], $db->safe_output_string_array($tag));
+				array_push($dish_form['tags'], $db->safe_output_string_array($tag));
 			
 			unset($query);
 			$result->free();
 		}
 	}
 
-	// NEW
+	// CREATE
 	if ( $app_data['controller'] == 'dish' || $app_data['action'] == 'new' ) {
+
 		$new_dish = array (
 			'error' => false
 		);

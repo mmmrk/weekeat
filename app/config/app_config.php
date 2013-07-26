@@ -3,27 +3,30 @@
 		
 		public static $sitemap = array (
 			'meal' => array (
-				'calendar_week',
-				'calendar_month',
-				'add',
-				'create',
-				'show',
-				'list_view'
+				'calendar_week' => array(),
+				'calendar_month'=> array(),
+				'add' 			=> array(
+					'from_dish',
+					'from_form'
+				),
+				'create' 		=> array(),
+				'show' 			=> array(),
+				'list_view' 	=> array()
 			),
 			'dish' => array (
-				'list_view',
-				'add',
-				'create',
-				'show',
+				'list_view' 	=> array(),
+				'add' 			=> array(),
+				'create' 		=> array(),
+				'show' 			=> array()
 			),
 			'app' => array (
-				'admin',
-				'statistics'
+				'admin' 		=> array(),
+				'statistics' 	=> array()
 			),
 			'todo' => array (
-				'form',
-				'create',
-				'list_view'
+				'form' 			=> array(),
+				'create' 		=> array(),
+				'list_view' 	=> array()
 			)
 		);
 
