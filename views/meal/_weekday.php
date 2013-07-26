@@ -20,7 +20,7 @@
 		else { ?>
 		<li class="no_meals_item">
 			<p>No meals today</p>
-			<p><a class="button action" href="?view=meal&amp;action=add&amp;date=<?php echo $day['date']['string']; ?>"><i class="icon">+</i> Add a meal</a></p>
+			<p><a class="button action" href="?section=meal&amp;page=add&amp;date=<?php echo $day['date']['string']; ?>"><i class="icon">+</i> Add a meal</a></p>
 		</li>
 	<?php } ?>
 	</ul>

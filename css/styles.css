@@ -543,116 +543,115 @@ table {
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  margin-right: .2em;
   text-align: center;
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
 }
 
-/* line 29, ../sass/_fontello.scss */
+/* line 28, ../sass/_fontello.scss */
 .icon-plus:before {
   content: '\e80f';
 }
 
 /* '' */
-/* line 30, ../sass/_fontello.scss */
+/* line 29, ../sass/_fontello.scss */
 .icon-right-dir:before {
   content: '\e810';
 }
 
 /* '' */
-/* line 31, ../sass/_fontello.scss */
+/* line 30, ../sass/_fontello.scss */
 .icon-left-dir:before {
   content: '\e811';
 }
 
 /* '' */
-/* line 32, ../sass/_fontello.scss */
+/* line 31, ../sass/_fontello.scss */
 .icon-ok:before {
   content: '\e80b';
 }
 
 /* '' */
-/* line 33, ../sass/_fontello.scss */
+/* line 32, ../sass/_fontello.scss */
 .icon-cancel:before {
   content: '\e80c';
 }
 
 /* '' */
-/* line 34, ../sass/_fontello.scss */
+/* line 33, ../sass/_fontello.scss */
 .icon-asterisk:before {
   content: '\e801';
 }
 
 /* '' */
-/* line 35, ../sass/_fontello.scss */
+/* line 34, ../sass/_fontello.scss */
 .icon-tag:before {
   content: '\e80d';
 }
 
 /* '' */
-/* line 36, ../sass/_fontello.scss */
+/* line 35, ../sass/_fontello.scss */
 .icon-tags:before {
   content: '\e80e';
 }
 
 /* '' */
-/* line 37, ../sass/_fontello.scss */
+/* line 36, ../sass/_fontello.scss */
 .icon-basket:before {
   content: '\e805';
 }
 
 /* '' */
-/* line 38, ../sass/_fontello.scss */
+/* line 37, ../sass/_fontello.scss */
 .icon-food:before {
   content: '\e800';
 }
 
 /* '' */
-/* line 39, ../sass/_fontello.scss */
+/* line 38, ../sass/_fontello.scss */
 .icon-doc-text:before {
   content: '\e804';
 }
 
 /* '' */
-/* line 40, ../sass/_fontello.scss */
+/* line 39, ../sass/_fontello.scss */
 .icon-angle-left:before {
   content: '\e803';
 }
 
 /* '' */
-/* line 41, ../sass/_fontello.scss */
+/* line 40, ../sass/_fontello.scss */
 .icon-angle-right:before {
   content: '\e802';
 }
 
 /* '' */
-/* line 42, ../sass/_fontello.scss */
+/* line 41, ../sass/_fontello.scss */
 .icon-quote-left:before {
   content: '\e808';
 }
 
 /* '' */
-/* line 43, ../sass/_fontello.scss */
+/* line 42, ../sass/_fontello.scss */
 .icon-quote-right:before {
   content: '\e809';
 }
 
 /* '' */
-/* line 44, ../sass/_fontello.scss */
+/* line 43, ../sass/_fontello.scss */
 .icon-info:before {
   content: '\e80a';
 }
 
 /* '' */
-/* line 45, ../sass/_fontello.scss */
+/* line 44, ../sass/_fontello.scss */
 .icon-attention-alt:before {
   content: '\e807';
 }
 
 /* '' */
-/* line 46, ../sass/_fontello.scss */
+/* line 45, ../sass/_fontello.scss */
 .icon-calendar-empty:before {
   content: '\e806';
 }
@@ -726,7 +725,7 @@ body, #app_container, #app_body {
 .button {
   display: inline-block;
   position: relative;
-  padding: 0.3em 0.5em 0.4em;
+  padding: 0.3em 0.5em 0.35em;
   background-color: #bababa;
   color: white;
   text-align: center;
@@ -767,8 +766,8 @@ body, #app_container, #app_body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 /* line 41, ../sass/units/_links.scss */
-.button .icon {
-  font-style: normal;
+.button[disabled] {
+  opacity: 0.5;
 }
 /* line 45, ../sass/units/_links.scss */
 .button.confirm {
@@ -1081,61 +1080,92 @@ textarea:focus {
 }
 
 /* line 26, ../sass/chunks/_tab_container.scss */
+.tab_navigation {
+  display: inline-block;
+  position: relative;
+}
+/* line 30, ../sass/chunks/_tab_container.scss */
+.tab_navigation.disabled:after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* line 41, ../sass/chunks/_tab_container.scss */
 .tab_list {
   display: inline-block;
   font-size: 0.88em;
-  margin-left: 2em;
-}
-/* line 31, ../sass/chunks/_tab_container.scss */
-.tab_list ol, .tab_list ul {
-  margin: 0;
+  margin: 0 0 0 2em;
   padding: 0;
 }
-/* line 36, ../sass/chunks/_tab_container.scss */
+/* line 47, ../sass/chunks/_tab_container.scss */
 .tab_list .tab {
   display: inline-block;
   margin-right: 1em;
   opacity: 0.5;
 }
-/* line 41, ../sass/chunks/_tab_container.scss */
+/* line 52, ../sass/chunks/_tab_container.scss */
 .tab_list .tab.active {
   opacity: 1;
-}
-/* line 44, ../sass/chunks/_tab_container.scss */
-.tab_list .tab.active a {
   color: #7fb513;
 }
-/* line 48, ../sass/chunks/_tab_container.scss */
-.tab_list .tab.active ~ .tab {
+/* line 59, ../sass/chunks/_tab_container.scss */
+.tab_list .active ~ .tab {
   opacity: 1;
 }
-/* line 54, ../sass/chunks/_tab_container.scss */
+/* line 63, ../sass/chunks/_tab_container.scss */
 .tab_list a {
   text-decoration: none;
-  color: #6e6e6e;
+  color: inherit;
 }
 
-/* line 60, ../sass/chunks/_tab_container.scss */
+/* line 69, ../sass/chunks/_tab_container.scss */
 .tab_content {
   display: none;
   padding: 0 0.625em 0.625em;
   max-width: 60em;
+  *zoom: 1;
 }
-/* line 65, ../sass/chunks/_tab_container.scss */
+/* line 18, ../sass/bourbon/addons/_clearfix.scss */
+.tab_content:before, .tab_content:after {
+  content: " ";
+  display: table;
+}
+/* line 23, ../sass/bourbon/addons/_clearfix.scss */
+.tab_content:after {
+  clear: both;
+}
+/* line 75, ../sass/chunks/_tab_container.scss */
 .tab_content.active {
   display: block;
 }
-/* line 69, ../sass/chunks/_tab_container.scss */
+/* line 79, ../sass/chunks/_tab_container.scss */
 .tab_content .content_part {
   display: none;
 }
-/* line 72, ../sass/chunks/_tab_container.scss */
+/* line 82, ../sass/chunks/_tab_container.scss */
 .tab_content .content_part.active_part {
   display: block;
 }
-/* line 77, ../sass/chunks/_tab_container.scss */
+/* line 87, ../sass/chunks/_tab_container.scss */
 .tab_content .active_part ~ .no_part_chosen {
   display: none;
+}
+
+/* line 92, ../sass/chunks/_tab_container.scss */
+.tab_container_footer {
+  margin: 4em 0.625em 0.625em;
+  padding: 0.625em 0;
+  text-align: right;
+  border-top: 1px dotted #e2e2e2;
+}
+/* line 98, ../sass/chunks/_tab_container.scss */
+.tab_container_footer .button {
+  margin-left: 0.5em;
 }
 
 /* line 1, ../sass/chunks/_form_dish.scss */
@@ -1170,4 +1200,8 @@ textarea:focus {
 /* line 17, ../sass/views/_add_meal.scss */
 #add_meal_step_1 .tab_nav_link {
   margin-right: 1em;
+}
+/* line 21, ../sass/views/_add_meal.scss */
+#add_meal_step_1 input {
+  display: none;
 }
