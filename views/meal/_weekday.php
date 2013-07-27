@@ -1,23 +1,16 @@
 <h3><?= $day['date']['weekday']; ?> <time datetime="<?= $day['date']['string']; ?>" class="date"><?= $day['date']['day_short']; ?></time></h3>
+	<!-- ul should be called weekday or weekday_meals -->
 	<ul class="meal_list">
 	<?php
+		//var_dump($weekday_meals);
 		//FOREACH MEAL ITEM ON THIS DAY
-		if ($meal) { ?>
-		<li class="meal_item">
-			<span class="meal">MEAL TITLE</span>
-			<h4 class="dish"><?= "DISH"//$meal['dish']; ?></h4>
-			<p class="dish_tags">
-				<?php // foreach ($meal['tags'] as $tag) echo "$tag "; ?>
-			</p>
-			<p class="dish_description">
-				<?= "DESCRIPTION"//$meal['description']; ?>
-			</p>
-			<ul class="meal_shopping_list">
-				<?php // UL with eblypling ?>
-				<?= "<li>SHOPPING LIST</li>"//$meal['shopping_list']; ?>
-			</ul>
-	<?php }
-		else { ?>
+		if (isset($weekday_meals) && !empty($weekday_meals) && is_array($weekday_meals))
+			foreach ($weekday_meals as $meal)
+				require('_weekday_meal.php');
+
+		else { 
+	?>
+		<!-- more descriptive class name would be "no_meal_items" or "weekday_empty" or sth -->
 		<li class="no_meals_item">
 			<p>No meals today</p>
 			<p><a class="button action" href="?section=meal&amp;page=add&amp;date=<?php echo $day['date']['string']; ?>"><i class="icon">+</i> Add a meal</a></p>

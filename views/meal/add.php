@@ -11,8 +11,10 @@
 				)
 			);
 
-			$meal = false;
+			$day = CalendarView::date_info(strtotime($app->display_date));
 
+			//var_dump($app->view_data['meals_of_the_day']['meals']);
+			$weekday_meals = (array_key_exists($app->display_date, $app->view_data['meals_of_the_day']['meals'])) ? $app->view_data['meals_of_the_day']['meals'][$app->display_date] : false;
 			require('_weekday.php');
 		?>
 	</div>
