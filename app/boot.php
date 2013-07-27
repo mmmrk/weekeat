@@ -3,7 +3,7 @@
 		public static $db;
 
 		public $params, $route;
-		public $error, $current_date, $display_date, $todays_dishes, $site_params, $view_data;
+		public $error, $current_date, $display_date, $site_params, $view_data;
 
 		public function __construct () {
 			$this->error = false;
