@@ -241,7 +241,7 @@
 			// TO IMPLEMENT LATER
 			if (!$dish_id);
 
-			$safe_date = ($dotd_date && is_date($dotd_date)) ? $dotd_date : date(Y-m-d);
+			$safe_date = ($dotd_date && is_date($dotd_date)) ? $dotd_date : date('Y-m-d');
 			$sql_date = make_sql_date($safe_date);
 
 			$query  = 'INSERT INTO `dish_of_the_day` ';
@@ -271,11 +271,7 @@
 			$query  = 'SELECT `dish`.* FROM `dish` ';
 			$query .= 'INNER JOIN `dish_of_the_day` AS `dotd` ON `dish`.`id` = `dotd`.`dish_id` ';
 			$query .= 'WHERE `dotd`.`date` = ';
-<<<<<<< HEAD
 			$query .= (!$dotd_date || !is_date($dotd_date)) ? make_sql_date('today') : make_sql_date($dotd_date);
-=======
-			echo $query .= (!$dotd_date || !is_date($dotd_date)) ? make_sql_date('today') : make_sql_date($dotd_date);
->>>>>>> ae02b09a37850c9c8bad6abba33e50b8b9a67c7d
 
 			$result = $db->query($query);
 
