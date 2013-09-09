@@ -4,7 +4,7 @@
 		public static function add () {
 			$db = Boot::$db;
 			
-			$form_meal = array (
+			$meal_form = array (
 				'error' => false
 			);
 
@@ -16,20 +16,20 @@
 				$new_meal['error']['message'] 	= 'EATAGE FORM: ' . $db->error;
 			}
 			else if ($dish_result && $tag_result) {
-				$form_meal['ready_dishes']	= array();
-				$form_meal['ready_tags'] 	= array();
+				$meal_form['ready_dishes']	= array();
+				$meal_form['ready_tags'] 	= array();
 
 				while ($ready_dish = $dish_result->fetch_array(MYSQLI_ASSOC))
-					array_push($form_meal['ready_dishes'], $db->safe_output_string_array($ready_dish));
+					array_push($meal_form['ready_dishes'], $db->safe_output_string_array($ready_dish));
 
 				while ($ready_tag = $tag_result->fetch_array(MYSQLI_ASSOC))
-					array_push($form_meal['ready_tags'], $db->safe_output_string_array($ready_tag));
+					array_push($meal_form['ready_tags'], $db->safe_output_string_array($ready_tag));
 
 				$dish_result->free();
 				$tag_result->free();
 			}
 
-			return $form_meal;
+			return array('meal_form' => $meal_form);
 		}
 
 		public static function create () {
@@ -108,7 +108,7 @@
 				}
 			}
 
-			return $new_meal;
+			return array('new_meal' => $new_meal);
 		}
 
 		public static function statistics () {
@@ -133,28 +133,33 @@
 				$result->free();
 			}
 
-			return $meal_statistics;
+			return array('meal_statistics' => $meal_statistics);
 		}
 
-		public static function calendar_week () {
+		public static function calendar_week ($display_date, $single_date_display=false) {
 			$db = Boot::$db;
 
 			$meal_calendar = array (
 				'error' => false
 			);
 
-			$date = (isset($_GET['date']) && is_date($_GET['date'])) ? strtotime($_GET['date']) : time(); 
+			$working_date = (is_date($display_date)) ? strtotime($display_date) : time(); 
 
-			$calendar  = new CalendarView($date);
+			$calendar  = new CalendarView($working_date);
 			$first_day = $calendar->first_day();
 			$last_day  = $calendar->last_day();
 
-			$query 	= 'SELECT `meal`.`date` AS `date`, `dish`.`id` AS `dish_id`, `dish`.`name` AS `dish`, `dish`.`url`, `dish`.`recipe`, `meal`.`shopping_list`, `tag`.`id` AS `tag_id`, `tag`.`name` AS `tag` ';
+			$query 	= 'SELECT `meal`.`id` AS `meal_id`, `meal`.`date` AS `date`, `dish`.`id` AS `dish_id`, `meal`.`name` AS `meal_name`, `dish`.`name` AS `dish_name`, `dish`.`description` AS `description`, `dish`.`url`, `dish`.`recipe`, `meal`.`shopping_list`, `tag`.`id` AS `tag_id`, `tag`.`name` AS `tag` ';
 			$query .= 'FROM `meal` ';
 			$query .= 'JOIN `dish` ON `dish`.`id` = `meal`.`dish_id` ';
-			$query .= 'JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` '; 
+			$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` '; 
 			$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
-			$query .= 'WHERE `meal`.`date` BETWEEN "' . $first_day['date']['string'] . '" AND "' . $last_day['date']['string'] . '" ';
+			
+			if ($single_date_display && $sql_single_date = make_sql_date($display_date))
+				$query .= 'WHERE `meal`.`date` = ' . $sql_single_date . ' ';
+			else
+				$query .= 'WHERE `meal`.`date` BETWEEN "' . $first_day['date']['string'] . '" AND "' . $last_day['date']['string'] . '" ';
+			
 			$query .= 'ORDER BY `date` ASC';
 
 			$result = $db->query($query);
@@ -167,26 +172,86 @@
 				$meal_calendar['meals']  = array();
 				$meal_calendar['calendar'] = $calendar;
 
-				while ($meal = $result->fetch_array(MYSQLI_ASSOC)) {
-					$safe_meal = $db->safe_output_string_array($meal);
+				while ( $meal = $result->fetch_array(MYSQLI_ASSOC) ) {
+					$safe_meal 			= $db->safe_output_string_array($meal);
 					$safe_meal['today'] = ($calendar->today_date() == $safe_meal['date']);
 					
-					if ( array_key_exists($safe_meal['date'], $meal_calendar['meals']) )
-						$meal_calendar['meals'][$safe_meal['date']]['tags'][$safe_meal['tag_id']] = $safe_meal['tag'];
+					if ( array_key_exists($safe_meal['date'], $meal_calendar['meals']) && array_key_exists($safe_meal['date']['meal_id'], $meal_calendar['meals'][$safe_meal['date']]) )
+						$meal_calendar['meals'][$safe_meal['date']][$safe_meal['meal_id']]['dish']['tags'][$safe_meal['tag_id']] = $safe_meal['tag'];
 					else {
-						$meal_calendar['meals'][$safe_meal['date']] = array (
-							'dish_id' 		=> $safe_meal['dish_id'],
-							'dish'			=> $safe_meal['dish'],
-							'url'			=> $safe_meal['url'],
-							'recipe'		=> $safe_meal['recipe'],
+						$meal_calendar['meals'][$safe_meal['date']][$safe_meal['meal_id']] = array (
+							'meal_id'		=> $safe_meal['meal_id'],
+							'name'			=> $safe_meal['meal_name'],
 							'shopping_list'	=> $safe_meal['shopping_list'],
-							'tags'		=> array ( $safe_meal['tag_id'] => $safe_meal['tag'] )
+							'dish'			=> array (
+								'dish_id' 		=> $safe_meal['dish_id'],
+								'name'			=> $safe_meal['dish_name'],
+								'description'	=> $safe_meal['description'],
+								'url'			=> $safe_meal['url'],
+								'recipe'		=> $safe_meal['recipe'],
+								'tags'			=> array ( $safe_meal['tag_id'] => $safe_meal['tag'] )
+							)
 						);
 					}
 				}
 			}
 
-			return $meal_calendar;
+			return (!$single_date_display) ? array('calendar_week' => $meal_calendar) : array('meals_of_the_day' => $meal_calendar);
+		}
+
+		public static function meals_of_the_day ($motd_date) {
+			$db = Boot::$db;
+
+			$motd = array (
+				'error' => false
+			);
+
+			$sql_date = (is_date($motd_date)) ? $motd_date : date('Y-m-d');
+
+			return self::calendar_week($sql_date, true);
+
+/*			$query 	= 'SELECT `meal`.`id` AS `meal_id`, `meal`.`date` AS `date`, `dish`.`id` AS `dish_id`, `meal`.`name` AS `meal_name`, `dish`.`name` AS `dish_name`, `dish`.`description` AS `description`, `dish`.`url`, `dish`.`recipe`, `meal`.`shopping_list`, `tag`.`id` AS `tag_id`, `tag`.`name` AS `tag` ';
+			$query .= 'FROM `meal` ';
+			$query .= 'JOIN `dish` ON `dish`.`id` = `meal`.`dish_id` ';
+			$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` '; 
+			$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
+			$query .= 'WHERE `meal`.`date` = ' . $sql_date . ' ';
+			$query .= 'ORDER BY `dish_id` ASC';
+
+			$result = $db->query($query);
+
+			if ( $db->error ) {
+				$motd['error']['id']		= $db->errno;
+				$motd['error']['message']	= 'MEAL CALENDAR: ' . $db->error;
+			}
+			else if ( $result ) {
+				$motd['meals']  = array();
+
+				while ( $meal = $result->fetch_array(MYSQLI_ASSOC) ) {
+					$safe_meal = $db->safe_output_string_array($meal);
+					
+					if ( array_key_exists($safe_meal['id'], $motd['meals']) )
+						$motd['meals'][$safe_meal['id']]['tags'][$safe_meal['tag_id']] = $safe_meal['tag'];
+					else {
+						$motd['meals'][$safe_meal['id']] = array (
+							'meal_id'		=> $safe_meal['meal_id'],
+							'name'			=> $safe_meal['meal_name'],
+							'shopping_list'	=> $safe_meal['shopping_list'],
+							'dish'			=> array (
+								'dish_id' 		=> $safe_meal['dish_id'],
+								'name'			=> $safe_meal['dish_name'],
+								'description'	=> $safe_meal['description'],
+								'url'			=> $safe_meal['url'],
+								'recipe'		=> $safe_meal['recipe'],
+								'tags'			=> array ( $safe_meal['tag_id'] => $safe_meal['tag'] )
+							)
+						);
+					}
+				}
+			}
+
+			return array('meals_of_the_day' => $motd);
+*/
 		}
 
 		public static function list_view () {
@@ -224,13 +289,15 @@
 				$result->free();
 			}
 		
-			return $meal_list;
+			return array('meal_list' => $meal_list);
 		}
 	}
 
+
+
 	// FORM
 	if ( $app_data['controller'] == 'meal' && $app_data['action'] == 'form' ) {
-		$form_meal = array (
+		$meal_form = array (
 			'error' => false
 		);
 
@@ -242,14 +309,14 @@
 			$new_meal['error']['message'] = 'EATAGE FORM: ' . $db->error;
 		}
 		else if ($dish_result && $tag_result) {
-			$form_meal['ready_dishes'] = array();
-			$form_meal['ready_tags'] = array();
+			$meal_form['ready_dishes'] = array();
+			$meal_form['ready_tags'] = array();
 
 			while ($ready_dish = $dish_result->fetch_array(MYSQLI_ASSOC))
-				array_push($form_meal['ready_dishes'], $db->safe_output_string_array($ready_dish));
+				array_push($meal_form['ready_dishes'], $db->safe_output_string_array($ready_dish));
 
 			while ($ready_tag = $tag_result->fetch_array(MYSQLI_ASSOC))
-				array_push($form_meal['ready_tags'], $db->safe_output_string_array($ready_tag));
+				array_push($meal_form['ready_tags'], $db->safe_output_string_array($ready_tag));
 
 			$dish_result->free();
 			$tag_result->free();
@@ -366,7 +433,7 @@
 		$first_day = $calendar->first_day();
 		$last_day  = $calendar->last_day();
 
-		$query 	= 'SELECT `meal`.`date` AS `date`, `dish`.`id` AS `dish_id`, `dish`.`name` AS `dish`, `dish`.`url`, `dish`.`recipe`, `meal`.`shopping_list`, `tag`.`id` AS `tag_id`, `tag`.`name` AS `tag` ';
+		$query 	= 'SELECT `meal`.`id` AS `meal_id`, `meal`.`date` AS `date`, `dish`.`id` AS `dish_id`, `dish`.`name` AS `dish`, `dish`.`url`, `dish`.`recipe`, `meal`.`shopping_list`, `tag`.`id` AS `tag_id`, `tag`.`name` AS `tag` ';
 		$query .= 'FROM `meal` ';
 		$query .= 'JOIN `dish` ON `dish`.`id` = `meal`.`dish_id` ';
 		$query .= 'JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` '; 

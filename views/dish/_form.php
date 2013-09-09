@@ -1,10 +1,9 @@
 					<?php
-						/*
-						if ( isset($form_dish) && $form_dish['error'] )
-							echo '<p class="error">' . $form_dish['error']['id'] . '. ' . $form_dish['error']['message'] . '</p>';
-						else if ( isset($form_dish) && !$form_dish['error'] ) {
-							$labels = $form_dish['labels'];
-						*/
+						$dish_form = $app->view_data['dish_form'];
+						if ( isset($dish_form) && $dish_form['error'] )
+							echo '<p class="error">' . $dish_form['error']['id'] . '. ' . $dish_form['error']['message'] . '</p>';
+						else if ( isset($dish_form) && !$dish_form['error'] ) {
+							$tags = $dish_form['tags'];
 					?>
 					<input type="hidden" name="new_meal" id="new_meal" value="1" />
 
@@ -36,4 +35,4 @@
 							<?php require('views/tag/_ready_tags.php'); ?>
 						</div>
 					</div>
-				<?php #} ?>
+				<?php } ?>

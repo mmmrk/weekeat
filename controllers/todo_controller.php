@@ -4,7 +4,7 @@
 		public static function form () {
 			$db = Boot::$db;
 
-			$form_todo = array(
+			$todo_form = array(
 				'error' => false
 			);
 
@@ -15,25 +15,25 @@
 			$status_result	= $db->query($status_query);
 
 			if ($db->error) {
-				$form_tag['error']['id'] = $db->errno;
-				$form_tag['error']['message'] = 'FORM TODO: ' . $db->error;
+				$todo_form['error']['id'] = $db->errno;
+				$todo_form['error']['message'] = 'FORM TODO: ' . $db->error;
 			}
 			else if ($prio_result && $status_result) {
-				$form_todo['priorities'] = array();
-				$form_todo['statuses']	 = array();
+				$todo_form['priorities'] = array();
+				$todo_form['statuses']	 = array();
 
 				while ($prio = $prio_result->fetch_array(MYSQLI_ASSOC)) {
 					$safe_prio = $db->safe_output_string_array($prio);
-					array_push($form_todo['priorities'], $safe_prio);
+					array_push($todo_form['priorities'], $safe_prio);
 				}
 
 				while ($status = $status_result->fetch_array(MYSQLI_ASSOC)) {
 					$safe_status = $db->safe_output_string_array($status);
-					array_push($form_todo['statuses'], $safe_status);
+					array_push($todo_form['statuses'], $safe_status);
 				}
 			}
 
-			return $form_todo;
+			return array ('todo_form' => $todo_form);
 		}
 
 		public static function create () {
@@ -71,7 +71,7 @@
 				}
 			}
 
-			return $new_todo;
+			return array('new_todo' => $new_todo);
 		}
 
 		public static function list_view () {
@@ -111,7 +111,7 @@
 				$result->free();
 			}
 
-			return $todo_list;
+			return array('todo_liost', $todo_list);
 		}
 	}
 

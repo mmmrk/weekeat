@@ -1,4 +1,4 @@
-<?php if (isset($_GET['date'])) { ?>
+<?php if (isset($app->site_params['GET']['date'], $app->display_date)) { ?>
 	<div id="add_meal_day_overview" class="week_calendar_item">
 		<?php
 			# move variables to controller
@@ -11,8 +11,10 @@
 				)
 			);
 
-			$meal = false;
+			$day = CalendarView::date_info(strtotime($app->display_date));
 
+			//var_dump($app->view_data['meals_of_the_day']['meals']);
+			$weekday_meals = (array_key_exists($app->display_date, $app->view_data['meals_of_the_day']['meals'])) ? $app->view_data['meals_of_the_day']['meals'][$app->display_date] : false;
 			require('_weekday.php');
 		?>
 	</div>
@@ -37,8 +39,8 @@
 				<h2>1. Select method</h2>
 
 				<p>
-					<a href="#add_meal_step_2" class="content_part_toggle tab_nav_link" data-part="2.1">
-						<label for="add_meal_method_false">Add meal from list</label>
+					<a href="<?= (false) ? $app->get_current_url(true, true, false) . '&action=from_dish&date=' . $app->display_date : ''; ?>#add_meal_step_2" class="content_part_toggle tab_nav_link" data-part="2.1">
+						<label for="add_meal_method_false">Add from list</label>
 						<input name="add_meal_method_new" id="add_meal_method_false" type="radio" value="false">
 					</a>
 				</p>

@@ -21,7 +21,7 @@
 				<div class="td week"><?= $week['week_number']; ?></div>
 				<?php
 					foreach ($week['days'] as $day) {
-						$today_content = (array_key_exists($day['date']['string'], $meals)) ? $meals[$day['date']['string']] : '';
+						$today_content = (array_key_exists($day['date']['string'], $month_meals)) ? $month_meals[$day['date']['string']] : '';
 				?>	
 					<div class="td day<?= !empty($today_content) ? ' booked' : ''; ?><?= ($day['date']['string'] == $app_data['curdate']) ? ' today' : ''; ?>">
 						<?= '<a href="' . $_SERVER['PHP_SELF'] . '?section=meal&date=' . $day['date']['string'] .'">' . $day['date']['day'] . '</a>'; ?>

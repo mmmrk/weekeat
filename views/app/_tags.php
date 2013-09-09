@@ -1,9 +1,5 @@
 			<select name="tag[]" id="tag[]" multiple="multiple">
-			<?php			
-				foreach ($tags as $tag) {
-			?>
+			<?php foreach ($tags as $tag) { ?>
 				<option value="<?= $tag['id']; ?>"><?= $tag['name']; ?></option>
-			<?php 
-				}
-			?>
+			<?php } ?>
 			</select>
