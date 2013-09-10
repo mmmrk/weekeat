@@ -73,10 +73,10 @@
 					$new_meal['id'] = $meal_id;
 
 					foreach ($meal as $key => $value)
-						$new_meal[$key]	=> $value;
+						$new_meal[$key]	= $value;
 
 					foreach ($dish as $key => $value)
-						$new_meal['dish'][$key] => $value;
+						$new_meal['dish'][$key] = $value;
 
 					unset($meal_query);
 				}

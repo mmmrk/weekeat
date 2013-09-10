@@ -46,7 +46,7 @@
 				$dish_query  .= 'VALUES ("' . $dish['name'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
 
 				( $dish_id = $db->iquery($dish_query)							  ) ? null : $transaction_errors = true;
-				( TagController::link_dish_tags($dish['id'], $dish['tags'], $db)) ) ? null : $transaction_errors = true;
+				( TagController::link_dish_tags($dish['id'], $dish['tags'], $db)  ) ? null : $transaction_errors = true;
 				
 				($transaction_errors && !$transaction_db) ? $db->rollback() : $db->commit();
 
