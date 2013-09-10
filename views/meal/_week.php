@@ -7,7 +7,7 @@
 			foreach ($week['days'] as $day) {
 				$weekday_meals = (array_key_exists($day['date']['string'], $month_meals)) ? $month_meals[$day['date']['string']] : false;
 		?>
-			<li class="week_calendar_item <?= (($day['date']['string'] == $calendar->today_date()) ? ' today current' : ''); ?>">
+			<li class="week_calendar_item <?= (($day['date']['string'] == $app->current_date) ? ' today current' : ''); ?><?= (($day['date']['string'] == $app->display_date) ? ' display_date' : ''); ?>">
 				<?php require('_weekday.php'); ?>
 			</li>
 		<?php } ?>

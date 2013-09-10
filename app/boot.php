@@ -9,13 +9,13 @@
 			$this->error = false;
 			$this->current_date = date('Y-m-d');
 			
+			self::db_init(DbConfig::$server, DbConfig::$database, DbConfig::$username, DbConfig::$password);
+			
 			$this->set_params();
 
 			$this->set_route($this->params['GET']);
 			$this->collect_site_params($this->params);
 			$this->set_display_date_from_collection($this->site_params['GET']);
-			
-			self::db_init(DbConfig::$server, DbConfig::$database, DbConfig::$username, DbConfig::$password);
 		}
 
 		public function set_params () {
@@ -63,6 +63,10 @@
 					foreach ($collection as $param_key => $param_value)
 						if ($param_key != 'section' && $param_key != 'page' && $param_key != 'action')
 							$this->site_params[$param_collection][$param_key] = $param_value;
+						else if (is_array($param_value))
+							$this->site_params[$param_collection][$param_key] = self::$db->safe_input_string_array($param_value);
+						else
+							$this->site_params[$param_collection][$param_key] = self::$db->safe_input_string($param_value);
 				}
 			}
 		}

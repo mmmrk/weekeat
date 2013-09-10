@@ -1,6 +1,8 @@
-<select name="tag_id" id="tag_id">
-				<option value="random">Random</option>
-			<?php foreach ($tags as $tag) { ?>
-				<option value="<?= $tag['id']; ?>"><?= $tag['name']; ?></option>
-			<?php } ?>
-			</select>
+<ul>
+	<?php foreach ($tags as $tag) { ?>
+		<li>
+			<input type="checkbox" name="dish[tags][]" value="<?= $tag['id'];?>" />
+			<label><?= $tag['name']?> </label>
+		</li>
+	<?php } ?>
+</ul>

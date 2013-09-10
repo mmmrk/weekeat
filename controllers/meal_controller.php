@@ -32,82 +32,58 @@
 			return array('meal_form' => $meal_form);
 		}
 
-		public static function create () {
+		public static function create ($input_data, $redirect=false) {
 			$db = Boot::$db;
-
+			
 			$new_meal = array (
 				'error' => false
 			);
 
-			( !empty($_POST['date'])	) ? null : $new_todo['error'][] = array('id' => '1.1', 'message' => 'Missing required field: date');
-			( !empty($_POST['dish_id'])	) ? null : $new_todo['error'][] = array('id' => '1.2', 'message' => 'Missing required field: dish');
+			$meal = $input_data['meal'];
+
+			( !empty($meal['date']) && is_date($meal['date']) ) ? null : $new_meal['error'][] = array('id' => '1.1', 'message' => 'Missing required field: meal date');
+			( !empty($meal['name'])							  ) ? null : $new_meal['error'][] = array('id' => '1.2', 'message' => 'Missing required field: meal name');
 
 			if (!$new_meal['error']) {
-				$safe_input = $db->safe_input_string_array($_POST);
 
-				if ( strtolower($safe_input['dish_id']) == 'random' ||  !(int)$safe_input['dish_id'] ) {
-					$query  = 'SELECT `id` ';
-					$query .= 'FROM `ready_to_eat` ';
-					if ( !(int)$safe_input['tag_id'] ) {
-						$query .= 'JOIN `dish_tags` ON `dish_tags`.`dish_id` = `ready_to_eat`.`id` ';
-						$query .= 'WHERE `dish_tags`.`tag_id` = ' . $safe_input['tag_id'] . ' ';
-					}
-					$query .= 'ORDER BY rand() LIMIT 1';
+				$db->autocommit(false);
+				$transaction_errors = false;
+				
+				// SET/CREATE MEAL DISH
+				if (isset($input_data['dish']['id'], $input_data['input_method']) && $input_data['input_method'] == 1 )
+					( $dish = DishController::get_dish($input_data['dish']['id']) ) ? null : $transaction_errors = true;
 
-					$result  = $db->query($query);
-					$entry   = $result->fetch_array(MYSQLI_ASSOC);
-					$dish_id = $entry['id'];
-					$result->free();
+				else if (isset($input_data['dish']['name'], $input_data['input_method']) && $input_data['input_method'] == 2) {
+					$dish = DishController::create($input_data['dish'], $db);
+					(!$dish['error']) ? null : $transaction_errors = true;
 				}
-				else
-					$dish_id = $safe_input['dish_id'];
 
-				if ($sql_date = make_sql_date($safe_input['date'])) {
-					$query  = 'INSERT INTO `meal` (`date`, `dish_id`) ';
-					$query .= 'VALUES (' . $sql_date . ', ' . $dish_id . ')';
-					$db->iquery($query);
-				}
-				else {
-					$new_meal['error']['id'] 		= 2;
-					$new_meal['error']['message'] = 'NEW MEAL: Submitted date is not valid';
-				}
+				$meal_query  = 'INSERT INTO `meal` (`date`, `dish_id`, `name`, `shopping_list`, `created_at`) ';
+				$meal_query .= 'VALUES (' . make_sql_date($meal['date']) . ', ' . $input_data['dish']['id'] . ', "' . $meal['name'] . '", "' . $meal['shopping_list'] .  '", ' . make_sql_date('now') . ')';
+				
+				( $meal_id = $db->iquery($query) ) ? null : $transaction_errors = true;
+
+				($transaction_errors) ? $db->rollback() : $db->commit();
 
 				if ($db->error) {
-					$new_meal['error']['id'] 		= $db->errno;
+					$new_meal['error']['id'] 	  = $db->errno;
 					$new_meal['error']['message'] = 'NEW MEAL: ' . $db->error;
 				}
-				else {
-					$new_meal['date'] 			= $safe_input['date'];
-					$new_meal['dish']['id']		= $dish_id;
-					$new_meal['dish']['tags']	= array();
+				else if ( $meal_id && isset($dish) ) {
+					$new_meal['id'] = $meal_id;
 
-					$query  = 'SELECT `dish`.* ';
-					$query .= 'FROM `dish` ';
-					$query .= 'WHERE `dish`.`id` = ' . $dish_id;
+					foreach ($meal as $key => $value)
+						$new_meal[$key]	=> $value;
 
-					$result    = $db->query($query);
-					$safe_dish = $db->safe_output_string_array($result->fetch_array(MYSQLI_ASSOC));
-					$result->free();
+					foreach ($dish as $key => $value)
+						$new_meal['dish'][$key] => $value;
 
-					foreach ($safe_dish as $key => $value)
-						$new_meal['dish'][$key] = $value;
-
-					$query  = 'SELECT `id`, `name`, `icon` ';
-					$query .= 'FROM `tag` ';
-					$query .= 'JOIN `dish_tags` ON `dish_tags`.`tag_id` = `tag`.`id` ';
-					$query .= 'WHERE `dish_tags`.`dish_id` = ' . $new_meal['dish']['id'];
-
-					$result = $db->query($query);
-					while ($tag = $result->fetch_array(MYSQLI_ASSOC))
-						array_push($new_meal['dish']['tags'], $db->safe_output_string_array($tag));
-
-					$new_meal['dish']['num_tags'] = count($new_meal['dish']['tags']);
-
-					unset($query);
-					$result->free();
+					unset($meal_query);
 				}
 			}
-
+			
+			if ($redirect) header('Location: ' . Application::current_page() . '?date=' . $meal['date']);
+			
 			return array('new_meal' => $new_meal);
 		}
 

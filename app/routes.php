@@ -12,6 +12,8 @@
 				break;
 				case 'add':
 					switch ($app->route['action']) {
+						case 'create':
+						break;
 						default:
 							$controller_data_collection[] = $app->call_controller('meal', 'meals_of_the_day', $app->display_date);
 							$controller_data_collection[] = $app->call_controller('dish', 'list_view');
