@@ -13,7 +13,7 @@
 
 			if ($db->error) {
 				$new_meal['error']['id'] 		= $db->errno;
-				$new_meal['error']['message'] 	= 'EATAGE FORM: ' . $db->error;
+				$new_meal['error']['message'] 	= 'MEAL FORM: ' . $db->error;
 			}
 			else if ($dish_result && $tag_result) {
 				$meal_form['ready_dishes']	= array();
@@ -59,7 +59,7 @@
 				}
 
 				$meal_query  = 'INSERT INTO `meal` (`date`, `dish_id`, `name`, `shopping_list`, `created_at`) ';
-				$meal_query .= 'VALUES (' . make_sql_date($meal['date']) . ', ' . $input_data['dish']['id'] . ', "' . $meal['name'] . '", "' . $meal['shopping_list'] .  '", ' . make_sql_date('now') . ')';
+				$meal_query .= 'VALUES (' . make_sql_date($meal['date']) . ', ' . $input_data['dish']['id'] . ', "' . $meal['name'] . '", "' . $meal['shopping_list'] .  '", NOW())';
 				
 				( $meal_id = $db->iquery($query) ) ? null : $transaction_errors = true;
 

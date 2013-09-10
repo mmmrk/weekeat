@@ -64,7 +64,6 @@
 					$new_dish['num_tags'] = count($new_dish['tags']);
 
 					unset($dish_query);
-					
 				}
 			}
 
@@ -227,8 +226,8 @@
 			$sql_date = make_sql_date($safe_date);
 
 			$query  = 'INSERT INTO `dish_of_the_day` ';
-			$query .= 'SELECT ' . $sql_date . ' AS `date`, `ready_to_eat`.`id` ';
-			$query .= 'FROM `ready_to_eat` ';
+			$query .= 'SELECT ' . $sql_date . ' AS `date`, `ready_for_dotd`.`id` ';
+			$query .= 'FROM `ready_for_dotd` ';
 			$query .= 'ORDER BY RAND() LIMIT 1';
 
 			$entry = $db->query($query);
