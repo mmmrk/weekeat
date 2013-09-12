@@ -42,7 +42,11 @@
 						<label for="add_meal_method_false">Add from list</label>
 						<input name="add_meal_method_new" id="add_meal_method_false" type="radio" value="false">
 					</a>
+				</p>
 
+				<p><i>Or</i></p>
+
+				<p>
 					<a href="#add_meal_step_2" class="content_part_toggle tab_nav_link" data-part="2.2">
 						<label for="add_meal_method_true">Add from form</label>
 						<input name="add_meal_method_new" id="add_meal_method_true" type="radio" value="true">

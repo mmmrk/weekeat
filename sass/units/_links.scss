@@ -44,13 +44,25 @@
 
 	&.confirm {
 		background-color: $green;
+		&.dimmed {
+			background-color: lighten($green, 50%);
+			color: $green;
+		}
 	}
 
 	&.cancel {
 		background-color: $red;
+		&.dimmed {
+			background-color: lighten($red, 50%);
+			color: $red;
+		}
 	}
 
 	&.action {
 		background-color: $blue;
+		&.dimmed {
+			background-color: lighten($blue, 50%);
+			color: $blue;
+		}
 	}
 }

@@ -1,0 +1,59 @@
+#calendar_nav {
+
+	.inner {
+		padding: 0 0.625em;
+	}
+
+	table {
+		width: 100%;
+		font-size: em(14);
+	}
+
+	thead {
+		th {
+			border-bottom: 1px solid $border_gray;
+		}
+	}
+
+	tbody {
+		font-size: em(12, 14);
+
+		tr:first-child {
+			th, td {
+				padding-top: 0.4em;
+			}
+		}
+
+		tr:nth-child(even) .day {
+			background: rgba(white, .6);
+		}
+	}
+
+	.day {
+		text-align: center;
+	}
+
+	.booked {
+		background-color: $blue !important;
+		color: white;
+	}
+
+	.today {
+		background-color: $green !important;
+		color: white;
+	}
+
+	a {
+		color: inherit;
+		display: block;
+		text-decoration: none;
+	}
+}
+
+@media (min-width: 94em) {
+	#calendar_nav {
+		tbody {
+			font-size: 1em;
+		}
+	}
+}
