@@ -46,6 +46,47 @@
 			return array('new_tag' => $new_tag);
 		}
 
+		public static function link_dish_tags ($dish_id, $tag_ids, $transaction_db=false) {
+			$db = ($transaction_db) ? $transaction_db : Boot::$db;
+
+			if (!empty($tag_ids) && is_array($tag_ids)) {
+				$tag_query  = 'INSERT INTO `dish_tags` (`dish_id`, `tag_id`, `created_at`) ';
+				$tag_query .= 'VALUES ';
+
+				foreach ($tag_ids as $tag_id)
+					$tag_query .= '(' . $dish['id'] . ', ' . $tag_id . ', NOW()), ';
+
+				//some cleaning up on the query
+				$tag_query  = (substr($tag_query, -1) == ',') ? substr($tag_query, 0, -1) : $tag_query;
+
+				if (!$db->iquery($tag_query)) return false;
+
+				return $db->affected_rows == count($tag_ids);
+			}
+
+			return false;
+		}
+
+		public static function get_dish_tags ( $dish_id ) {
+			$db = Boot::$db;
+			
+			$dish_tags = array();
+
+			$query  = 'SELECT `id`, `name` ';
+			$query .= 'FROM `tag` ';
+			$query .= 'JOIN `dish_tags` ON `dish_tags`.`tag_id` = `tag`.`id` ';
+			$query .= 'WHERE `dish_tags`.`dish_id` = ' . $dish_id;
+
+			if (!$result = $db->query($query)) return false;
+
+			while ($tag = $result->fetch_array(MYSQLI_ASSOC))
+				array_push($tags, $db->safe_output_string_array($tag));
+			
+			$result->free();
+			
+			return $dish_tags;
+		}
+
 		public static function statistics () {
 			$db = Boot::$db;
 			

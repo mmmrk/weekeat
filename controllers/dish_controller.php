@@ -26,40 +26,29 @@
 			return array('dish_form' => $dish_form);
 		}
 
-		public static function create () {
-			$db = Boot::$db;
+		public static function create ($dish, $transaction_db=false, $redirect=false) {
+			$db = ($transaction_db) ? $transaction_db : Boot::$db;
 
 			$new_dish = array (
 				'error' => false
 			);
 
-			( !empty($_POST['name'])							) ? null : $new_todo['error'][] = array('id' => '1.1', 'message' => 'Missing required field: name');
-			( !empty($_POST['tag[]'])							) ? null : $new_todo['error'][] = array('id' => '1.2', 'message' => 'Missing required field: tag');
-			( !empty($_POST['url']) || !empty($_POST['recipe'])	) ? null : $new_todo['error'][] = array('id' => '1.3', 'message' => 'Missing required field: recipe or url');
+			( !empty($dish['name'])								) ? null : $new_dish['error'][] = array('id' => '1.1', 'message' => 'Missing required field: name');
+			( !empty($dish['tags'])	&& is_array($dish['tags'])	) ? null : $new_dish['error'][] = array('id' => '1.2', 'message' => 'Missing required field: tags');
+			( !empty($dish['url']) || !empty($dish['recipe'])	) ? null : $new_dish['error'][] = array('id' => '1.3', 'message' => 'Missing required field: recipe or url');
 
 			if ( !$new_dish['error'] ) {
-				$safe_input = $db->safe_input_string_array($_POST);
-
+				
 				$db->autocommit(false);
 				$transaction_errors = false;
 				
 				$dish_query	  = 'INSERT INTO `dish` (`name`, `url`, `recipe`, `created_at`) ';
-				$dish_query  .= 'VALUES ("' . $safe_input['name'] . '", "' . $safe_input['url'] . '", "' . $safe_input['recipe'] . '", NOW())';
+				$dish_query  .= 'VALUES ("' . $dish['name'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
 
-				$tag_query  = 'INSERT INTO `dish_tags` (`dish_id`, `tag_id`, `created_at`) ';
-				$tag_query .= 'VALUES ';
-
-				foreach ($safe_input['tag[]'] as $key => $value)
-					$tag_query .= '(' . $dish_id . ', ' . $value . ', NOW()), ';
-			
-				//some cleaning up on the query
-				$tag_query  = (substr($tag_query, -1) == ',') ? substr($tag_query, 0, -1) : $tag_query;
-
-				(		$dish_id = $db->iquery($dish_query)		  ) ? null : $transaction_errors = true;
-				(			$db->iquery($tag_query)				  ) ? null : $transaction_errors = true;
-				($db->affected_rows == count($safe_input['tag[]'])) ? null : $transaction_errors = true;
-
-				($transaction_errors) ? $db->rollback() : $db->commit();
+				( $dish_id = $db->iquery($dish_query)							  ) ? null : $transaction_errors = true;
+				( TagController::link_dish_tags($dish['id'], $dish['tags'], $db)  ) ? null : $transaction_errors = true;
+				
+				($transaction_errors && !$transaction_db) ? $db->rollback() : $db->commit();
 
 				if ( $db->error ) {
 					$new_dish['error']['id'] = $db->errno;
@@ -67,27 +56,20 @@
 				}
 				else if ( $dish_id ) {
 					$new_dish['id'] = $dish_id;
-					$new_dish['tags'] = array();
 
-					foreach ($safe_input as $key => $value)
+					foreach ($dish as $key => $value)
 						$new_dish[$key] = $value;
 
-					$query  = 'SELECT `id`, `name`, `icon` ';
-					$query .= 'FROM `tag` ';
-					$query .= 'JOIN `dish_tags` ON `dish_tags`.`tag_id` = `tag`.`id` ';
-					$query .= 'WHERE `dish_tags`.`dish_id` = ' . $dish_id;
-
-					$result = $db->query($query);
-					while ($tag = $result->fetch_array(MYSQLI_ASSOC))
-						array_push($new_dish['tags'], $db->safe_output_string_array($tag));
-
+					$new_dish['tags'] = TagController::get_dish_tags($dish_id);
 					$new_dish['num_tags'] = count($new_dish['tags']);
 
-					unset($query);
-					$result->free();
+					unset($dish_query);
+					
 				}
 			}
 
+			if ($redirect) header('Location: ' . $app->current_page);
+			
 			return array('new_dish' => $new_dish);
 		}
 
@@ -302,6 +284,47 @@
 			}
 
 			return array('dish_of_the_day' => $dotd);
+		}
+
+		public static function get_dish ($dish_id) {
+			if (!is_numeric($dish_id) && !self::dish_exists($dish_id)) return false;
+
+			$db = Boot::$db;
+			$result = $db->query('SELECT FROM `dish` WHERE `id` = ' . $dish_id);
+
+			return $result->fetch_array(MYSQLI_ASSOC);
+		}
+
+		public static function get_random_dish () {
+		/*	
+			if ( strtolower($safe_input['dish_id']) == 'random' ||  !(int)$safe_input['dish_id'] ) {
+				$query  = 'SELECT `id` ';
+				$query .= 'FROM `ready_to_eat` ';
+			
+				if ( !(int)$safe_input['tag_id'] ) {
+					$query .= 'JOIN `dish_tags` ON `dish_tags`.`dish_id` = `ready_to_eat`.`id` ';
+					$query .= 'WHERE `dish_tags`.`tag_id` = ' . $safe_input['tag_id'] . ' ';
+				}
+			
+				$query .= 'ORDER BY rand() LIMIT 1';
+
+				$result  = $db->query($query);
+				$entry   = $result->fetch_array(MYSQLI_ASSOC);
+				$dish_id = $entry['id'];
+				$result->free();
+			}
+			else
+				$dish_id = $safe_input['dish_id'];
+		*/
+			return false;
+		}
+
+		public static function dish_exists ( $dish_id ) {
+			if (!is_numeric($dish_id)) return false;
+
+			$db = Boot::$db;
+
+			return $db->entry_exists('dish', $dish_id);
 		}
 	}
 

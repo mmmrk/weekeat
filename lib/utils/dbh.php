@@ -18,8 +18,18 @@
 			return false;
 		}
 
+		function entry_exists ($table, $entry_id) {
+			$result = $this->query("SELECT COUNT(*) AS `exists` FROM $table WHERE `id` = $entry_id");
+			$row = $result->fetch_object();
+			
+			$exists = (bool)$row->exists;
+			$result->free();
+
+			return $exists;
+		}
+
 		function db_exists ($database) {
-			$result = $this->query("SELECT COUNT(*) AS 'exists' FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMATA.SCHEMA_NAME=" . '"' . $database . '"');
+			$result = $this->query("SELECT COUNT(*) AS `exists` FROM `INFORMATION_SCHEMA`.`SCHEMATA` WHERE `SCHEMATA`.`SCHEMA_NAME`=`$database`");
 			$row = $result->fetch_object();
 
 			$exists = (bool)$row->exists;
