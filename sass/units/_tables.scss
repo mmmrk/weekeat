@@ -1,14 +1,5 @@
-.table { 
-	display: table; 
-	table-layout: fixed; 
+table {
+	table-layout: fixed;
 	border-spacing: 2px;
-	border-collapse: separate;
-
-	.tr 	 { display: table-row;  }
-	.th, .td { display: table-cell; }
-
-	.td.today 	  {	background-color: #690   !important; color: #fff; }
-	.td.day:hover { background-color: $black !important; color: #fff; }
-
-	.tr:nth-child(even) .td.day { background-color: #e3e3e3; }
+	border-collapse: collapse;
 }

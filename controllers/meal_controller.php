@@ -3,12 +3,12 @@
 
 		public static function add () {
 			$db = Boot::$db;
-			
+
 			$meal_form = array (
 				'error' => false
 			);
 
-			$dish_result	= $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat`'); 
+			$dish_result	= $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat`');
 			$tag_result 	= $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat_tags`');
 
 			if ($db->error) {
@@ -143,7 +143,7 @@
 				'error' => false
 			);
 
-			$working_date = (is_date($display_date)) ? strtotime($display_date) : time(); 
+			$working_date = (is_date($display_date)) ? strtotime($display_date) : time();
 
 			$calendar  = new CalendarView($working_date);
 			$first_day = $calendar->first_day();
@@ -152,14 +152,14 @@
 			$query 	= 'SELECT `meal`.`id` AS `meal_id`, `meal`.`date` AS `date`, `dish`.`id` AS `dish_id`, `meal`.`name` AS `meal_name`, `dish`.`name` AS `dish_name`, `dish`.`description` AS `description`, `dish`.`url`, `dish`.`recipe`, `meal`.`shopping_list`, `tag`.`id` AS `tag_id`, `tag`.`name` AS `tag` ';
 			$query .= 'FROM `meal` ';
 			$query .= 'JOIN `dish` ON `dish`.`id` = `meal`.`dish_id` ';
-			$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` '; 
+			$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` ';
 			$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
-			
+
 			if ($single_date_display && $sql_single_date = make_sql_date($display_date))
 				$query .= 'WHERE `meal`.`date` = ' . $sql_single_date . ' ';
 			else
 				$query .= 'WHERE `meal`.`date` BETWEEN "' . $first_day['date']['string'] . '" AND "' . $last_day['date']['string'] . '" ';
-			
+
 			$query .= 'ORDER BY `date` ASC';
 
 			$result = $db->query($query);
@@ -175,14 +175,14 @@
 				while ( $meal = $result->fetch_array(MYSQLI_ASSOC) ) {
 					$safe_meal 			= $db->safe_output_string_array($meal);
 					$safe_meal['today'] = ($calendar->today_date() == $safe_meal['date']);
-					
+
 					if ( array_key_exists($safe_meal['date'], $meal_calendar['meals']) && array_key_exists($safe_meal['date']['meal_id'], $meal_calendar['meals'][$safe_meal['date']]) )
 						$meal_calendar['meals'][$safe_meal['date']][$safe_meal['meal_id']]['dish']['tags'][$safe_meal['tag_id']] = $safe_meal['tag'];
 					else {
 						$meal_calendar['meals'][$safe_meal['date']][$safe_meal['meal_id']] = array (
 							'meal_id'		=> $safe_meal['meal_id'],
 							'name'			=> $safe_meal['meal_name'],
-							'shopping_list'	=> $safe_meal['shopping_list'],
+							'shopping_list'	=> ($safe_meal['shopping_list'] == '') ? array() : explode(', ', $safe_meal['shopping_list']),
 							'dish'			=> array (
 								'dish_id' 		=> $safe_meal['dish_id'],
 								'name'			=> $safe_meal['dish_name'],
@@ -213,7 +213,7 @@
 /*			$query 	= 'SELECT `meal`.`id` AS `meal_id`, `meal`.`date` AS `date`, `dish`.`id` AS `dish_id`, `meal`.`name` AS `meal_name`, `dish`.`name` AS `dish_name`, `dish`.`description` AS `description`, `dish`.`url`, `dish`.`recipe`, `meal`.`shopping_list`, `tag`.`id` AS `tag_id`, `tag`.`name` AS `tag` ';
 			$query .= 'FROM `meal` ';
 			$query .= 'JOIN `dish` ON `dish`.`id` = `meal`.`dish_id` ';
-			$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` '; 
+			$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` ';
 			$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
 			$query .= 'WHERE `meal`.`date` = ' . $sql_date . ' ';
 			$query .= 'ORDER BY `dish_id` ASC';
@@ -229,7 +229,7 @@
 
 				while ( $meal = $result->fetch_array(MYSQLI_ASSOC) ) {
 					$safe_meal = $db->safe_output_string_array($meal);
-					
+
 					if ( array_key_exists($safe_meal['id'], $motd['meals']) )
 						$motd['meals'][$safe_meal['id']]['tags'][$safe_meal['tag_id']] = $safe_meal['tag'];
 					else {
@@ -280,7 +280,7 @@
 					$safe_meal = $db->safe_output_string_array($meal);
 					$safe_meal['row_class']  = ($counter++ % 2 == 0) ? 'even' : 'odd';
 					$safe_meal['row_class'] .= ($safe_meal['date'] == $app_data['curdate']) ? ' today' : '';
-					
+
 					array_push($meal_list['meals'], $safe_meal);
 				}
 
@@ -288,7 +288,7 @@
 				unset($query);
 				$result->free();
 			}
-		
+
 			return array('meal_list' => $meal_list);
 		}
 	}
@@ -301,7 +301,7 @@
 			'error' => false
 		);
 
-		$dish_result  = $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat`'); 
+		$dish_result  = $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat`');
 		$tag_result = $db->query('SELECT DISTINCT `id`, `name` FROM `ready_to_eat_tags`');
 
 		if ($db->error) {
@@ -427,7 +427,7 @@
 			'error' => false
 		);
 
-		$date = (isset($_GET['date']) && is_date($_GET['date'])) ? strtotime($_GET['date']) : time(); 
+		$date = (isset($_GET['date']) && is_date($_GET['date'])) ? strtotime($_GET['date']) : time();
 
 		$calendar  = new CalendarView($date);
 		$first_day = $calendar->first_day();
@@ -436,7 +436,7 @@
 		$query 	= 'SELECT `meal`.`id` AS `meal_id`, `meal`.`date` AS `date`, `dish`.`id` AS `dish_id`, `dish`.`name` AS `dish`, `dish`.`url`, `dish`.`recipe`, `meal`.`shopping_list`, `tag`.`id` AS `tag_id`, `tag`.`name` AS `tag` ';
 		$query .= 'FROM `meal` ';
 		$query .= 'JOIN `dish` ON `dish`.`id` = `meal`.`dish_id` ';
-		$query .= 'JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` '; 
+		$query .= 'JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` ';
 		$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
 		$query .= 'WHERE `meal`.`date` BETWEEN "' . $first_day['date']['string'] . '" AND "' . $last_day['date']['string'] . '" ';
 		$query .= 'ORDER BY `date` ASC';
@@ -454,7 +454,7 @@
 			while ($meal = $result->fetch_array(MYSQLI_ASSOC)) {
 				$safe_meal = $db->safe_output_string_array($meal);
 				$safe_meal['today'] = ($calendar->today_date() == $safe_meal['date']);
-				
+
 				if ( array_key_exists($safe_meal['date'], $meal_calendar['meals']) )
 					$meal_calendar['meals'][$safe_meal['date']]['tags'][$safe_meal['tag_id']] = $safe_meal['tag'];
 				else {
@@ -496,7 +496,7 @@
 				$safe_meal = $db->safe_output_string_array($meal);
 				$safe_meal['row_class']  = ($counter++ % 2 == 0) ? 'even' : 'odd';
 				$safe_meal['row_class'] .= ($safe_meal['date'] == $app_data['curdate']) ? ' today' : '';
-				
+
 				array_push($meal_list['meals'], $safe_meal);
 			}
 

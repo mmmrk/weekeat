@@ -1,0 +1,16 @@
+
+.icon-plus:before { content: '\23'; } /* '#' */
+.icon-right-dir:before { content: '\2e'; } /* '.' */
+.icon-left-dir:before { content: '\2d'; } /* '-' */
+.icon-ok:before { content: '\21'; } /* '!' */
+.icon-cancel:before { content: '\22'; } /* '&quot;' */
+.icon-tag:before { content: '\25'; } /* '%' */
+.icon-tags:before { content: '\26'; } /* '&amp;' */
+.icon-basket:before { content: '\2b'; } /* '+' */
+.icon-foodlet:before { content: '\2f'; } /* '/' */
+.icon-doc-text:before { content: '\2a'; } /* '*' */
+.icon-quote-left:before { content: '\27'; } /* ''' */
+.icon-quote-right:before { content: '\28'; } /* '(' */
+.icon-info:before { content: '\24'; } /* '$' */
+.icon-attention-alt:before { content: '\29'; } /* ')' */
+.icon-calendar-empty:before { content: '\2c'; } /* ',' */
