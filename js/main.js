@@ -74,8 +74,26 @@ var tab_container = {
 			self.part_toggle($(this));
 		});
 	}
+},
+meal_form = {
+	set_vars: function () {
+		this.$dish_id = $('#dish_id_value');
+		this.$dish_list = $('#dish_list');
+	},
+	select_dish_from_list: function (id) {
+		var previous = this.$dish_id.val();
+		this.$dish_id.val((previous != id) ? id : '');
+	},
+	init: function () {
+		this.set_vars();
+		this.$dish_list.on('click', '[data-dish-id]', function () {
+			meal_form.select_dish_from_list($(this).data('dish-id'));
+			$(this).toggleClass('selected').siblings('.selected').removeClass('selected');
+		});
+	}
 };
 
 $(function () {
 	tab_container.init();
+	meal_form.init();
 });

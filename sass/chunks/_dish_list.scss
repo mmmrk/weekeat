@@ -1,0 +1,40 @@
+#dish_list {
+	tr {
+		&:hover {
+			color: $text_dark;
+		}
+		&.selected {
+			background: $blue;
+			color: white;
+
+			&:hover {
+				color: white;
+			}
+
+			td {
+				background: transparent;
+			}
+
+			.icon-asterisk {
+				color: white;
+			}
+		}
+	}
+
+	td {
+		vertical-align: baseline;
+	}
+
+	.tags {
+		font-size: em(14, 16);
+	}
+
+	a {
+		color: inherit;
+	}
+
+	.icon-asterisk {
+		color: $blue;
+		font-size: em(13, 16);
+	}
+}

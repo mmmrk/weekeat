@@ -798,9 +798,36 @@ body, #app_container, #app_body {
 
 /* line 1, ../sass/units/_tables.scss */
 table {
-  table-layout: fixed;
   border-spacing: 2px;
   border-collapse: collapse;
+  width: 100%;
+}
+
+/* line 8, ../sass/units/_tables.scss */
+tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.6);
+}
+/* line 11, ../sass/units/_tables.scss */
+tbody th {
+  border-bottom: none;
+}
+
+/* line 16, ../sass/units/_tables.scss */
+th {
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+/* line 21, ../sass/units/_tables.scss */
+th, td {
+  padding: 0.3em;
+  	/* &:first-child {
+  		padding-left: 0;
+  	}
+  
+  	&:last-child {
+  		padding-right: 0;
+  	} */
 }
 
 /* line 1, ../sass/units/_forms.scss */
@@ -1268,6 +1295,45 @@ textarea:focus {
   margin-right: 0;
 }
 
+/* line 3, ../sass/chunks/_dish_list.scss */
+#dish_list tr:hover {
+  color: #333333;
+}
+/* line 6, ../sass/chunks/_dish_list.scss */
+#dish_list tr.selected {
+  background: #1a85b5;
+  color: white;
+}
+/* line 10, ../sass/chunks/_dish_list.scss */
+#dish_list tr.selected:hover {
+  color: white;
+}
+/* line 14, ../sass/chunks/_dish_list.scss */
+#dish_list tr.selected td {
+  background: transparent;
+}
+/* line 18, ../sass/chunks/_dish_list.scss */
+#dish_list tr.selected .icon-asterisk {
+  color: white;
+}
+/* line 24, ../sass/chunks/_dish_list.scss */
+#dish_list td {
+  vertical-align: baseline;
+}
+/* line 28, ../sass/chunks/_dish_list.scss */
+#dish_list .tags {
+  font-size: 0.875em;
+}
+/* line 32, ../sass/chunks/_dish_list.scss */
+#dish_list a {
+  color: inherit;
+}
+/* line 36, ../sass/chunks/_dish_list.scss */
+#dish_list .icon-asterisk {
+  color: #1a85b5;
+  font-size: 0.8125em;
+}
+
 /* line 1, ../sass/views/_add_meal.scss */
 #add_meal_day_overview {
   background-color: #fff;
@@ -1292,4 +1358,9 @@ textarea:focus {
 /* line 21, ../sass/views/_add_meal.scss */
 #add_meal_step_1 input {
   display: none;
+}
+
+/* line 27, ../sass/views/_add_meal.scss */
+#add_meal_step_2 tbody tr {
+  cursor: pointer;
 }
