@@ -11,9 +11,43 @@
 		vertical-align: top;
 	}
 
+	&.with_suggestions {
+		position: relative;
+	}
+
 	input, select, textarea {
 		box-sizing: border-box;
 		width: 100%;
+
+		&:focus ~ .suggestion_list {
+			display: block;
+		}
+	}
+
+	.suggestion_list {
+		position: absolute;
+		display: none;
+		top: 100%;
+		left: 0;
+		background-color: #fff;
+		border: 1px solid darken($border_gray, 10%);
+		border-bottom-color: darken($border_gray, 15%);
+		box-shadow: -1px 2px 5px rgba(black, .2);
+		padding: 0;
+		margin: 0;
+
+	}
+
+	.suggestion_item {
+		list-style: none outside none;
+		padding: 0.2em 0.5em;
+		white-space: nowrap;
+		cursor: pointer;
+
+		&:hover {
+			color: $text_dark;
+			background-color: $bg_gray;
+		}
 	}
 }
 
@@ -33,6 +67,6 @@ textarea {
 	padding: 0.2em 0.5em;
 
 	&:focus {
-		outline: 1px solid $green;
+		outline: 1px solid $blue;
 	}
 }

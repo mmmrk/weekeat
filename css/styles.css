@@ -845,19 +845,52 @@ th, td {
   vertical-align: top;
 }
 /* line 14, ../sass/units/_forms.scss */
+.input_group.with_suggestions {
+  position: relative;
+}
+/* line 18, ../sass/units/_forms.scss */
 .input_group input, .input_group select, .input_group textarea {
   box-sizing: border-box;
   width: 100%;
 }
+/* line 22, ../sass/units/_forms.scss */
+.input_group input:focus ~ .suggestion_list, .input_group select:focus ~ .suggestion_list, .input_group textarea:focus ~ .suggestion_list {
+  display: block;
+}
+/* line 27, ../sass/units/_forms.scss */
+.input_group .suggestion_list {
+  position: absolute;
+  display: none;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #c9c9c9;
+  border-bottom-color: #bcbcbc;
+  box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  margin: 0;
+}
+/* line 41, ../sass/units/_forms.scss */
+.input_group .suggestion_item {
+  list-style: none outside none;
+  padding: 0.2em 0.5em;
+  white-space: nowrap;
+  cursor: pointer;
+}
+/* line 47, ../sass/units/_forms.scss */
+.input_group .suggestion_item:hover {
+  color: #333333;
+  background-color: #f0f0f0;
+}
 
-/* line 20, ../sass/units/_forms.scss */
+/* line 54, ../sass/units/_forms.scss */
 .form_footer {
   text-align: right;
   padding: 1.5em 0;
   clear: both;
 }
 
-/* line 28, ../sass/units/_forms.scss */
+/* line 62, ../sass/units/_forms.scss */
 input[type="text"],
 input[type="date"],
 textarea {
@@ -867,11 +900,11 @@ textarea {
   box-shadow: -1px 2px 3px rgba(0, 0, 0, 0.05) inset;
   padding: 0.2em 0.5em;
 }
-/* line 35, ../sass/units/_forms.scss */
+/* line 69, ../sass/units/_forms.scss */
 input[type="text"]:focus,
 input[type="date"]:focus,
 textarea:focus {
-  outline: 1px solid #7fb513;
+  outline: 1px solid #1a85b5;
 }
 
 /* line 1, ../sass/chunks/_sidebar.scss */
