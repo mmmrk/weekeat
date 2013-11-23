@@ -5,8 +5,8 @@
 						//	$ready_dishes = $form_meal['ready_dishes'];
 						//	$ready_tags = $form_meal['ready_tags'];
 					?>
-					<form id="add_meal_form" action="<?= $_SERVER['PHP_SELF'] . '?section=meal&page=create&date=' . $app->display_date; ?>" method="post">
-						<input type="hidden" name="add_method" value="0" />
+					<form id="add_meal_form" action="<?= $_SERVER['PHP_SELF'] . '?section=meal&page=add&action=create&date=' . $app->display_date; ?>" method="post">
+						<input type="hidden" name="add_method" value="2" />
 						<input type="hidden" name="dish[id]" value="0" />
 
 						<div id="add_meal_step_2" class="tab_content">
@@ -45,7 +45,7 @@
 
 							<div class="input_group">
 								<label for="meal[shopping_list]">Shopping list</label>
-								<textarea id="meal[shopping_list]" cols="75" rows="2" placeholder="Eg: potatoes, olive oil, salt"></textarea>
+								<textarea name="meal[shopping_list]" cols="75" rows="2" placeholder="Eg: potatoes, olive oil, salt"></textarea>
 							</div>
 						</div>
 					</form>

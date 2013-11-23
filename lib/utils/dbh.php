@@ -28,6 +28,16 @@
 			return $exists;
 		}
 
+		function string_entry_exists($table, $field, $string) {
+			$result = $this->query("SELECT COUNT(*) AS `exists` FROM $table WHERE `$field` = `$string`");
+			$row = $result->fetch_object();
+
+			$exists = (bool)$row->exists;
+			$result->free();
+
+			return $exists;
+		}
+
 		function db_exists ($database) {
 			$result = $this->query("SELECT COUNT(*) AS `exists` FROM `INFORMATION_SCHEMA`.`SCHEMATA` WHERE `SCHEMATA`.`SCHEMA_NAME`=`$database`");
 			$row = $result->fetch_object();

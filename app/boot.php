@@ -3,7 +3,7 @@
 		public static $db;
 
 		public $params, $route;
-		public $error, $current_date, $display_date, $site_params, $view_data;
+		public $error, $current_date, $display_date, $site_params, $input_params, $view_data;
 
 		public function __construct () {
 			$this->error = false;
@@ -12,10 +12,10 @@
 			self::db_init(DbConfig::$server, DbConfig::$database, DbConfig::$username, DbConfig::$password);
 			
 			$this->set_params();
+			$this->set_display_date_from_collection($this->params['GET']);
 
 			$this->set_route($this->params['GET']);
-			$this->collect_site_params($this->params);
-			$this->set_display_date_from_collection($this->site_params['GET']);
+			$this->collect_external_params($this->params);
 		}
 
 		public function set_params () {
@@ -50,8 +50,11 @@
 			return $this->call_controller($controller, $page, $args);
 		}
 
-		private function collect_site_params ($params) {
-			$this->site_params = array ();
+		private function collect_external_params ($params) {
+			$this->site_params = array();
+			$this->input_params = array();
+
+			$this->input_params['display_date'] = (isset($params['get']['date']) && is_date($params['get']['date'])) ? $params['get']['date'] : $this->display_date;
 
 			foreach ($params as $param_collection => $collection) {
 				if (empty($collection))
@@ -61,12 +64,16 @@
 						$this->site_params[$param_collection] = array();
 
 					foreach ($collection as $param_key => $param_value)
-						if ($param_key != 'section' && $param_key != 'page' && $param_key != 'action')
+						if ($param_key == 'section' || $param_key == 'page' || $param_key == 'action')
 							$this->site_params[$param_collection][$param_key] = $param_value;
-						else if (is_array($param_value))
-							$this->site_params[$param_collection][$param_key] = self::$db->safe_input_string_array($param_value);
-						else
-							$this->site_params[$param_collection][$param_key] = self::$db->safe_input_string($param_value);
+						else {
+							if (is_array($param_value))
+								$this->site_params[$param_collection][$param_key] = self::$db->safe_input_string_array($param_value);
+							else
+								$this->site_params[$param_collection][$param_key] = self::$db->safe_input_string($param_value);
+							
+							$this->input_params[$param_key] = $this->site_params[$param_collection][$param_key];
+						}
 				}
 			}
 		}
@@ -123,7 +130,6 @@
 				foreach ($this->site_params['GET'] as $key => $value)
 					$url .= '&' . $key . '=' . $value;
 
-
 			return $url;
 		}
 
@@ -141,7 +147,7 @@
 			$this->set_display_date($date);
 		}
 	}
-
+/********** OLD
 	if (!isset($db)) {
 		$db = new dbh(DbConfig::$server, DbConfig::$username, DbConfig::$password);
 		$db->use_db(DbConfig::$database);
@@ -164,6 +170,6 @@
 		$app_data['todays_dish'] = $db->safe_output_string_array($result->fetch_array(MYSQLI_ASSOC));
 
 	$result->free();
-
+OLD **********/
 	//$app = new AppController();
 ?>

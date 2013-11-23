@@ -46,25 +46,58 @@
 			return array('new_tag' => $new_tag);
 		}
 
+		public static function make_dish_link_query ($dish_id, $tag_ids) {
+			$link_query = false;
+
+			if (is_numeric($dish_id) && $dish_id > 0 && !empty($tag_ids) && is_array($tag_ids)) {
+				$link_query  = 'INSERT INTO `dish_tags` (`dish_id`, `tag_id`, `created_at`) ';
+				$link_query .= 'VALUES ';
+
+				foreach ($tag_ids as $tag_id)
+					$link_query .= '(' . $dish_id . ', ' . $tag_id . ', NOW()), ';
+			}
+
+			return $link_query;
+		}
+
 		public static function link_dish_tags ($dish_id, $tag_ids, $transaction_db=false) {
+			
 			$db = ($transaction_db) ? $transaction_db : Boot::$db;
+			$dish_tags = array (
+				'error' => false
+			);
 
 			if (!empty($tag_ids) && is_array($tag_ids)) {
+				
+				$db->autocommit(false);
+				$transaction_errors = false;
+
 				$tag_query  = 'INSERT INTO `dish_tags` (`dish_id`, `tag_id`, `created_at`) ';
 				$tag_query .= 'VALUES ';
 
 				foreach ($tag_ids as $tag_id)
-					$tag_query .= '(' . $dish['id'] . ', ' . $tag_id . ', NOW()), ';
+					$tag_query .= '(' . $dish_id . ', ' . $tag_id . ', NOW()), ';
 
 				//some cleaning up on the query
-				$tag_query  = (substr($tag_query, -1) == ',') ? substr($tag_query, 0, -1) : $tag_query;
+				echo $tag_query  = (substr($tag_query, -2) == ', ') ? substr($tag_query, 0, -2) : $tag_query;
 
-				if (!$db->iquery($tag_query)) return false;
+				($db->iquery($tag_query)) ? null : $transaction_errors = 'DISH TAG INSERT ERROR';
 
-				return $db->affected_rows == count($tag_ids);
+				if ($transaction_errors || $db->error) {
+					if (!$transaction_db) $db->rollback();
+
+					$dish_tags['error']['id'] = $db->errno;
+					$dish_tags['error']['message'] = 'DISH TAG LINK: ' . $db->error . ' (' . $transaction_errors . ')';
+				}
+				else {
+					if (!$transaction_dbn) $db->commit();
+					
+					$dish_tags['num_tags'] = $db->affected_rows;
+					$dish_tags['link_success'] = ($db->affected_rows == count($tag_ids));
+				}
 			}
 
-			return false;
+			return array('dish_tags' => $dish_tags);//$db->affected_rows == count($tag_ids);
 		}
 
 		public static function get_dish_tags ( $dish_id ) {
@@ -125,6 +158,7 @@
 
 	}
 
+/********** OLD
 	// FORM
 	if ( $app_data['controller'] == 'application' && $app_data['action'] == 'admin' ) {
 		$form_tag = array(
@@ -196,4 +230,5 @@
 			$result->free();
 		}
 	}
+OLD **********/
 ?>

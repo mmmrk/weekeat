@@ -3,17 +3,28 @@
 		
 		public static function statistics () {
 
-			$statistics = array(
+			$holder = array(
 				DishController::statistics(),
 				MealController::statistics(),
 				TagController::statistics()
 				//TodoController::statistics()
 			);
 
-			return array('statistics', $statistics);
+			$statistics = array();
+
+			foreach ($holder as $stat)
+				foreach ($stat as $stat_name => $stat_item)
+					$statistics[$stat_name] = $stat_item;
+
+			return array('statistics' => $statistics);
+		}
+
+		public static function admin () {
+
 		}
 	}
 
+/********** OLD
 	$app_data = array (
 		'error' => false,
 		'curdate' => date('Y-m-d'),
@@ -43,7 +54,7 @@
 			$app_data['controller'] = 'todo';
 			$app_data['action'] = (isset($_GET['action'])) ? $_GET['action'] : 'list';
 	}
-
+OLD **********/
 /*	if (!isset($db)) {
 		$db = new dbh($server, $username, $password);
 		$db->use_db($database);

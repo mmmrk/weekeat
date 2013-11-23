@@ -7,9 +7,9 @@
 				'calendar_month'=> array(),
 				'add' 			=> array(
 					'from_dish',
-					'from_form'
+					'from_form',
+					'create'
 				),
-				'create' 		=> array(),
 				'show' 			=> array(),
 				'list_view' 	=> array()
 			),

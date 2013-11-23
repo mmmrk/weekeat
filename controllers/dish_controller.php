@@ -26,8 +26,18 @@
 			return array('dish_form' => $dish_form);
 		}
 
+		public static function make_create_query ($dish) {
+			$dish_query = false;
+
+			if ( !empty($dish['name']) && !empty($dish['description']) && (!empty($dish['url']) || !empty($dish['recipe'])) )
+				$dish_query  = 'INSERT INTO `dish` (`name`, `description`, `url`, `recipe`, `created_at`) ';
+				$dish_query .= 'VALUES ("' . $dish['name'] . '", "' . $dish['description'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
+
+			return $dish_query;
+		}
+
 		public static function create ($dish, $transaction_db=false, $redirect=false) {
-			$db = ($transaction_db) ? $transaction_db : Boot::$db;
+			$db = Boot::$db;
 
 			$new_dish = array (
 				'error' => false
@@ -38,37 +48,46 @@
 			( !empty($dish['url']) || !empty($dish['recipe'])	) ? null : $new_dish['error'][] = array('id' => '1.3', 'message' => 'Missing required field: recipe or url');
 
 			if ( !$new_dish['error'] ) {
+				if (!$transaction_db)
+					$db->autocommit(false);
 				
-				$db->autocommit(false);
 				$transaction_errors = false;
 				
-				$dish_query	  = 'INSERT INTO `dish` (`name`, `url`, `recipe`, `created_at`) ';
-				$dish_query  .= 'VALUES ("' . $dish['name'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
+				$dish_query	  = 'INSERT INTO `dish` (`name`, `description`, `url`, `recipe`, `created_at`) ';
+				echo $dish_query  .= 'VALUES ("' . $dish['name'] . '", "' . $dish['description'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
 
-				( $dish_id = $db->iquery($dish_query)							  ) ? null : $transaction_errors = true;
-				( TagController::link_dish_tags($dish['id'], $dish['tags'], $db)  ) ? null : $transaction_errors = true;
+				( $dish_id = $db->iquery($dish_query)						 ) ? null : $transaction_errors = 'DISH INSERT ERROR';
 				
-				($transaction_errors && !$transaction_db) ? $db->rollback() : $db->commit();
+				$tag_links = TagController::link_dish_tags($dish_id, $dish['tags'], $db);
 
-				if ( $db->error ) {
-					$new_dish['error']['id'] = $db->errno;
-					$new_dish['error']['message'] = 'NEW DISH: ' . $db->error;
+				if ( $tag_links['dish_tags']['error'] ) {
+					$new_dish['tags']['error']['id'] = $tag_links['dish_tags']['error']['id'];
+					$new_dish['tags']['error']['message'] = $tag_links['dish_tags']['error']['message'];
 				}
-				else if ( $dish_id ) {
+
+				if ( $transaction_errors || $db->error || $new_dish['tags']['error'] ) {
+					$db->rollback(); 
+
+					$new_dish['error']['id'] = $db->errno;
+					$new_dish['error']['message'] = 'NEW DISH: ' . $db->error . ' (' . $transaction_errors . ')';
+				}
+				else if ( !$transaction_errors && $dish_id ) {
+					(!$transaction_db) ? null : $db->commit();
+					unset($dish_query);
+					
+					if ($redirect) header('Location: ' . $app->current_page);
+
 					$new_dish['id'] = $dish_id;
 
 					foreach ($dish as $key => $value)
 						$new_dish[$key] = $value;
 
-					$new_dish['tags'] = TagController::get_dish_tags($dish_id);
-					$new_dish['num_tags'] = count($new_dish['tags']);
-
-					unset($dish_query);
+					$new_dish['tags']		= TagController::get_dish_tags($dish_id);
+					$new_dish['num_tags']	= count($new_dish['tags']);
 				}
 			}
+			var_dump($new_dish);
 
-			if ($redirect) header('Location: ' . $app->current_page);
-			
 			return array('new_dish' => $new_dish);
 		}
 
@@ -318,15 +337,16 @@
 			return false;
 		}
 
-		public static function dish_exists ( $dish_id ) {
-			if (!is_numeric($dish_id)) return false;
+		public static function dish_exists ( $dish ) {
+			if (!is_numeric($dish) && !is_string($dish)) return false;
 
 			$db = Boot::$db;
 
-			return $db->entry_exists('dish', $dish_id);
+			return (is_numeric($dish)) ? $db->entry_exists('dish', $dish) : $db->string_entry_exists('dish', 'name', $dish);
 		}
 	}
 
+/********** OLD
 	// FORM
 	if ( $app_data['controller'] == 'dish' || $app_data['page'] == 'calendar' ) {
 
@@ -533,4 +553,5 @@
 			$result->free();
 		}
 	}
+OLD **********/
 ?>

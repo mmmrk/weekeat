@@ -32,6 +32,67 @@
 			return array('meal_form' => $meal_form);
 		}
 
+		public static function make_create_query ($dish_id, $meal_name, $date, $shopping_list) {
+			$meal_query = false;
+
+			if ( (is_numeric($dish_id) && $dish_id > 0) && is_date($date) && !empty($meal_name) ) {
+				$meal_query  = 'INSERT INTO `meal` (`date`, `dish_id`, `name`, `shopping_list`, `created_at`) ';
+				$meal_query .= 'VALUES (' . make_sql_date($date) . ', ' . $dish_id . ', "' . $meal_name . '", "' . $shopping_list .  '", NOW())';
+			}
+		
+			return $meal_query;
+		}
+
+		public static function new_create ($input_data, $redirect=false) {
+			$db = Boot::$db;
+			$db->autocommit(false);
+
+			$new_meal = array (
+				'error' => false
+			);
+
+			$input_dish	= $input_data['dish'];
+			$input_meal	= $input_data['meal'];
+			$input_date	= $input_data['display_date'];
+			$add_method = $input_data['add_method'];
+
+			if ($add_method == 1 && isset($input_dish['id'])) {
+				( $dish = DishController::get_dish($input_dish['id']) ) ? null : $transaction_errors=true;
+				$dish_id = ($dish) ? $dish['id'] : false;
+			}
+			else if ($add_method == 2 && isset($input_dish['name']) && $dish_query = DishController::make_create_query($input_dish) )
+				( $dish_id = $db->iquery($dish_query) ) ? null : $transaction_errors=true;
+			else
+				$transaction_errors = true;
+
+			if (isset($input_dish['tags']) && is_array($input_dish['tags']) && isset($dish_id) && $dish_link_query = TagController::make_dish_link_query($dish_id, $input_dish['tags']))
+				$db->query($dish_link_query) ? null : $transaction_errors=true;
+			else
+				$transaction_errors = true;
+
+			if (isset($input_meal['name']) && is_date($input_date) && isset($dish_id) && $meal_query = self::make_create_query($dish_id, $input_meal['name'], $input_date, $input_meal['shopping_list']))
+				( $meal_id = $db->iquery($meal_query) ) ? null : $transaction_errors=true;
+			else
+				$transaction_errors = true;
+
+			if ($transaction_errors)
+				$db->rollback();
+			else {
+				$db->commit();
+
+				/*foreach ($input_meal as $key => $value)
+					$new_meal[$key] = $value;
+
+				foreach ($input_dish as $key => $value)
+					$new_meal['dish'][$key] => $value;
+
+				foreach ($input_dish[])*/
+			}
+			if ($redirect) header('Location: ' . Application::current_page() . '?date=' . $meal['date']);
+			
+			return array('new_meal' => $new_meal);
+		}
+
 		public static function create ($input_data, $redirect=false) {
 			$db = Boot::$db;
 			
@@ -40,47 +101,62 @@
 			);
 
 			$meal = $input_data['meal'];
+			$meal_date = $input_data['display_date'];
 
-			( !empty($meal['date']) && is_date($meal['date']) ) ? null : $new_meal['error'][] = array('id' => '1.1', 'message' => 'Missing required field: meal date');
-			( !empty($meal['name'])							  ) ? null : $new_meal['error'][] = array('id' => '1.2', 'message' => 'Missing required field: meal name');
-
+			( !empty($meal_date) && is_date($meal_date) 						) ? null : $new_meal['error'][] = array('id' => '1.1', 'message' => 'Missing required field: meal date');
+			( !empty($meal['name'])											 	) ? null : $new_meal['error'][] = array('id' => '1.2', 'message' => 'Missing required field: meal name');
+			( isset($input_data['add_method']) && $input_data['add_method'] > 0 ) ? null : $new_meal['error'][] = array('id' => '1.3', 'message' => 'Missing add method');
+			
 			if (!$new_meal['error']) {
 
 				$db->autocommit(false);
 				$transaction_errors = false;
 				
 				// SET/CREATE MEAL DISH
-				if (isset($input_data['dish']['id'], $input_data['input_method']) && $input_data['input_method'] == 1 )
+				if (isset($input_data['dish']['id']) && $input_data['add_method'] == 1 ) {
 					( $dish = DishController::get_dish($input_data['dish']['id']) ) ? null : $transaction_errors = true;
-
-				else if (isset($input_data['dish']['name'], $input_data['input_method']) && $input_data['input_method'] == 2) {
-					$dish = DishController::create($input_data['dish'], $db);
-					(!$dish['error']) ? null : $transaction_errors = true;
+					
 				}
+				else if (isset($input_data['dish']['name']) && $input_data['add_method'] == 2) {
+					$result = DishController::create($input_data['dish'], $db);
 
-				$meal_query  = 'INSERT INTO `meal` (`date`, `dish_id`, `name`, `shopping_list`, `created_at`) ';
-				$meal_query .= 'VALUES (' . make_sql_date($meal['date']) . ', ' . $input_data['dish']['id'] . ', "' . $meal['name'] . '", "' . $meal['shopping_list'] .  '", NOW())';
+					if ($result['new_dish']['error']) {
+						$transaction_errors = true;
+						$new_meal['dish']['error']['id'] = $result['new_dish']['error']['id'];
+						$new_meal['dish']['error']['message'] = $result['new_dish']['error']['message'];
+					}
+					else
+						$dish = $result['new_dish'];
+				}
 				
-				( $meal_id = $db->iquery($query) ) ? null : $transaction_errors = true;
+				if (!$new_meal['error'] && isset($dish)) {
+					$meal_query  = 'INSERT INTO `meal` (`date`, `dish_id`, `name`, `shopping_list`, `created_at`) ';
+					echo $meal_query .= 'VALUES (' . make_sql_date($meal_date) . ', ' . $dish['id'] . ', "' . $meal['name'] . '", "' . $meal['shopping_list'] .  '", NOW())';
 
-				($transaction_errors) ? $db->rollback() : $db->commit();
+					( $meal_id = $db->iquery($meal_query) ) ? null : $transaction_errors = true;
 
-				if ($db->error) {
-					$new_meal['error']['id'] 	  = $db->errno;
-					$new_meal['error']['message'] = 'NEW MEAL: ' . $db->error;
-				}
-				else if ( $meal_id && isset($dish) ) {
-					$new_meal['id'] = $meal_id;
+					if ($transaction_errors || $db->error) {
+						$db->rollback();
 
-					foreach ($meal as $key => $value)
-						$new_meal[$key]	= $value;
+						$new_meal['error']['id'] 	  = $db->errno;
+						$new_meal['error']['message'] = 'NEW MEAL: ' . $db->error;
+					}
+					else if ( $meal_id ) {
+						$db->commit();
+						unset($meal_query);
 
-					foreach ($dish as $key => $value)
-						$new_meal['dish'][$key] = $value;
+						$new_meal['id'] = $meal_id;
 
-					unset($meal_query);
+						foreach ($meal as $key => $value)
+							$new_meal[$key]	= $value;
+
+						foreach ($dish as $key => $value)
+							$new_meal['dish'][$key] = $value;
+					}
 				}
 			}
+
+			var_dump($new_meal);
 			
 			if ($redirect) header('Location: ' . Application::current_page() . '?date=' . $meal['date']);
 			
@@ -270,7 +346,7 @@
 	}
 
 
-
+/********** OLD
 	// FORM
 	if ( $app_data['controller'] == 'meal' && $app_data['action'] == 'form' ) {
 		$meal_form = array (
@@ -481,4 +557,5 @@
 			$result->free();
 		}
 	}
+OLD **********/
 ?>

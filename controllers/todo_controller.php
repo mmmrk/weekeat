@@ -1,7 +1,7 @@
 <?php
 	class TodoController {
 
-		public static function form () {
+		public static function add () {
 			$db = Boot::$db;
 
 			$todo_form = array(
@@ -115,6 +115,7 @@
 		}
 	}
 
+/********** OLD
 	// FORM
 	if ( $app_data['controller'] == 'todo' ) {
 		$form_todo = array(
@@ -218,4 +219,5 @@
 			$result->free();
 		}
 	}
+OLD **********/
 ?>
