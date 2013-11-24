@@ -92,6 +92,10 @@
 		margin-top: 0;
 	}
 
+	.dish_tags {
+		font-size: em(12, 16);
+	}
+
 	.meal_shopping_list {
 		&:hover:before {
 			@include transform(rotate(-23deg));
@@ -136,9 +140,18 @@
 		color: darken($bg_gray, 10%);
 		text-shadow: 0 -1px 0 rgba(black, .2), 0 -2px 0 rgba(black, .05), 0 1px 0 rgba(white, .8), 0 2px 0 rgba(white, .2);
 	}
+}
 
-	.meal_item ~ .meal_item {
+.meal_item {
+	& ~ .meal_item {
 		margin-top: 4em;
+	}
+
+	&.preview {
+		border: 1px dashed $border_gray;
+		box-shadow: -1px 2px 5px rgba(black, .1);
+		padding-top: 0.4em;
+		min-height: 13em;
 	}
 }
 

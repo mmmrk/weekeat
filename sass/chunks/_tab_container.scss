@@ -95,6 +95,10 @@
 	text-align: right;
 	border-top: 1px dotted $border_gray;
 
+	.inner {
+		max-width: 60em;
+	}
+
 	.button {
 		margin-left: 0.5em;
 	}

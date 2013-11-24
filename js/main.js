@@ -55,8 +55,6 @@ var tab_container = {
 		this.$container.on('click', '.next, .prev', function (e) {
 			e.preventDefault();
 
-			console.log('button click!');
-
 			if ($(e.target).is('.prev'))
 				self.$tabs.filter('.active').prev().trigger('click');
 			if ($(e.target).is('.next'))
@@ -80,20 +78,68 @@ var tab_container = {
 },
 meal_form = {
 	set_vars: function (form) {
+		this.$form = form;
 		this.$dish_id = $('#dish_id_value');
 		this.$dish_list = $('#dish_list');
+		this.$previews = $(
+			'<li class="meal_item preview">'+
+			'	<span class="meal">Adding meal</span>'+
+			'	<h4 class="dish"></h4>'+
+			'	<p class="dish_tags"></p>'+
+			'	<p class="dish_description"></p>'+
+			'</li>'
+		).appendTo('.meal_list').add('.meal_preview');
+		this.$input_methods = this.$form.find('.input_method');
+	},
+	update_previews: function () {
+		var source,
+			source_data = {},
+			target = {};
+
+		target.name = this.$previews.find('.dish');
+		target.tags = this.$previews.find('.dish_tags');
+		target.description = this.$previews.find('.dish_description');
+
+		source = this.$input_methods.filter('.active_part');
+		if (source.is('.content_part_1')) {
+			var sources = source.find('.selected').children();
+			source_data.name = sources.eq(0).text();
+			source_data.tags = sources.eq(3).text();
+			source_data.description = sources.eq(1).text();
+		}
+		else {
+			var sources = source.find('.input_group');
+			source_data.name = sources.eq(0).find('input').val();
+			source_data.tags = (function () {
+				var output = ''
+				sources.eq(4).find(':checked').each(function (index) {
+					var label = $(this).next().text();
+					output += (index) ? ', ' + label : label;
+				});
+				return output;
+			}());
+			source_data.description = sources.eq(1).find('textarea').val();
+		}
+
+		target.name.text(source_data.name);
+		target.tags.text(source_data.tags);
+		target.description.text(source_data.description);
 	},
 	select_dish_from_list: function (id) {
 		var previous = this.$dish_id.val();
 		this.$dish_id.val((previous != id) ? id : '');
+		this.update_previews();
 	},
 	init: function (form) {
 		if (!form.length)
 			return;
 		this.set_vars(form);
 		this.$dish_list.on('click', '[data-dish-id]', function () {
-			meal_form.select_dish_from_list($(this).data('dish-id'));
 			$(this).toggleClass('selected').siblings('.selected').removeClass('selected');
+			meal_form.select_dish_from_list($(this).data('dish-id'));
+		});
+		this.$input_methods.filter('.content_part_2').on('change', function () {
+			meal_form.update_previews();
 		});
 	}
 },

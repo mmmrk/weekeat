@@ -9,7 +9,7 @@
 			);
 
 			$result = $db->query('SELECT * FROM tag');
-			
+
 			if ($db->error) {
 				$dish_form['error']['id'] = $db->errno;
 				$dish_form['error']['message'] = 'FORM DISH: ' . $db->error;
@@ -18,7 +18,7 @@
 				$dish_form['tags'] = array();
 				while ($tag = $result->fetch_array(MYSQLI_ASSOC))
 					array_push($dish_form['tags'], $db->safe_output_string_array($tag));
-				
+
 				unset($query);
 				$result->free();
 			}
@@ -50,14 +50,14 @@
 			if ( !$new_dish['error'] ) {
 				if (!$transaction_db)
 					$db->autocommit(false);
-				
+
 				$transaction_errors = false;
-				
+
 				$dish_query	  = 'INSERT INTO `dish` (`name`, `description`, `url`, `recipe`, `created_at`) ';
 				echo $dish_query  .= 'VALUES ("' . $dish['name'] . '", "' . $dish['description'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
 
 				( $dish_id = $db->iquery($dish_query)						 ) ? null : $transaction_errors = 'DISH INSERT ERROR';
-				
+
 				$tag_links = TagController::link_dish_tags($dish_id, $dish['tags'], $db);
 
 				if ( $tag_links['dish_tags']['error'] ) {
@@ -66,7 +66,7 @@
 				}
 
 				if ( $transaction_errors || $db->error || $new_dish['tags']['error'] ) {
-					$db->rollback(); 
+					$db->rollback();
 
 					$new_dish['error']['id'] = $db->errno;
 					$new_dish['error']['message'] = 'NEW DISH: ' . $db->error . ' (' . $transaction_errors . ')';
@@ -74,7 +74,7 @@
 				else if ( !$transaction_errors && $dish_id ) {
 					(!$transaction_db) ? null : $db->commit();
 					unset($dish_query);
-					
+
 					if ($redirect) header('Location: ' . $app->current_page);
 
 					$new_dish['id'] = $dish_id;
@@ -123,7 +123,7 @@
 				while ($stats = $result->fetch_array(MYSQLI_ASSOC)) {
 					$safe_stats = $db->safe_output_string_array($stats);
 					$safe_stats['row_class'] = ($counter++ % 2 == 0) ? 'even' : 'odd';
-					
+
 					array_push($dish_statistics['dishes'], $safe_stats);
 				}
 
@@ -159,7 +159,7 @@
 			$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
 			$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name`, `dish`.`created_at`, `ml`.`last_meal_date`, `dotd`.`last_dotd_date` ';
 			$query .= 'ORDER BY `name` ASC';
-		
+
 			$result = $db->query($query);
 
 			if ( $db->error ) {
@@ -176,7 +176,8 @@
 					if (!in_array($safe_entry['id'], $used_ids)) {
 						array_push($used_ids, $safe_entry['id']);
 
-						$safe_entry['row_class'] = ($counter++ % 2 == 0) ? 'even' : 'odd';
+						// $safe_entry['row_class'] = ($counter++ % 2 == 0) ? 'even' : 'odd';
+						$safe_entry['description'] = 'temporary description. to be set later';
 						$safe_entry['tags'][] = $safe_entry['tag'];
 
 						unset($safe_entry['tag']);
@@ -215,7 +216,7 @@
 			else if ( $result ) {
 				while ($entry = $result->fetch_array(MYSQLI_ASSOC)) {
 					$safe_entry = $db->safe_output_string_array($entry);
-					
+
 					$latest_dishes_list['dishes'][$safe_entry['id']] = array (
 						'id' 			=> $safe_entry['id'],
 						'name' 			=> $safe_entry['name'],
@@ -263,7 +264,7 @@
 
 		public static function get_dish_of_the_day ($dotd_date=false) {
 			$db = Boot::$db;
-			
+
 			$dotd = array (
 				'error' => false
 			);
@@ -285,8 +286,8 @@
 				return self::set_dish_of_the_day(false, $dotd_date);
 			}
 			else if ( $result ) {
-				$dotd['dish'] = array();  
-				
+				$dotd['dish'] = array();
+
 				while ($entry = $result->fetch_array(MYSQLI_ASSOC)) {
 					$safe_entry = $db->safe_output_string_array($entry);
 
@@ -314,16 +315,16 @@
 		}
 
 		public static function get_random_dish () {
-		/*	
+		/*
 			if ( strtolower($safe_input['dish_id']) == 'random' ||  !(int)$safe_input['dish_id'] ) {
 				$query  = 'SELECT `id` ';
 				$query .= 'FROM `ready_to_eat` ';
-			
+
 				if ( !(int)$safe_input['tag_id'] ) {
 					$query .= 'JOIN `dish_tags` ON `dish_tags`.`dish_id` = `ready_to_eat`.`id` ';
 					$query .= 'WHERE `dish_tags`.`tag_id` = ' . $safe_input['tag_id'] . ' ';
 				}
-			
+
 				$query .= 'ORDER BY rand() LIMIT 1';
 
 				$result  = $db->query($query);
@@ -355,7 +356,7 @@
 		);
 
 		$result = $db->query('SELECT * FROM tag');
-		
+
 		if ($db->error) {
 			$dish_form['error']['id'] = $db->errno;
 			$dish_form['error']['message'] = 'FORM DISH: ' . $db->error;
@@ -364,7 +365,7 @@
 			$dish_form['tags'] = array();
 			while ($tag = $result->fetch_array(MYSQLI_ASSOC))
 				array_push($dish_form['tags'], $db->safe_output_string_array($tag));
-			
+
 			unset($query);
 			$result->free();
 		}
@@ -386,7 +387,7 @@
 
 			$db->autocommit(false);
 			$transaction_errors = false;
-			
+
 			$dish_query	  = 'INSERT INTO `dish` (`name`, `url`, `recipe`, `created_at`) ';
 			$dish_query  .= 'VALUES ("' . $safe_input['name'] . '", "' . $safe_input['url'] . '", "' . $safe_input['recipe'] . '", NOW())';
 
@@ -395,7 +396,7 @@
 
 			foreach ($safe_input['tag[]'] as $key => $value)
 				$tag_query .= '(' . $dish_id . ', ' . $value . ', NOW()), ';
-		
+
 			//some cleaning up on the query
 			$tag_query  = (substr($tag_query, -1) == ',') ? substr($tag_query, 0, -1) : $tag_query;
 
@@ -464,13 +465,13 @@
 			while ($stats = $result->fetch_array(MYSQLI_ASSOC)) {
 				$safe_stats = $db->safe_output_string_array($stats);
 				$safe_stats['row_class'] = ($counter++ % 2 == 0) ? 'even' : 'odd';
-				
+
 				array_push($dish_statistics['dishes'], $safe_stats);
 			}
 
 			unset($counter);
 			$result->free();
-		}	
+		}
 	}
 
 	// LIST
@@ -486,7 +487,7 @@
 		$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
 		$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name`, `dish`.`created_at` ';
 		$query .= 'ORDER BY `dish`.`id` ASC';
-		
+
 		$result = $db->query($query);
 
 		if ($db->error) {
@@ -521,7 +522,7 @@
 
 	//LIST LATEST DISHES
 	if ( $app_data['controller'] == 'meal' && $app_data['action'] == 'calendar' ) {
-		
+
 		$dish_list_latest = array (
 			'error' => false
 		);
@@ -540,7 +541,7 @@
 		else if ( $result ) {
 			while ($entry = $result->fetch_array(MYSQLI_ASSOC)) {
 				$safe_entry = $db->safe_output_string_array($entry);
-				
+
 				$dish_list_latest['dishes'][$safe_entry['id']] = array(
 					'id' 			=> $safe_entry['id'],
 					'name' 			=> $safe_entry['name'],

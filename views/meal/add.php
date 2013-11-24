@@ -58,8 +58,10 @@
 	</div>
 
 	<div class="tab_container_footer">
-		<button type="button" class="button prev action" disabled><i class="icon icon-left-dir"></i> Back</button>
-		<button type="button" class="button next action">Next <i class="icon icon-right-dir"></i></button>
-		<button type="submit" class="button confirm" form="add_meal_form" disabled><i class="icon icon-ok"></i> Add</button>
+		<div class="inner">
+			<button type="button" class="button prev action" disabled><i class="icon icon-left-dir"></i> Back</button>
+			<button type="button" class="button next action">Next <i class="icon icon-right-dir"></i></button>
+			<button type="submit" class="button confirm" form="add_meal_form" disabled><i class="icon icon-ok"></i> Add</button>
+		</div>
 	</div>
 </div>

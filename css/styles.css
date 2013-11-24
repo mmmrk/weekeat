@@ -821,13 +821,6 @@ th {
 /* line 21, ../sass/units/_tables.scss */
 th, td {
   padding: 0.3em;
-  	/* &:first-child {
-  		padding-left: 0;
-  	}
-  
-  	&:last-child {
-  		padding-right: 0;
-  	} */
 }
 
 /* line 1, ../sass/units/_forms.scss */
@@ -1056,7 +1049,11 @@ textarea:focus {
   font-size: 1.375em;
   margin-top: 0;
 }
-/* line 96, ../sass/chunks/_week_calendar.scss */
+/* line 95, ../sass/chunks/_week_calendar.scss */
+.week_calendar_item .dish_tags {
+  font-size: 0.75em;
+}
+/* line 100, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item .meal_shopping_list:hover:before {
   -webkit-transform: rotate(-23deg);
   -moz-transform: rotate(-23deg);
@@ -1064,7 +1061,7 @@ textarea:focus {
   -o-transform: rotate(-23deg);
   transform: rotate(-23deg);
 }
-/* line 100, ../sass/chunks/_week_calendar.scss */
+/* line 104, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item .meal_shopping_list:before {
   display: block;
   text-align: center;
@@ -1075,69 +1072,77 @@ textarea:focus {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 -2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* line 112, ../sass/chunks/_week_calendar.scss */
+/* line 116, ../sass/chunks/_week_calendar.scss */
 .meal_list {
   padding: 0 0.625em;
   margin: 2em 0;
 }
-/* line 116, ../sass/chunks/_week_calendar.scss */
+/* line 120, ../sass/chunks/_week_calendar.scss */
 .meal_list ul {
   padding-left: 0;
 }
-/* line 120, ../sass/chunks/_week_calendar.scss */
+/* line 124, ../sass/chunks/_week_calendar.scss */
 .meal_list .add_meal_item {
   color: #333333;
 }
-/* line 124, ../sass/chunks/_week_calendar.scss */
+/* line 128, ../sass/chunks/_week_calendar.scss */
 .meal_list .add_meal_item:last-child .no_meals_indicator {
   display: block;
 }
-/* line 130, ../sass/chunks/_week_calendar.scss */
+/* line 134, ../sass/chunks/_week_calendar.scss */
 .meal_list .no_meals_indicator {
   display: none;
 }
-/* line 134, ../sass/chunks/_week_calendar.scss */
+/* line 138, ../sass/chunks/_week_calendar.scss */
 .meal_list .icon-food {
   font-size: 3.5em;
   color: #d6d6d6;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 -2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 rgba(255, 255, 255, 0.2);
 }
-/* line 140, ../sass/chunks/_week_calendar.scss */
-.meal_list .meal_item ~ .meal_item {
+
+/* line 146, ../sass/chunks/_week_calendar.scss */
+.meal_item ~ .meal_item {
   margin-top: 4em;
+}
+/* line 150, ../sass/chunks/_week_calendar.scss */
+.meal_item.preview {
+  border: 1px dashed #e2e2e2;
+  box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.1);
+  padding-top: 0.4em;
+  min-height: 13em;
 }
 
 @media (min-width: 75em) {
-  /* line 146, ../sass/chunks/_week_calendar.scss */
+  /* line 159, ../sass/chunks/_week_calendar.scss */
   #week_calendar {
     width: 87.17949%;
   }
 
-  /* line 150, ../sass/chunks/_week_calendar.scss */
+  /* line 163, ../sass/chunks/_week_calendar.scss */
   .week_calendar_item {
     float: left;
     width: 14.28571%;
     height: 100%;
     box-sizing: border-box;
   }
-  /* line 156, ../sass/chunks/_week_calendar.scss */
+  /* line 169, ../sass/chunks/_week_calendar.scss */
   .week_calendar_item ~ .week_calendar_item {
     border-left: 1px solid #e2e2e2;
   }
-  /* line 160, ../sass/chunks/_week_calendar.scss */
+  /* line 173, ../sass/chunks/_week_calendar.scss */
   .week_calendar_item .date {
     float: right;
     margin-top: 0.3em;
   }
 
-  /* line 167, ../sass/chunks/_week_calendar.scss */
+  /* line 180, ../sass/chunks/_week_calendar.scss */
   .meal_list .add_meal_item {
     position: absolute;
     width: 100%;
     left: 0;
     bottom: 0;
   }
-  /* line 173, ../sass/chunks/_week_calendar.scss */
+  /* line 186, ../sass/chunks/_week_calendar.scss */
   .meal_list .add_meal_item:last-child {
     bottom: auto;
     top: 50%;
@@ -1308,6 +1313,10 @@ textarea:focus {
   border-top: 1px dotted #e2e2e2;
 }
 /* line 98, ../sass/chunks/_tab_container.scss */
+.tab_container_footer .inner {
+  max-width: 60em;
+}
+/* line 102, ../sass/chunks/_tab_container.scss */
 .tab_container_footer .button {
   margin-left: 0.5em;
 }

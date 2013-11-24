@@ -9,6 +9,7 @@
 	<thead>
 		<tr>
 			<th>Dish</th>
+			<th style="display: none;">Description</th>
 			<th>URL</th>
 			<th>Tags</th>
 			<th>Add Date</th>
@@ -20,12 +21,14 @@
 	<tbody>
 		<?php
 			foreach ($dish_list['dishes'] as $dish) {
+			// var_dump($dish);
 		?>
 		<tr <?php if ($dish['last_dotd_date'] == $app->current_date) echo 'class="dotd"'; ?> data-dish-id="<?= $dish['id']; ?>">
 			<td>
 				<?php if ($dish['last_dotd_date'] == $app->current_date) echo '<i class="icon icon-asterisk"></i>'; ?>
 				<?= $dish['name']; ?>
 			</td>
+			<td style="display: none;"><?= $dish['description'] ?></td>
 			<td><a href="<?= $dish['url']; ?>">URL</a></td>
 			<td class="tags">
 				<?php

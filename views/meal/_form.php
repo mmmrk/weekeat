@@ -10,7 +10,7 @@
 	<input type="hidden" id="dish_id_value" name="dish[id]" value="0" />
 
 	<div id="add_meal_step_2" class="tab_content">
-		<div class="content_part content_part_1">
+		<div class="input_method content_part content_part_1">
 			<h2>2. Add from list</h2>
 
 			<?php
@@ -18,7 +18,7 @@
 			?>
 		</div>
 
-		<div class="content_part content_part_2">
+		<div class="input_method content_part content_part_2">
 			<h2>2. Add from form</h2>
 
 			<?php
@@ -36,21 +36,30 @@
 	</div>
 
 	<div id="add_meal_step_3" class="tab_content">
-		<h2>3. Meal details</h2>
+		<div class="form_col">
+			<h2>3. Meal details</h2>
 
-		<div class="input_group required with_suggestions">
-			<label for="meal[name]">Meal name</label>
-			<input name="meal[name]" type="text" value="dinner">
-			<ul class="suggestion_list">
-				<li class="suggestion_item">dinner</li>
-				<li class="suggestion_item">lunch</li>
-				<li class="suggestion_item">breakfast</li>
-			</ul>
+			<div class="input_group required with_suggestions">
+				<label for="meal[name]">Meal name</label>
+				<input name="meal[name]" type="text" value="dinner">
+				<ul class="suggestion_list">
+					<li class="suggestion_item">dinner</li>
+					<li class="suggestion_item">lunch</li>
+					<li class="suggestion_item">breakfast</li>
+				</ul>
+			</div>
+
+			<div class="input_group">
+				<label for="meal[shopping_list]">Shopping list</label>
+				<textarea name="meal[shopping_list]" cols="75" rows="2" placeholder="Comma separated list. Eg: potatoes, olive oil, salt"></textarea>
+			</div>
 		</div>
-
-		<div class="input_group">
-			<label for="meal[shopping_list]">Shopping list</label>
-			<textarea name="meal[shopping_list]" cols="75" rows="2" placeholder="Comma separated list. Eg: potatoes, olive oil, salt"></textarea>
+		<div class="form_col meal_preview">
+			<h2 class="dish">kladdpelle</h2>
+			<p class="dish_tags">tag,tag,tag</p>
+			<p class="dish_description">
+				skappadiddliiodli
+			</p>
 		</div>
 	</div>
 </form>
