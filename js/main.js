@@ -98,30 +98,19 @@ meal_form = {
 	}
 },
 input_suggestions = {
-	set_vars: function (input_group) {
-		this.input_group = input_group;
-		this.input = this.input_group.find(':input');
-		this.suggestions = this.input_group.find('.suggestion_list');
-	},
-	toggle_suggestions: function (state) {
-		this.suggestions.toggle(state);
-	},
-	set_value: function (value) {
-		this.input.val(value);
-	},
 	init: function (input_group) {
 		if (!input_group.length)
 			return;
-		var self = this;
-		this.set_vars(input_group);
-		this.input.on('focus', function (event) {
-			self.toggle_suggestions(true);
+		var input = input_group.find(':input'),
+			suggestions = input_group.find('.suggestion_list');
+		input.on('focus blur', function (event) {
+			var state = event.type === 'focus';
+			setTimeout(function () {
+				suggestions.toggle(state);
+			}, (state) ? 0 : 200);
 		});
-		this.suggestions.on('click', function (event) {
-			console.log(event.target.textContent);
-			self.input.val(event.target.textContent);
-			self.input.blur();
-			self.toggle_suggestions(false);
+		suggestions.on('click', function (event) {
+			input.val(event.target.textContent);
 		});
 	}
 };
