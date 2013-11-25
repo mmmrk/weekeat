@@ -1,7 +1,7 @@
 .input_group {
 	margin-bottom: 0.5em;
 
-	label {
+	label, > span {
 		display: block;
 		margin-bottom: 0.3em;
 	}
@@ -13,6 +13,13 @@
 
 	&.with_suggestions {
 		position: relative;
+	}
+
+	&.tag_group {
+		> span {
+			padding-bottom: 0.3em;
+			border-bottom: 1px solid $border_gray;
+		}
 	}
 
 	input, select, textarea {
@@ -64,5 +71,36 @@ textarea {
 
 	&:focus {
 		outline: 1px solid $blue;
+	}
+}
+
+.tag_list {
+	padding: 0;
+	margin: 0;
+	position: relative;
+	max-height: 6.5em;
+	overflow: auto;
+	@include clearfix;
+
+	li {
+		list-style: none outside none;
+		display: block;
+		float: left;
+		width: columns(4);
+		margin-left: gutter();
+		margin-bottom: 0.3em;
+
+		&:nth-child(3n+1) {
+			margin-left: 0;
+		}
+	}
+
+	input {
+		width: auto;
+		margin-right: 0.3em;
+	}
+
+	label {
+		display: inline;
 	}
 }

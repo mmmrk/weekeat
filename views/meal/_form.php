@@ -54,13 +54,6 @@
 				<textarea name="meal[shopping_list]" cols="75" rows="2" placeholder="Comma separated list. Eg: potatoes, olive oil, salt"></textarea>
 			</div>
 		</div>
-		<div class="form_col meal_preview">
-			<h2 class="dish">kladdpelle</h2>
-			<p class="dish_tags">tag,tag,tag</p>
-			<p class="dish_description">
-				skappadiddliiodli
-			</p>
-		</div>
 	</div>
 </form>
 <?php //} ?>
