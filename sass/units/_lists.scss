@@ -1,0 +1,42 @@
+.inline_list {
+	padding: 0;
+	li {
+		display: inline;
+
+		&:last-child:after {
+			content: '';
+		}
+
+		&:after {
+			content: ','
+		}
+	}
+}
+
+.small_list {
+	padding: 0;
+	margin: 0;
+
+	> li {
+		list-style: none outside none;
+		padding: 0.625em;
+
+		&:nth-child(even) {
+			background: rgba(white, 0.6);
+		}
+	}
+
+	h4 {
+		font-size: 1em;
+		margin: 0;
+	}
+
+	.inline_list {
+		font-size: 0.75em;
+		margin: 0 0 0.2em;
+	}
+
+	p {
+		margin: 0;
+	}
+}

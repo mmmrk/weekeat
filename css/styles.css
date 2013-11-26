@@ -978,6 +978,52 @@ textarea:focus {
   display: inline;
 }
 
+/* line 1, ../sass/units/_lists.scss */
+.inline_list {
+  padding: 0;
+}
+/* line 3, ../sass/units/_lists.scss */
+.inline_list li {
+  display: inline;
+}
+/* line 6, ../sass/units/_lists.scss */
+.inline_list li:last-child:after {
+  content: '';
+}
+/* line 10, ../sass/units/_lists.scss */
+.inline_list li:after {
+  content: ",";
+}
+
+/* line 16, ../sass/units/_lists.scss */
+.small_list {
+  padding: 0;
+  margin: 0;
+}
+/* line 20, ../sass/units/_lists.scss */
+.small_list > li {
+  list-style: none outside none;
+  padding: 0.625em;
+}
+/* line 24, ../sass/units/_lists.scss */
+.small_list > li:nth-child(even) {
+  background: rgba(255, 255, 255, 0.6);
+}
+/* line 29, ../sass/units/_lists.scss */
+.small_list h4 {
+  font-size: 1em;
+  margin: 0;
+}
+/* line 34, ../sass/units/_lists.scss */
+.small_list .inline_list {
+  font-size: 0.75em;
+  margin: 0 0 0.2em;
+}
+/* line 39, ../sass/units/_lists.scss */
+.small_list p {
+  margin: 0;
+}
+
 /* line 1, ../sass/chunks/_sidebar.scss */
 #sidebar {
   width: 20.83333%;
@@ -1426,30 +1472,34 @@ ol.tab_list .active ~ .tab {
   display: block;
 }
 /* line 100, ../sass/chunks/_tab_container.scss */
+.tab_content.full_width {
+  max-width: none;
+}
+/* line 104, ../sass/chunks/_tab_container.scss */
 .tab_content .content_part {
   display: none;
 }
-/* line 103, ../sass/chunks/_tab_container.scss */
+/* line 107, ../sass/chunks/_tab_container.scss */
 .tab_content .content_part.active_part {
   display: block;
 }
-/* line 108, ../sass/chunks/_tab_container.scss */
+/* line 112, ../sass/chunks/_tab_container.scss */
 .tab_content .active_part ~ .no_part_chosen {
   display: none;
 }
 
-/* line 113, ../sass/chunks/_tab_container.scss */
+/* line 117, ../sass/chunks/_tab_container.scss */
 .tab_container_footer {
   margin: 4em 0.625em 0.625em;
   padding: 0.625em 0;
   text-align: right;
   border-top: 1px dotted #e2e2e2;
 }
-/* line 119, ../sass/chunks/_tab_container.scss */
+/* line 123, ../sass/chunks/_tab_container.scss */
 .tab_container_footer .inner {
   max-width: 60em;
 }
-/* line 123, ../sass/chunks/_tab_container.scss */
+/* line 127, ../sass/chunks/_tab_container.scss */
 .tab_container_footer .button {
   margin-left: 0.5em;
 }
@@ -1541,15 +1591,69 @@ ol.tab_list .active ~ .tab {
 }
 
 /* line 17, ../sass/views/_add_meal.scss */
-#add_meal_step_1 .tab_nav_link {
-  margin-right: 1em;
-}
-/* line 21, ../sass/views/_add_meal.scss */
 #add_meal_step_1 input {
   display: none;
 }
 
-/* line 27, ../sass/views/_add_meal.scss */
+/* line 23, ../sass/views/_add_meal.scss */
 #add_meal_step_2 tbody tr {
   cursor: pointer;
+}
+
+/* line 28, ../sass/views/_add_meal.scss */
+.quick_options {
+  *zoom: 1;
+}
+/* line 18, ../sass/bourbon/addons/_clearfix.scss */
+.quick_options:before, .quick_options:after {
+  content: " ";
+  display: table;
+}
+/* line 23, ../sass/bourbon/addons/_clearfix.scss */
+.quick_options:after {
+  clear: both;
+}
+/* line 31, ../sass/views/_add_meal.scss */
+.quick_options .option {
+  float: left;
+  width: 32.20339%;
+  margin-left: 1.69492%;
+}
+/* line 36, ../sass/views/_add_meal.scss */
+.quick_options .option:first-child {
+  margin-left: 0;
+}
+/* line 42, ../sass/views/_add_meal.scss */
+.quick_options .list_option h3 {
+  margin-bottom: 0;
+}
+/* line 46, ../sass/views/_add_meal.scss */
+.quick_options .list_option > ul {
+  padding: 0;
+  margin: 0;
+}
+/* line 50, ../sass/views/_add_meal.scss */
+.quick_options .list_option > ul > li {
+  list-style: none outside none;
+  padding: 0.625em;
+}
+/* line 58, ../sass/views/_add_meal.scss */
+.quick_options .list_option h4 {
+  font-size: 1em;
+  margin: 0;
+}
+/* line 63, ../sass/views/_add_meal.scss */
+.quick_options .list_option .inline_list {
+  font-size: 0.75em;
+  margin: 0 0 0.2em;
+}
+/* line 68, ../sass/views/_add_meal.scss */
+.quick_options .list_option p {
+  margin: 0;
+}
+/* line 73, ../sass/views/_add_meal.scss */
+.quick_options h3 {
+  padding-bottom: 0.58761em;
+  border-bottom: 1px solid #e2e2e2;
+  margin-top: 1.5em;
 }

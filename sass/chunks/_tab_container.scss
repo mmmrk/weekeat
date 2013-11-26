@@ -97,6 +97,10 @@ ol.tab_list {
 		display: block;
 	}
 
+	&.full_width {
+		max-width: none;
+	}
+
 	.content_part {
 		display: none;
 
