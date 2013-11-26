@@ -527,8 +527,8 @@ table {
 
 @font-face {
   font-family: 'fontello';
-  src: url("../fonts/fontello.eot?48636753");
-  src: url("../fonts/fontello.eot?48636753#iefix") format("embedded-opentype"), url("../fonts/fontello.woff?48636753") format("woff"), url("../fonts/fontello.ttf?48636753") format("truetype"), url("../fonts/fontello.svg?48636753#fontello") format("svg");
+  src: url("../fonts/fontello.eot?19257086");
+  src: url("../fonts/fontello.eot?19257086#iefix") format("embedded-opentype"), url("../fonts/fontello.woff?19257086") format("woff"), url("../fonts/fontello.ttf?19257086") format("truetype"), url("../fonts/fontello.svg?19257086#fontello") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -549,116 +549,152 @@ table {
 }
 
 /* line 28, ../sass/_fontello.scss */
-.icon-plus:before {
-  content: '\23';
+.icon-heart:before {
+  content: '\35';
 }
 
-/* '#' */
+/* '5' */
 /* line 29, ../sass/_fontello.scss */
-.icon-right-dir:before {
-  content: '\2e';
+.icon-doc-new:before {
+  content: '\27';
 }
 
-/* '.' */
+/* ''' */
 /* line 30, ../sass/_fontello.scss */
-.icon-left-dir:before {
-  content: '\2d';
-}
-
-/* '-' */
-/* line 31, ../sass/_fontello.scss */
 .icon-ok:before {
   content: '\21';
 }
 
 /* '!' */
-/* line 32, ../sass/_fontello.scss */
+/* line 31, ../sass/_fontello.scss */
 .icon-cancel:before {
   content: '\22';
 }
 
 /* '&quot;' */
+/* line 32, ../sass/_fontello.scss */
+.icon-plus:before {
+  content: '\23';
+}
+
+/* '#' */
 /* line 33, ../sass/_fontello.scss */
-.icon-asterisk:before {
-  content: '\31';
-}
-
-/* '1' */
-/* line 34, ../sass/_fontello.scss */
-.icon-tag:before {
-  content: '\25';
-}
-
-/* '%' */
-/* line 35, ../sass/_fontello.scss */
-.icon-tags:before {
-  content: '\26';
-}
-
-/* '&amp;' */
-/* line 36, ../sass/_fontello.scss */
-.icon-basket:before {
-  content: '\2b';
-}
-
-/* '+' */
-/* line 37, ../sass/_fontello.scss */
-.icon-food:before {
-  content: '\32';
-}
-
-/* '2' */
-/* line 38, ../sass/_fontello.scss */
-.icon-doc-text:before {
-  content: '\2a';
-}
-
-/* '*' */
-/* line 39, ../sass/_fontello.scss */
-.icon-angle-left:before {
-  content: '\2f';
-}
-
-/* '/' */
-/* line 40, ../sass/_fontello.scss */
-.icon-angle-right:before {
-  content: '\30';
-}
-
-/* '0' */
-/* line 41, ../sass/_fontello.scss */
-.icon-quote-left:before {
-  content: '\27';
-}
-
-/* ''' */
-/* line 42, ../sass/_fontello.scss */
-.icon-quote-right:before {
-  content: '\28';
-}
-
-/* '(' */
-/* line 43, ../sass/_fontello.scss */
 .icon-info:before {
   content: '\24';
 }
 
 /* '$' */
-/* line 44, ../sass/_fontello.scss */
+/* line 34, ../sass/_fontello.scss */
+.icon-link:before {
+  content: '\34';
+}
+
+/* '4' */
+/* line 35, ../sass/_fontello.scss */
+.icon-tag:before {
+  content: '\25';
+}
+
+/* '%' */
+/* line 36, ../sass/_fontello.scss */
+.icon-tags:before {
+  content: '\26';
+}
+
+/* '&amp;' */
+/* line 37, ../sass/_fontello.scss */
+.icon-pencil:before {
+  content: '\28';
+}
+
+/* '(' */
+/* line 38, ../sass/_fontello.scss */
 .icon-attention-alt:before {
   content: '\29';
 }
 
 /* ')' */
-/* line 45, ../sass/_fontello.scss */
+/* line 39, ../sass/_fontello.scss */
+.icon-trash:before {
+  content: '\33';
+}
+
+/* '3' */
+/* line 40, ../sass/_fontello.scss */
+.icon-star:before {
+  content: '\36';
+}
+
+/* '6' */
+/* line 41, ../sass/_fontello.scss */
+.icon-menu:before {
+  content: '\38';
+}
+
+/* '8' */
+/* line 42, ../sass/_fontello.scss */
+.icon-basket:before {
+  content: '\2b';
+}
+
+/* '+' */
+/* line 43, ../sass/_fontello.scss */
 .icon-calendar-empty:before {
   content: '\2c';
 }
 
 /* ',' */
+/* line 44, ../sass/_fontello.scss */
+.icon-left-dir:before {
+  content: '\2d';
+}
+
+/* '-' */
+/* line 45, ../sass/_fontello.scss */
+.icon-right-dir:before {
+  content: '\2e';
+}
+
+/* '.' */
+/* line 46, ../sass/_fontello.scss */
+.icon-angle-left:before {
+  content: '\2f';
+}
+
+/* '/' */
+/* line 47, ../sass/_fontello.scss */
+.icon-angle-right:before {
+  content: '\30';
+}
+
+/* '0' */
+/* line 48, ../sass/_fontello.scss */
+.icon-down-big:before {
+  content: '\37';
+}
+
+/* '7' */
+/* line 49, ../sass/_fontello.scss */
+.icon-asterisk:before {
+  content: '\31';
+}
+
+/* '1' */
+/* line 50, ../sass/_fontello.scss */
+.icon-food:before {
+  content: '\32';
+}
+
+/* '2' */
+/* line 51, ../sass/_fontello.scss */
+.icon-doc-text:before {
+  content: '\2a';
+}
+
+/* '*' */
 /* line 1, ../sass/_base.scss */
 html {
-  background: #f0f0f0;
+  background: #f0f0f2;
   height: 100%;
   color: #6e6e6e;
 }
@@ -874,7 +910,7 @@ th, td {
 /* line 50, ../sass/units/_forms.scss */
 .input_group .suggestion_item:hover {
   color: #333333;
-  background-color: #f0f0f0;
+  background-color: #f0f0f2;
 }
 
 /* line 57, ../sass/units/_forms.scss */
@@ -1120,7 +1156,7 @@ textarea:focus {
 /* line 118, ../sass/chunks/_week_calendar.scss */
 .meal_list .icon-food {
   font-size: 3.5em;
-  color: #d6d6d6;
+  color: #d5d5da;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 -2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 rgba(255, 255, 255, 0.2);
 }
 
@@ -1153,7 +1189,7 @@ textarea:focus {
   text-align: center;
   width: 2em;
   font-size: 1.8em;
-  color: #d6d6d6;
+  color: #d5d5da;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 -2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 rgba(255, 255, 255, 0.2);
 }
 /* line 161, ../sass/chunks/_week_calendar.scss */
@@ -1288,7 +1324,19 @@ textarea:focus {
   position: relative;
 }
 
-/* line 9, ../sass/chunks/_tab_container.scss */
+/* line 11, ../sass/chunks/_tab_container.scss */
+.fullsize_page .tab_container_header,
+.fullsize_page .tab_container_body {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+/* line 16, ../sass/chunks/_tab_container.scss */
+.fullsize_page .tab_content {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* line 22, ../sass/chunks/_tab_container.scss */
 .tab_container_header {
   font-size: 1.125em;
   padding: 1.6em 0.625em 0.625em;
@@ -1299,19 +1347,19 @@ textarea:focus {
   left: 0;
   right: 0;
 }
-/* line 19, ../sass/chunks/_tab_container.scss */
+/* line 32, ../sass/chunks/_tab_container.scss */
 .tab_container_header h1 {
   margin: 0;
   font-size: 1em;
   display: inline-block;
 }
 
-/* line 26, ../sass/chunks/_tab_container.scss */
+/* line 39, ../sass/chunks/_tab_container.scss */
 .tab_navigation {
   display: inline-block;
   position: relative;
 }
-/* line 30, ../sass/chunks/_tab_container.scss */
+/* line 43, ../sass/chunks/_tab_container.scss */
 .tab_navigation.disabled:after {
   content: ' ';
   display: block;
@@ -1322,35 +1370,42 @@ textarea:focus {
   left: -1px;
 }
 
-/* line 41, ../sass/chunks/_tab_container.scss */
+/* line 55, ../sass/chunks/_tab_container.scss */
 .tab_list {
   display: inline-block;
   font-size: 0.88em;
   margin: 0 0 0 2em;
   padding: 0;
 }
-/* line 47, ../sass/chunks/_tab_container.scss */
+/* line 61, ../sass/chunks/_tab_container.scss */
 .tab_list .tab {
   display: inline-block;
   margin-right: 1em;
-  opacity: 0.5;
 }
-/* line 52, ../sass/chunks/_tab_container.scss */
+/* line 65, ../sass/chunks/_tab_container.scss */
 .tab_list .tab.active {
-  opacity: 1;
   color: #7fb513;
 }
-/* line 59, ../sass/chunks/_tab_container.scss */
-.tab_list .active ~ .tab {
-  opacity: 1;
-}
-/* line 63, ../sass/chunks/_tab_container.scss */
+/* line 70, ../sass/chunks/_tab_container.scss */
 .tab_list a {
   text-decoration: none;
   color: inherit;
 }
 
-/* line 69, ../sass/chunks/_tab_container.scss */
+/* line 77, ../sass/chunks/_tab_container.scss */
+ol.tab_list .tab {
+  opacity: 0.5;
+}
+/* line 80, ../sass/chunks/_tab_container.scss */
+ol.tab_list .tab.active {
+  opacity: 1;
+}
+/* line 85, ../sass/chunks/_tab_container.scss */
+ol.tab_list .active ~ .tab {
+  opacity: 1;
+}
+
+/* line 90, ../sass/chunks/_tab_container.scss */
 .tab_content {
   display: none;
   padding: 0 0.625em 0.625em;
@@ -1366,35 +1421,35 @@ textarea:focus {
 .tab_content:after {
   clear: both;
 }
-/* line 75, ../sass/chunks/_tab_container.scss */
+/* line 96, ../sass/chunks/_tab_container.scss */
 .tab_content.active {
   display: block;
 }
-/* line 79, ../sass/chunks/_tab_container.scss */
+/* line 100, ../sass/chunks/_tab_container.scss */
 .tab_content .content_part {
   display: none;
 }
-/* line 82, ../sass/chunks/_tab_container.scss */
+/* line 103, ../sass/chunks/_tab_container.scss */
 .tab_content .content_part.active_part {
   display: block;
 }
-/* line 87, ../sass/chunks/_tab_container.scss */
+/* line 108, ../sass/chunks/_tab_container.scss */
 .tab_content .active_part ~ .no_part_chosen {
   display: none;
 }
 
-/* line 92, ../sass/chunks/_tab_container.scss */
+/* line 113, ../sass/chunks/_tab_container.scss */
 .tab_container_footer {
   margin: 4em 0.625em 0.625em;
   padding: 0.625em 0;
   text-align: right;
   border-top: 1px dotted #e2e2e2;
 }
-/* line 98, ../sass/chunks/_tab_container.scss */
+/* line 119, ../sass/chunks/_tab_container.scss */
 .tab_container_footer .inner {
   max-width: 60em;
 }
-/* line 102, ../sass/chunks/_tab_container.scss */
+/* line 123, ../sass/chunks/_tab_container.scss */
 .tab_container_footer .button {
   margin-left: 0.5em;
 }
@@ -1436,25 +1491,33 @@ textarea:focus {
 #dish_list th, #dish_list td {
   padding: 0.4em 0.3em;
 }
-/* line 29, ../sass/chunks/_dish_list.scss */
+/* line 28, ../sass/chunks/_dish_list.scss */
+#dish_list th:nth-child(2), #dish_list td:nth-child(2) {
+  width: 33%;
+}
+/* line 33, ../sass/chunks/_dish_list.scss */
 #dish_list td {
   vertical-align: baseline;
 }
-/* line 32, ../sass/chunks/_dish_list.scss */
+/* line 36, ../sass/chunks/_dish_list.scss */
 #dish_list td:first-child {
   text-align: center;
   width: 1.5em;
 }
-/* line 36, ../sass/chunks/_dish_list.scss */
+/* line 40, ../sass/chunks/_dish_list.scss */
 #dish_list td:first-child .icon {
   color: #1a85b5;
   font-size: 0.8125em;
 }
-/* line 43, ../sass/chunks/_dish_list.scss */
+/* line 46, ../sass/chunks/_dish_list.scss */
+#dish_list td:nth-child(2) {
+  font-size: 1.125em;
+}
+/* line 51, ../sass/chunks/_dish_list.scss */
 #dish_list .tags {
   font-size: 0.875em;
 }
-/* line 47, ../sass/chunks/_dish_list.scss */
+/* line 55, ../sass/chunks/_dish_list.scss */
 #dish_list a {
   color: inherit;
   text-decoration: none;

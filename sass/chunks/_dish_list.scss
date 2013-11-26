@@ -24,6 +24,10 @@
 
 	th, td {
 		padding: 0.4em 0.3em;
+
+		&:nth-child(2) {
+			width: 33%;
+		}
 	}
 
 	td {
@@ -37,6 +41,10 @@
 				color: $blue;
 				font-size: em(13, 16);
 			}
+		}
+
+		&:nth-child(2) {
+			font-size: em(18, 16);
 		}
 	}
 

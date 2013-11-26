@@ -6,6 +6,19 @@
 	position: relative;
 }
 
+.fullsize_page {
+	.tab_container_header,
+	.tab_container_body {
+		padding-left: 2em;
+		padding-right: 2em;
+	}
+
+	.tab_content {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
 .tab_container_header {
 	font-size: 1.125em;
 	padding: 1.6em 0.625em 0.625em;
@@ -36,6 +49,7 @@
 		bottom: -1px;
 		left: -1px;
 	}
+
 }
 
 .tab_list {
@@ -47,22 +61,29 @@
 	.tab {
 		display: inline-block;
 		margin-right: 1em;
-		opacity: 0.5;
 
 		&.active {
-			opacity: 1;
 			color: $green;
-
 		}
-	}
-
-	.active ~ .tab {
-		opacity: 1;
 	}
 
 	a {
 		text-decoration: none;
 		color: inherit;
+	}
+}
+
+ol.tab_list {
+	.tab {
+		opacity: 0.5;
+
+		&.active {
+			opacity: 1;
+		}
+	}
+
+	.active ~ .tab {
+		opacity: 1;
 	}
 }
 
