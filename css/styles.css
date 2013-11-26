@@ -828,7 +828,7 @@ th, td {
   margin-bottom: 0.5em;
 }
 /* line 4, ../sass/units/_forms.scss */
-.input_group label {
+.input_group label, .input_group > span {
   display: block;
   margin-bottom: 0.3em;
 }
@@ -841,12 +841,17 @@ th, td {
 .input_group.with_suggestions {
   position: relative;
 }
-/* line 18, ../sass/units/_forms.scss */
+/* line 19, ../sass/units/_forms.scss */
+.input_group.tag_group > span {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #e2e2e2;
+}
+/* line 25, ../sass/units/_forms.scss */
 .input_group input, .input_group select, .input_group textarea {
   box-sizing: border-box;
   width: 100%;
 }
-/* line 23, ../sass/units/_forms.scss */
+/* line 30, ../sass/units/_forms.scss */
 .input_group .suggestion_list {
   position: absolute;
   display: none;
@@ -859,27 +864,27 @@ th, td {
   padding: 0;
   margin: 0;
 }
-/* line 37, ../sass/units/_forms.scss */
+/* line 44, ../sass/units/_forms.scss */
 .input_group .suggestion_item {
   list-style: none outside none;
   padding: 0.2em 0.5em;
   white-space: nowrap;
   cursor: pointer;
 }
-/* line 43, ../sass/units/_forms.scss */
+/* line 50, ../sass/units/_forms.scss */
 .input_group .suggestion_item:hover {
   color: #333333;
   background-color: #f0f0f0;
 }
 
-/* line 50, ../sass/units/_forms.scss */
+/* line 57, ../sass/units/_forms.scss */
 .form_footer {
   text-align: right;
   padding: 1.5em 0;
   clear: both;
 }
 
-/* line 58, ../sass/units/_forms.scss */
+/* line 65, ../sass/units/_forms.scss */
 input[type="text"],
 input[type="date"],
 textarea {
@@ -889,11 +894,52 @@ textarea {
   box-shadow: -1px 2px 3px rgba(0, 0, 0, 0.05) inset;
   padding: 0.2em 0.5em;
 }
-/* line 65, ../sass/units/_forms.scss */
+/* line 72, ../sass/units/_forms.scss */
 input[type="text"]:focus,
 input[type="date"]:focus,
 textarea:focus {
   outline: 1px solid #1a85b5;
+}
+
+/* line 77, ../sass/units/_forms.scss */
+.tag_list {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  max-height: 6.5em;
+  overflow: auto;
+  *zoom: 1;
+}
+/* line 18, ../sass/bourbon/addons/_clearfix.scss */
+.tag_list:before, .tag_list:after {
+  content: " ";
+  display: table;
+}
+/* line 23, ../sass/bourbon/addons/_clearfix.scss */
+.tag_list:after {
+  clear: both;
+}
+/* line 85, ../sass/units/_forms.scss */
+.tag_list li {
+  list-style: none outside none;
+  display: block;
+  float: left;
+  width: 32.20339%;
+  margin-left: 1.69492%;
+  margin-bottom: 0.3em;
+}
+/* line 93, ../sass/units/_forms.scss */
+.tag_list li:nth-child(3n+1) {
+  margin-left: 0;
+}
+/* line 98, ../sass/units/_forms.scss */
+.tag_list input {
+  width: auto;
+  margin-right: 0.3em;
+}
+/* line 103, ../sass/units/_forms.scss */
+.tag_list label {
+  display: inline;
 }
 
 /* line 1, ../sass/chunks/_sidebar.scss */
@@ -1355,18 +1401,26 @@ textarea:focus {
   color: white;
 }
 /* line 24, ../sass/chunks/_dish_list.scss */
+#dish_list th, #dish_list td {
+  padding: 0.4em 0.3em;
+}
+/* line 28, ../sass/chunks/_dish_list.scss */
 #dish_list td {
   vertical-align: baseline;
 }
-/* line 28, ../sass/chunks/_dish_list.scss */
+/* line 32, ../sass/chunks/_dish_list.scss */
+#dish_list .dotd_indicator {
+  text-align: center;
+}
+/* line 36, ../sass/chunks/_dish_list.scss */
 #dish_list .tags {
   font-size: 0.875em;
 }
-/* line 32, ../sass/chunks/_dish_list.scss */
+/* line 40, ../sass/chunks/_dish_list.scss */
 #dish_list a {
   color: inherit;
 }
-/* line 36, ../sass/chunks/_dish_list.scss */
+/* line 44, ../sass/chunks/_dish_list.scss */
 #dish_list .icon-asterisk {
   color: #1a85b5;
   font-size: 0.8125em;

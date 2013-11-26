@@ -28,8 +28,8 @@
 		<input type="text" name="dish[url]">
 	</div>
 
-	<div class="input_group">
-		<label>Tags</label>
+	<div class="input_group tag_group">
+		<span>Tags</span>
 		<?php require('views/tag/_ready_tags.php'); ?>
 	</div>
 </div>

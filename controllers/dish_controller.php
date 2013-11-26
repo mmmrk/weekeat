@@ -144,7 +144,7 @@
 				'error' => false
 			);
 
-			$query  = 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name` as `tag`, CAST(`dish`.`created_at` AS DATE) AS `created_at`, ';
+			$query  = 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`description`, `dish`.`url`, `tag`.`name` as `tag`, CAST(`dish`.`created_at` AS DATE) AS `created_at`, ';
 			$query .= '`ml`.`last_meal_date` as `last_meal_date`, `dotd`.`last_dotd_date` as `last_dotd_date`, COUNT(`meal`.`dish_id`) AS `times_eaten`';
 			$query .= 'FROM `dish` ';
 			$query .= 'LEFT JOIN ( ';
@@ -160,7 +160,7 @@
 			$query .= 'LEFT JOIN `meal` ON `meal`.`dish_id` = `dish`.`id` ';
 			$query .= 'LEFT JOIN `dish_tags` ON `dish_tags`.`dish_id` = `dish`.`id` ';
 			$query .= 'LEFT JOIN `tag` ON `tag`.`id` = `dish_tags`.`tag_id` ';
-			$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`url`, `tag`.`name`, `dish`.`created_at`, `ml`.`last_meal_date`, `dotd`.`last_dotd_date` ';
+			$query .= 'GROUP BY `dish`.`id`, `dish`.`name`, `dish`.`description`, `dish`.`url`, `tag`.`name`, `dish`.`created_at`, `ml`.`last_meal_date`, `dotd`.`last_dotd_date` ';
 			$query .= 'ORDER BY `name` ASC';
 
 			$result = $db->query($query);
@@ -180,7 +180,6 @@
 						array_push($used_ids, $safe_entry['id']);
 
 						// $safe_entry['row_class'] = ($counter++ % 2 == 0) ? 'even' : 'odd';
-						$safe_entry['description'] = 'temporary description. to be set later';
 						$safe_entry['tags'][] = $safe_entry['tag'];
 
 						unset($safe_entry['tag']);

@@ -103,9 +103,9 @@ meal_form = {
 		source = this.$input_methods.filter('.active_part');
 		if (source.is('.content_part_1')) {
 			var sources = source.find('.selected').children();
-			source_data.name = sources.eq(0).text();
-			source_data.tags = sources.eq(3).text();
-			source_data.description = sources.eq(1).text();
+			source_data.name = sources.eq(1).text();
+			source_data.tags = sources.eq(4).text();
+			source_data.description = sources.eq(1).find('.hidden_description').val();
 		}
 		else {
 			var sources = source.find('.input_group');
@@ -126,8 +126,9 @@ meal_form = {
 		target.description.text(source_data.description);
 	},
 	select_dish_from_list: function (id) {
-		var previous = this.$dish_id.val();
-		this.$dish_id.val((previous != id) ? id : '');
+		var previousVal = this.$dish_id.val(),
+			newVal = (previousVal != id) ? id : '';
+		this.$dish_id.val(newVal);
 		this.update_previews();
 	},
 	init: function (form) {

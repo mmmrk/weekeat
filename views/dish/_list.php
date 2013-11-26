@@ -8,8 +8,8 @@
 <table id="dish_list">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Dish</th>
-			<th style="display: none;">Description</th>
 			<th>URL</th>
 			<th>Tags</th>
 			<th>Add Date</th>
@@ -24,12 +24,14 @@
 			// var_dump($dish);
 		?>
 		<tr <?php if ($dish['last_dotd_date'] == $app->current_date) echo 'class="dotd"'; ?> data-dish-id="<?= $dish['id']; ?>">
-			<td>
+			<td class="dodt_indicator">
 				<?php if ($dish['last_dotd_date'] == $app->current_date) echo '<i class="icon icon-asterisk"></i>'; ?>
-				<?= $dish['name']; ?>
 			</td>
-			<td style="display: none;"><?= $dish['description'] ?></td>
-			<td><a href="<?= $dish['url']; ?>">URL</a></td>
+			<td>
+				<?= $dish['name']; ?>
+				<input class="hidden_description" type="hidden" value="<?= $dish['description']; ?>">
+			</td>
+			<td><?php if ($dish['url']) echo '<a href="' . $dish['url'] . '" class="icon icon-info"></a>' ?></td>
 			<td class="tags">
 				<?php
 					$t = 0;
