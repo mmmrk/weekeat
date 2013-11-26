@@ -6,7 +6,7 @@
 	//	$ready_tags = $form_meal['ready_tags'];
 ?>
 <form id="add_meal_form" action="<?= $_SERVER['PHP_SELF'] . '?section=meal&page=add&action=create&date=' . $app->display_date; ?>" method="post">
-	<input type="hidden" id="add_method_value" name="add_method" value="2" />
+	<input type="hidden" id="add_method_value" name="add_method" value="1" />
 	<input type="hidden" id="dish_id_value" name="dish[id]" value="0" />
 
 	<div id="add_meal_step_2" class="tab_content">

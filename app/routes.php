@@ -49,7 +49,7 @@
 	if ($app->route['section'] == 'meal' && $app->route['page'] == 'calendar_week')
 		$controller_data_collection[] = $app->call_controller_with_page($app->route['section'], $app->route['page'], $app->display_date);
 	else if ($app->route['section'] == 'meal' && $app->route['page'] == 'add' && $app->route['action'] == 'create')
-		$controller_data_collection[] = $app->call_controller('meal', 'create', array($app->input_params, false));
+		$controller_data_collection[] = $app->call_controller('meal', 'create', array($app->input_params, true));
 	else
 		$controller_data_collection[] = $app->call_controller_with_page($app->route['section'], $app->route['page']);
 

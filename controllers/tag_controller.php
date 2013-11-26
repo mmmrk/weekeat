@@ -56,6 +56,8 @@
 				foreach ($tag_ids as $tag_id)
 					$link_query .= '(' . $dish_id . ', ' . $tag_id . ', NOW()), ';
 			}
+			
+			$link_query = (substr($link_query, -2) == ', ') ? substr($link_query, 0, -2) : $link_query;
 
 			return $link_query;
 		}
@@ -79,7 +81,9 @@
 					$tag_query .= '(' . $dish_id . ', ' . $tag_id . ', NOW()), ';
 
 				//some cleaning up on the query
-				echo $tag_query  = (substr($tag_query, -2) == ', ') ? substr($tag_query, 0, -2) : $tag_query;
+				$tag_query  = (substr($tag_query, -2) == ', ') ? substr($tag_query, 0, -2) : $tag_query;
+
+				var_dump($tag_query);
 
 				($db->iquery($tag_query)) ? null : $transaction_errors = 'DISH TAG INSERT ERROR';
 

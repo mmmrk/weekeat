@@ -97,54 +97,67 @@
 			$db = Boot::$db;
 			
 			$new_meal = array (
-				'error' => false
+				'error' => false,
+				'dish' => array (
+						'error' => false
+					)
 			);
 
 			$meal = $input_data['meal'];
+			$dish = $input_data['dish'];
 			$meal_date = $input_data['display_date'];
 
-			( !empty($meal_date) && is_date($meal_date) 						) ? null : $new_meal['error'][] = array('id' => '1.1', 'message' => 'Missing required field: meal date');
-			( !empty($meal['name'])											 	) ? null : $new_meal['error'][] = array('id' => '1.2', 'message' => 'Missing required field: meal name');
-			( isset($input_data['add_method']) && $input_data['add_method'] > 0 ) ? null : $new_meal['error'][] = array('id' => '1.3', 'message' => 'Missing add method');
+			( !empty($meal_date) && is_date($meal_date) 						) ? null : $new_meal['error'] = array('id' => '1.1', 'message' => 'Missing required field: meal date');
+			( !empty($meal['name'])											 	) ? null : $new_meal['error'] = array('id' => '1.2', 'message' => 'Missing required field: meal name');
+			( isset($input_data['add_method']) && $input_data['add_method'] > 0 ) ? null : $new_meal['error'] = array('id' => '1.3', 'message' => 'Missing add method');
 			
 			if (!$new_meal['error']) {
 
 				$db->autocommit(false);
-				$transaction_errors = false;
 				
 				// SET/CREATE MEAL DISH
-				if (isset($input_data['dish']['id']) && $input_data['add_method'] == 1 ) {
-					( $dish = DishController::get_dish($input_data['dish']['id']) ) ? null : $transaction_errors = true;
-					
-				}
-				else if (isset($input_data['dish']['name']) && $input_data['add_method'] == 2) {
-					$result = DishController::create($input_data['dish'], $db);
+				if (isset($dish['id']) && $input_data['add_method'] == 1 ) {
+					( $dish = DishController::get_dish($dish['id']) ) ? null : $new_meal['dish']['error'] = array('id' => '1.1', 'message' => 'Selected dish does not exist or was not found');
 
-					if ($result['new_dish']['error']) {
-						$transaction_errors = true;
-						$new_meal['dish']['error']['id'] = $result['new_dish']['error']['id'];
-						$new_meal['dish']['error']['message'] = $result['new_dish']['error']['message'];
+					( $new_meal['dish']['error'] || !$dish ) ? null : $new_meal['dish']['id'] = $dish['id'];
+				}
+				else if (isset($dish['name']) && $input_data['add_method'] == 2) {
+					//$result = DishController::create($input_data['dish'], $db);
+
+					( $dish_query = DishController::make_create_query($dish) ) ? null : $new_meal['dish']['error'] = array('id' => '2.2', 'message' => 'Missing required field: dish data');
+					( $dish_query && $dish_id = $db->iquery($dish_query) 	 ) ? null : $new_meal['dish']['error'] = array('id' => '2.3', 'message' => 'An error occured while creating the dish');
+
+					if ( $new_meal['dish']['error'] || $db->error ) {
+						$new_meal['dish']['error']['query'] = $dish_query;
+						$new_meal['dish']['error']['sql'] 	= $db->errno . ' NEW DISH: ' . $db->error;
 					}
-					else
-						$dish = $result['new_dish'];
+					else {
+						( $dish_tag_query = TagController::make_dish_link_query($dish_id, $dish['tags']) ) ? null : $new_meal['dish']['error'] = array('id' => '3.1', 'message' => 'Could not make dish tags. Missing/Faulty data');
+						( $dish_tag_query && $dish_tags = $db->query($dish_tag_query) 					 ) ? null : $new_meal['dish']['error'] = array('id' => '3.2', 'message' => 'An error occurred while linking dish tags');
+
+						if ( !$dish_tags || $new_meal['dish']['error'] || $db->error ) {
+							$new_meal['dish']['error']['query'] = $dish_tag_query;
+							$new_meal['dish']['error']['sql']	= $db->errno . ' DISH TAGS: ' . $db->error;
+						}
+						else {
+							$new_meal['dish'] 			= $dish;
+							$new_meal['dish']['id'] 	= $dish_id;
+							$new_meal['dish']['tags'] 	= $dish['tags'];	
+						}
+					}
 				}
-				
-				if (!$new_meal['error'] && isset($dish)) {
-					$meal_query  = 'INSERT INTO `meal` (`date`, `dish_id`, `name`, `shopping_list`, `created_at`) ';
-					echo $meal_query .= 'VALUES (' . make_sql_date($meal_date) . ', ' . $dish['id'] . ', "' . $meal['name'] . '", "' . $meal['shopping_list'] .  '", NOW())';
 
-					( $meal_id = $db->iquery($meal_query) ) ? null : $transaction_errors = true;
+				if (isset($new_meal['dish']['id'], $meal_date) && is_date($meal_date)) {
+					( $meal_query = self::make_create_query($new_meal['dish']['id'], $meal['name'], $meal_date, $meal['shopping_list']) ) ? null : $new_meal['error'] = array('id' => '2.1', 'message' => 'Missing required field: meal data');
+					( $meal_query && $meal_id = $db->iquery($meal_query) 																) ? null : $new_meal['error'] = array('id' => '2.2', 'message' => 'An error occured while creating the dish');
 
-					if ($transaction_errors || $db->error) {
-						$db->rollback();
+					//var_dump($meal_query);
 
-						$new_meal['error']['id'] 	  = $db->errno;
-						$new_meal['error']['message'] = 'NEW MEAL: ' . $db->error;
+					if ($new_meal['error'] || $db->error) {
+						$new_meal['error']['query'] = $meal_query;
+						$new_meal['error']['sql'] 	= $db->errno . ' NEW MEAL: ' . $db->error;
 					}
 					else if ( $meal_id ) {
-						$db->commit();
-						unset($meal_query);
-
 						$new_meal['id'] = $meal_id;
 
 						foreach ($meal as $key => $value)
@@ -153,12 +166,14 @@
 						foreach ($dish as $key => $value)
 							$new_meal['dish'][$key] = $value;
 					}
-				}
+				}	
 			}
 
-			var_dump($new_meal);
+			( !$db->error && !$new_meal['error'] && (!isset($new_meal['dish']['error']) || !$new_meal['dish']['error']) ) ? $db->commit() : $db->rollback();
+
+			//var_dump($new_meal);
 			
-			if ($redirect) header('Location: ' . Application::current_page() . '?date=' . $meal['date']);
+			if ($redirect) header('Location: ' . Application::current_page() . '?date=' . $meal_date);
 			
 			return array('new_meal' => $new_meal);
 		}

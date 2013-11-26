@@ -54,7 +54,10 @@
 				$transaction_errors = false;
 
 				$dish_query	  = 'INSERT INTO `dish` (`name`, `description`, `url`, `recipe`, `created_at`) ';
-				echo $dish_query  .= 'VALUES ("' . $dish['name'] . '", "' . $dish['description'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
+				$dish_query  .= 'VALUES ("' . $dish['name'] . '", "' . $dish['description'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
+
+				echo $dish_query;
+				var_dump($dish_query);
 
 				( $dish_id = $db->iquery($dish_query)						 ) ? null : $transaction_errors = 'DISH INSERT ERROR';
 
@@ -309,9 +312,9 @@
 			if (!is_numeric($dish_id) && !self::dish_exists($dish_id)) return false;
 
 			$db = Boot::$db;
-			$result = $db->query('SELECT FROM `dish` WHERE `id` = ' . $dish_id);
+			$result = $db->query('SELECT * FROM `dish` WHERE `id` = ' . $dish_id);
 
-			return $result->fetch_array(MYSQLI_ASSOC);
+			return (!$result) ? false : $result->fetch_array(MYSQLI_ASSOC);
 		}
 
 		public static function get_random_dish () {
