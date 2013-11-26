@@ -160,10 +160,22 @@ input_suggestions = {
 			input.val(event.target.textContent);
 		});
 	}
+},
+shopping_list = {
+	init: function (lists) {
+		if (lists.length) {
+			lists.on('click', function (event) {
+				if (event.target.nodeName === 'LI')
+					return;
+				$(this).toggleClass('expanded');
+			});
+		}
+	}
 };
 
 $(function () {
 	tab_container.init($('.tab_container'));
 	meal_form.init($('#add_meal_form'));
 	input_suggestions.init($('.with_suggestions'));
+	shopping_list.init($('.meal_shopping_list'));
 });

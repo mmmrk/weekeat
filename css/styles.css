@@ -1015,27 +1015,23 @@ textarea:focus {
 #week_calendar li {
   list-style: none inside none;
 }
-/* line 19, ../sass/chunks/_week_calendar.scss */
-#week_calendar .meal_shopping_list li {
-  list-style-type: disc;
-}
 
-/* line 24, ../sass/chunks/_week_calendar.scss */
+/* line 20, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item {
   text-align: center;
   overflow: auto;
   position: relative;
 }
-/* line 29, ../sass/chunks/_week_calendar.scss */
+/* line 25, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item.current {
   background: white;
 }
-/* line 32, ../sass/chunks/_week_calendar.scss */
+/* line 28, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item.current h3 {
   color: #333333;
   font-weight: bold;
 }
-/* line 36, ../sass/chunks/_week_calendar.scss */
+/* line 32, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item.current h3:before {
   content: ' ';
   display: block;
@@ -1046,11 +1042,11 @@ textarea:focus {
   height: 3px;
   background-color: #7fb513;
 }
-/* line 49, ../sass/chunks/_week_calendar.scss */
+/* line 45, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item h3, .week_calendar_item .meal_shopping_list {
   text-align: left;
 }
-/* line 53, ../sass/chunks/_week_calendar.scss */
+/* line 49, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item h3 {
   font-size: 1.125em;
   text-transform: capitalize;
@@ -1061,12 +1057,12 @@ textarea:focus {
   position: relative;
   margin-top: 0.6em;
 }
-/* line 64, ../sass/chunks/_week_calendar.scss */
+/* line 60, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item .date {
   font-weight: normal;
   font-size: 0.667em;
 }
-/* line 69, ../sass/chunks/_week_calendar.scss */
+/* line 65, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item .meal {
   display: block;
   text-transform: capitalize;
@@ -1074,7 +1070,7 @@ textarea:focus {
   padding-bottom: 1.2em;
   overflow: hidden;
 }
-/* line 76, ../sass/chunks/_week_calendar.scss */
+/* line 72, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item .meal:after {
   content: ' ';
   display: block;
@@ -1089,68 +1085,50 @@ textarea:focus {
   background-image: radial-gradient(  ellipse at 50% 0%, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 50%);
   background-color: transparent;
 }
-/* line 89, ../sass/chunks/_week_calendar.scss */
+/* line 85, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item h4 {
   color: #333333;
   font-size: 1.375em;
   margin-top: 0;
 }
-/* line 95, ../sass/chunks/_week_calendar.scss */
+/* line 91, ../sass/chunks/_week_calendar.scss */
 .week_calendar_item .dish_tags {
   font-size: 0.75em;
 }
-/* line 100, ../sass/chunks/_week_calendar.scss */
-.week_calendar_item .meal_shopping_list:hover:before {
-  -webkit-transform: rotate(-23deg);
-  -moz-transform: rotate(-23deg);
-  -ms-transform: rotate(-23deg);
-  -o-transform: rotate(-23deg);
-  transform: rotate(-23deg);
-}
-/* line 104, ../sass/chunks/_week_calendar.scss */
-.week_calendar_item .meal_shopping_list:before {
-  display: block;
-  text-align: center;
-  width: auto;
-  font-size: 1.8em;
-  margin-bottom: 0.3em;
-  color: #d6d6d6;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 -2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 rgba(255, 255, 255, 0.2);
-}
 
-/* line 116, ../sass/chunks/_week_calendar.scss */
+/* line 96, ../sass/chunks/_week_calendar.scss */
 .meal_list {
   padding: 0 0.625em;
   margin: 2em 0;
 }
-/* line 120, ../sass/chunks/_week_calendar.scss */
+/* line 100, ../sass/chunks/_week_calendar.scss */
 .meal_list ul {
   padding-left: 0;
 }
-/* line 124, ../sass/chunks/_week_calendar.scss */
+/* line 104, ../sass/chunks/_week_calendar.scss */
 .meal_list .add_meal_item {
   color: #333333;
 }
-/* line 128, ../sass/chunks/_week_calendar.scss */
+/* line 108, ../sass/chunks/_week_calendar.scss */
 .meal_list .add_meal_item:last-child .no_meals_indicator {
   display: block;
 }
-/* line 134, ../sass/chunks/_week_calendar.scss */
+/* line 114, ../sass/chunks/_week_calendar.scss */
 .meal_list .no_meals_indicator {
   display: none;
 }
-/* line 138, ../sass/chunks/_week_calendar.scss */
+/* line 118, ../sass/chunks/_week_calendar.scss */
 .meal_list .icon-food {
   font-size: 3.5em;
   color: #d6d6d6;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 -2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* line 146, ../sass/chunks/_week_calendar.scss */
+/* line 126, ../sass/chunks/_week_calendar.scss */
 .meal_item ~ .meal_item {
   margin-top: 4em;
 }
-/* line 150, ../sass/chunks/_week_calendar.scss */
+/* line 130, ../sass/chunks/_week_calendar.scss */
 .meal_item.preview {
   border: 1px dashed #e2e2e2;
   box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.1);
@@ -1158,37 +1136,91 @@ textarea:focus {
   min-height: 13em;
 }
 
+/* line 138, ../sass/chunks/_week_calendar.scss */
+.meal_shopping_list {
+  position: relative;
+  padding-top: 2em;
+  margin-top: 2em;
+  cursor: pointer;
+}
+/* line 144, ../sass/chunks/_week_calendar.scss */
+.meal_shopping_list:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -1em;
+  text-align: center;
+  width: 2em;
+  font-size: 1.8em;
+  color: #d6d6d6;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 -2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+/* line 161, ../sass/chunks/_week_calendar.scss */
+.meal_shopping_list.expanded:before {
+  -webkit-transform: rotate(-23deg);
+  -moz-transform: rotate(-23deg);
+  -ms-transform: rotate(-23deg);
+  -o-transform: rotate(-23deg);
+  transform: rotate(-23deg);
+}
+/* line 165, ../sass/chunks/_week_calendar.scss */
+.meal_shopping_list.expanded li {
+  display: block;
+}
+/* line 170, ../sass/chunks/_week_calendar.scss */
+.meal_shopping_list li {
+  cursor: default;
+  display: none;
+  padding: 0.2em 0.5em;
+  list-style-type: none;
+}
+/* line 176, ../sass/chunks/_week_calendar.scss */
+.meal_shopping_list li:nth-child(2n) {
+  background: rgba(255, 255, 255, 0.6);
+}
+/* line 180, ../sass/chunks/_week_calendar.scss */
+.meal_shopping_list li::before {
+  content: '-';
+  margin-right: 0.3em;
+}
+
+/* line 189, ../sass/chunks/_week_calendar.scss */
+.current .meal_shopping_list li:nth-child(2n) {
+  background: rgba(0, 0, 0, 0.03);
+}
+
 @media (min-width: 75em) {
-  /* line 159, ../sass/chunks/_week_calendar.scss */
+  /* line 196, ../sass/chunks/_week_calendar.scss */
   #week_calendar {
     width: 87.17949%;
   }
 
-  /* line 163, ../sass/chunks/_week_calendar.scss */
+  /* line 200, ../sass/chunks/_week_calendar.scss */
   .week_calendar_item {
     float: left;
     width: 14.28571%;
     height: 100%;
     box-sizing: border-box;
   }
-  /* line 169, ../sass/chunks/_week_calendar.scss */
+  /* line 206, ../sass/chunks/_week_calendar.scss */
   .week_calendar_item ~ .week_calendar_item {
     border-left: 1px solid #e2e2e2;
   }
-  /* line 173, ../sass/chunks/_week_calendar.scss */
+  /* line 210, ../sass/chunks/_week_calendar.scss */
   .week_calendar_item .date {
     float: right;
     margin-top: 0.3em;
   }
 
-  /* line 180, ../sass/chunks/_week_calendar.scss */
+  /* line 217, ../sass/chunks/_week_calendar.scss */
   .meal_list .add_meal_item {
     position: absolute;
     width: 100%;
     left: 0;
     bottom: 0;
   }
-  /* line 186, ../sass/chunks/_week_calendar.scss */
+  /* line 223, ../sass/chunks/_week_calendar.scss */
   .meal_list .add_meal_item:last-child {
     bottom: auto;
     top: 50%;
@@ -1383,47 +1415,49 @@ textarea:focus {
 #dish_list tr:hover {
   color: #333333;
 }
-/* line 6, ../sass/chunks/_dish_list.scss */
+/* line 7, ../sass/chunks/_dish_list.scss */
 #dish_list tr.selected {
   background: #1a85b5;
   color: white;
 }
-/* line 10, ../sass/chunks/_dish_list.scss */
+/* line 11, ../sass/chunks/_dish_list.scss */
 #dish_list tr.selected:hover {
   color: white;
 }
-/* line 14, ../sass/chunks/_dish_list.scss */
+/* line 15, ../sass/chunks/_dish_list.scss */
 #dish_list tr.selected td {
   background: transparent;
 }
-/* line 18, ../sass/chunks/_dish_list.scss */
+/* line 19, ../sass/chunks/_dish_list.scss */
 #dish_list tr.selected .icon-asterisk {
   color: white;
 }
-/* line 24, ../sass/chunks/_dish_list.scss */
+/* line 25, ../sass/chunks/_dish_list.scss */
 #dish_list th, #dish_list td {
   padding: 0.4em 0.3em;
 }
-/* line 28, ../sass/chunks/_dish_list.scss */
+/* line 29, ../sass/chunks/_dish_list.scss */
 #dish_list td {
   vertical-align: baseline;
 }
 /* line 32, ../sass/chunks/_dish_list.scss */
-#dish_list .dotd_indicator {
+#dish_list td:first-child {
   text-align: center;
+  width: 1.5em;
 }
 /* line 36, ../sass/chunks/_dish_list.scss */
+#dish_list td:first-child .icon {
+  color: #1a85b5;
+  font-size: 0.8125em;
+}
+/* line 43, ../sass/chunks/_dish_list.scss */
 #dish_list .tags {
   font-size: 0.875em;
 }
-/* line 40, ../sass/chunks/_dish_list.scss */
+/* line 47, ../sass/chunks/_dish_list.scss */
 #dish_list a {
   color: inherit;
-}
-/* line 44, ../sass/chunks/_dish_list.scss */
-#dish_list .icon-asterisk {
-  color: #1a85b5;
-  font-size: 0.8125em;
+  text-decoration: none;
 }
 
 /* line 1, ../sass/views/_add_meal.scss */

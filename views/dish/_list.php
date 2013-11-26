@@ -24,7 +24,7 @@
 			// var_dump($dish);
 		?>
 		<tr <?php if ($dish['last_dotd_date'] == $app->current_date) echo 'class="dotd"'; ?> data-dish-id="<?= $dish['id']; ?>">
-			<td class="dodt_indicator">
+			<td>
 				<?php if ($dish['last_dotd_date'] == $app->current_date) echo '<i class="icon icon-asterisk"></i>'; ?>
 			</td>
 			<td>
