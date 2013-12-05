@@ -6,8 +6,6 @@
 				'calendar_week' => array(),
 				'calendar_month'=> array(),
 				'add' 			=> array(
-					'from_dish',
-					'from_form',
 					'create'
 				),
 				'show' 			=> array(),

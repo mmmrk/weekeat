@@ -26,7 +26,7 @@
 			return array('dish_form' => $dish_form);
 		}
 
-		public static function make_create_query ($dish) {
+		public static function make_create_query ( $dish ) {
 			$dish_query = false;
 
 			if ( !empty($dish['name']) && !empty($dish['description']) && (!empty($dish['url']) || !empty($dish['recipe'])) )
@@ -36,7 +36,7 @@
 			return $dish_query;
 		}
 
-		public static function create ($dish, $transaction_db=false, $redirect=false) {
+		public static function create ( $dish, $transaction_db=false, $redirect=false ) {
 			$db = Boot::$db;
 
 			$new_dish = array (
@@ -55,9 +55,6 @@
 
 				$dish_query	  = 'INSERT INTO `dish` (`name`, `description`, `url`, `recipe`, `created_at`) ';
 				$dish_query  .= 'VALUES ("' . $dish['name'] . '", "' . $dish['description'] . '", "' . $dish['url'] . '", "' . $dish['recipe'] . '", NOW())';
-
-				echo $dish_query;
-				var_dump($dish_query);
 
 				( $dish_id = $db->iquery($dish_query)						 ) ? null : $transaction_errors = 'DISH INSERT ERROR';
 
@@ -137,16 +134,18 @@
 			return array('dish_statistics' => $dish_statistics);
 		}
 
-		public static function list_view () {
+		public static function list_view ($dish_selection = 'dish') {
 			$db = Boot::$db;
 
 			$dish_list = array (
 				'error' => false
 			);
 
+			$dish = 'dish'; //$dish_selection = (empty($dish_selection)) ? 'dish' : $dish_selection;
+
 			$query  = 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`description`, `dish`.`url`, `tag`.`name` as `tag`, CAST(`dish`.`created_at` AS DATE) AS `created_at`, ';
 			$query .= '`ml`.`last_meal_date` as `last_meal_date`, `dotd`.`last_dotd_date` as `last_dotd_date`, COUNT(`meal`.`dish_id`) AS `times_eaten`';
-			$query .= 'FROM `dish` ';
+			$query .= 'FROM `' . $dish_selection . '` AS `dish`';
 			$query .= 'LEFT JOIN ( ';
 				$query .= 'SELECT `meal`.`dish_id`, MAX(`meal`.`date`) AS `last_meal_date` ';
 				$query .= 'FROM `meal` ';
@@ -234,7 +233,7 @@
 			return array('latest_dishes_list' => $latest_dishes_list);
 		}
 
-		public static function set_dish_of_the_day ( $dish_id = false, $dotd_date = false ) {
+		public static function set_dish_of_the_day ( $dish_id=false, $dotd_date=false ) {
 			$db = Boot::$db;
 
 			$set_dotd = array (
@@ -264,7 +263,7 @@
 
 		}
 
-		public static function get_dish_of_the_day ($dotd_date=false) {
+		public static function get_dish_of_the_day ( $dotd_date=false ) {
 			$db = Boot::$db;
 
 			$dotd = array (
@@ -307,36 +306,30 @@
 			return array('dish_of_the_day' => $dotd);
 		}
 
-		public static function get_dish ($dish_id) {
+		public static function get_dish ( $dish_id, $include_tags=false ) {
 			if (!is_numeric($dish_id) && !self::dish_exists($dish_id)) return false;
 
 			$db = Boot::$db;
+
+			$query = 'SELECT * FROM `dish` ';
+
 			$result = $db->query('SELECT * FROM `dish` WHERE `id` = ' . $dish_id);
 
 			return (!$result) ? false : $result->fetch_array(MYSQLI_ASSOC);
+		} 
+
+		public static function get_dish_with_tags ($dish_id) {
+
 		}
 
 		public static function get_random_dish () {
-		/*
-			if ( strtolower($safe_input['dish_id']) == 'random' ||  !(int)$safe_input['dish_id'] ) {
-				$query  = 'SELECT `id` ';
-				$query .= 'FROM `ready_to_eat` ';
-
-				if ( !(int)$safe_input['tag_id'] ) {
-					$query .= 'JOIN `dish_tags` ON `dish_tags`.`dish_id` = `ready_to_eat`.`id` ';
-					$query .= 'WHERE `dish_tags`.`tag_id` = ' . $safe_input['tag_id'] . ' ';
-				}
-
-				$query .= 'ORDER BY rand() LIMIT 1';
-
-				$result  = $db->query($query);
+			if ($result  = $db->query('SELECT `id` FROM `ready_to_eat` ORDER BY rand() LIMIT 1') ) {
 				$entry   = $result->fetch_array(MYSQLI_ASSOC);
 				$dish_id = $entry['id'];
 				$result->free();
+
+				return self::get_dish_with_tags($dish_id);
 			}
-			else
-				$dish_id = $safe_input['dish_id'];
-		*/
 			return false;
 		}
 
