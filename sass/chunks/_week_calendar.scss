@@ -15,10 +15,6 @@
 	li {
 		list-style: none inside none;
 	}
-
-	.meal_shopping_list li {
-		list-style-type: disc;
-	}
 }
 
 .week_calendar_item {
@@ -95,22 +91,6 @@
 	.dish_tags {
 		font-size: em(12, 16);
 	}
-
-	.meal_shopping_list {
-		&:hover:before {
-			@include transform(rotate(-23deg));
-		}
-
-		&:before {
-			display: block;
-			text-align: center;
-			width: auto;
-			font-size: 1.8em;
-			margin-bottom: 0.3em;
-			color: darken($bg_gray, 10%);
-			text-shadow: 0 -1px 0 rgba(black, .2), 0 -2px 0 rgba(black, .05), 0 1px 0 rgba(white, .8), 0 2px 0 rgba(white, .2);
-		}
-	}
 }
 
 .meal_list {
@@ -152,6 +132,63 @@
 		box-shadow: -1px 2px 5px rgba(black, .1);
 		padding-top: 0.4em;
 		min-height: 13em;
+	}
+}
+
+.meal_shopping_list {
+	position: relative;
+	padding-top: 2em;
+	margin-top: 2em;
+	cursor: pointer;
+
+	&:before {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 50%;
+		margin-left: -1em;
+		text-align: center;
+		width: 2em;
+		font-size: 1.8em;
+		color: darken($bg_gray, 10%);
+		text-shadow: 0 -1px 0 rgba(black, .2),
+			0 -2px 0 rgba(black, .05),
+			0 1px 0 rgba(white, .8),
+			0 2px 0 rgba(white, .2);
+	}
+
+	&.expanded {
+		&:before {
+			@include transform(rotate(-23deg));
+		}
+
+		li {
+			display: block;
+		}
+	}
+
+	li {
+		cursor: default;
+		display: none;
+		padding: 0.2em 0.5em;
+		list-style-type: none;
+
+		&:nth-child(2n) {
+			background: rgba(white, .6);
+		}
+
+		&::before {
+			content: '-';
+			margin-right: 0.3em;
+		}
+	}
+}
+
+.current {
+	.meal_shopping_list {
+		li:nth-child(2n) {
+			background: rgba(black, 0.03);
+		}
 	}
 }
 

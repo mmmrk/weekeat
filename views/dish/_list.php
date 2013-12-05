@@ -24,14 +24,14 @@
 			// var_dump($dish);
 		?>
 		<tr <?php if ($dish['last_dotd_date'] == $app->current_date) echo 'class="dotd"'; ?> data-dish-id="<?= $dish['id']; ?>">
-			<td class="dodt_indicator">
-				<?php if ($dish['last_dotd_date'] == $app->current_date) echo '<i class="icon icon-asterisk"></i>'; ?>
+			<td>
+				<?php if ($dish['last_dotd_date'] == $app->current_date) echo '<i class="icon icon-star"></i>'; ?>
 			</td>
 			<td>
 				<?= $dish['name']; ?>
 				<input class="hidden_description" type="hidden" value="<?= $dish['description']; ?>">
 			</td>
-			<td><?php if ($dish['url']) echo '<a href="' . $dish['url'] . '" class="icon icon-info"></a>' ?></td>
+			<td><?php if ($dish['url']) echo '<a href="' . $dish['url'] . '" class="icon icon-link"></a>' ?></td>
 			<td class="tags">
 				<?php
 					$t = 0;
