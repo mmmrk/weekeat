@@ -12,9 +12,10 @@
 							//$controller_data_collection[] = $app->call_controller('meal', 'create', false, false);
 						//break;
 						case 'create':
+						break;
 						default:
 							$controller_data_collection[] = $app->call_controller('meal', 'meals_of_the_day', $app->display_date);
-							$controller_data_collection[] = $app->call_controller('dish', 'list_view');
+							$controller_data_collection[] = $app->call_controller('dish', 'list_view', 'ready_to_eat');
 							$controller_data_collection[] = $app->call_controller('dish', 'add');
 						break;
 					}
@@ -22,6 +23,14 @@
 				case 'calendar_week':
 				default:
 						$controller_data_collection[] = $app->call_controller('dish', 'get_latest');
+				break;
+			}
+		break;
+
+		case 'dish':
+			switch ($app->route['page']) {
+				case 'list_view':
+					$controller_data_collection[] = $app->call_controller('dish', 'add');
 				break;
 			}
 		break;
