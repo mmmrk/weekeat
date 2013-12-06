@@ -141,7 +141,7 @@
 				'error' => false
 			);
 
-			$dish = 'dish'; //$dish_selection = (empty($dish_selection)) ? 'dish' : $dish_selection;
+			$dish_selection = (empty($dish_selection)) ? 'dish' : $dish_selection;
 
 			$query  = 'SELECT `dish`.`id`, `dish`.`name`, `dish`.`description`, `dish`.`url`, `tag`.`name` as `tag`, CAST(`dish`.`created_at` AS DATE) AS `created_at`, ';
 			$query .= '`ml`.`last_meal_date` as `last_meal_date`, `dotd`.`last_dotd_date` as `last_dotd_date`, COUNT(`meal`.`dish_id`) AS `times_eaten`';
