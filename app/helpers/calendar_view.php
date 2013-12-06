@@ -33,6 +33,30 @@
 			return (int)date('W', $timestamp);
 		}
 
+		static function next_week_number ($timestamp) {
+			return self::week_number(self::date_in_num_days($timestamp, 7));
+		}
+
+		static function last_week_of_year ($timestamp) {
+			$last_day = self::current_year($timestamp) . '-12-31';
+
+			return self::week_number(strtotime($last_day));
+		}
+
+		static function num_weeks_between_weeks ($start_week, $end_week) {
+			$last_week = self::last_week_of_year($start_week);
+
+			return ($start_week < $end_week) ? ($end_week-$start_week) : (($end_week+$last_week)-$start_week)-1;
+		}
+
+		static function num_weeks_between_dates ($start_date, $end_date) {
+			return self::num_weeks_between_weeks(self::week_number($start_date), self::week_number($end_date));
+		}
+
+		static function current_year ($timestamp) {
+			return date('Y', $timestamp);
+		}
+
 		static function date_info ($timestamp) {
 			$data = array(
 				'timestamp' => $timestamp
@@ -59,13 +83,13 @@
 		}
 
 		function generate () {
-			$working_day = self::first_day_of_week($this->month_first_day());
+			$working_day	= self::first_day_of_week($this->month_first_day());
 
-			$start_week = self::week_number($working_day);
-			$end_week = self::week_number($this->month_last_day());
+			$start_week		= self::week_number($working_day);
+			$end_week		= self::week_number($this->month_last_day());
 
-			for ($x=0, $i=$start_week; $i<=$end_week; $x++, $i++) {
-				$this->week_matrix[$x] = array('week_number' => $i);
+			for ($x=0; $x<=self::num_weeks_between_weeks($start_week, $end_week); $x++) {
+				$this->week_matrix[$x] = array('week_number' => self::week_number($working_day));
 
 				for ($y=0; $y<7; $y++) {
 					$this->week_matrix[$x]['days'][$y] = self::date_info($working_day);
